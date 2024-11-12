@@ -55,7 +55,7 @@ const signIn = async (
   }
 
   // 檢查帳號是否重複
-  const isEmailExist = await User.findOne({ "personalInfo.email": email });
+  const isEmailExist = await User.findOne({ email: email.toLowerCase() });
   if (isEmailExist) {
     appErrorHandler(400, "帳號已存在", next);
     return;
@@ -81,7 +81,7 @@ const signIn = async (
   // 新增使用者
   const newUser = await User.create({
     username,
-    email,
+    email: email.toLowerCase(),
     password: hashPassword,
     birthday: modifyBirthday,
     gender: modifyGender
