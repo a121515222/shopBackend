@@ -5,7 +5,9 @@ const connectMongoDB = async () => {
     if (!process.env.DATABASE_URI) {
       throw new Error("DATABASE_URI is not defined");
     }
-    const conn = await mongoose.connect(process.env.DATABASE_URI);
+    const conn = await mongoose.connect(process.env.DATABASE_URI, {
+      dbName: process.env.DATABASE_NAME
+    });
 
     console.log(`MongoDB Connected`);
   } catch (error) {
