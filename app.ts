@@ -6,29 +6,40 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import dotenv from "dotenv";
-import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
+import usersRouter from "@/routes/users";
 const app = express();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8086;
 
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript with Express!");
+/* 未捕捉的 Error */
+process.on("uncaughtException", (err: Error) => {
+  console.error(`[server]：捕獲到 uncaughtException: ${err.message}`);
+  process.exit(1);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+/* 連接 MongoDB */
 
 connectMongoDB();
 
-app.use(logger("dev"));
+// app.use(logger("dev"));
+// 解析body的JSON格式
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+// app.get("/", (req, res) => {
+//   res.send("Hello, TypeScript with Express!");
+// });
+
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
+app.use("/api/v1", usersRouter);
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

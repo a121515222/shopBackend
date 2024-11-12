@@ -14,8 +14,12 @@ const userSchema = new Schema<IUserSchema>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String, required: true },
-    gender: { type: String, default: "" },
-    birthday: { type: Number, default: 0 }
+    gender: {
+      type: String,
+      enum: ["female", "male", ""], // 使用枚舉限制性別的值
+      default: ""
+    },
+    birthday: { type: Number, default: null }
   },
   { versionKey: false, timestamps: true }
 );
