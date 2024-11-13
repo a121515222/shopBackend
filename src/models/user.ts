@@ -7,6 +7,7 @@ interface IUserSchema {
   username: string;
   gender: string;
   birthday: number;
+  rank: string;
 }
 
 const userSchema = new Schema<IUserSchema>(
@@ -19,7 +20,8 @@ const userSchema = new Schema<IUserSchema>(
       enum: ["female", "male", ""], // 使用枚舉限制性別的值
       default: ""
     },
-    birthday: { type: Number, default: null }
+    birthday: { type: Number, default: null },
+    rank: { type: String, default: "normal" }
   },
   { versionKey: false, timestamps: true }
 );

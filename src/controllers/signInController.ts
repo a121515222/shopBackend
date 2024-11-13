@@ -105,14 +105,17 @@ const signIn = async (
   }
   // 回傳使用者資料
   res.status(201).json({
-    status: "success",
+    status: true,
     message: "註冊成功",
-    token,
-    user: {
-      username: newUser.username,
-      email: newUser.email,
-      gender: newUser.gender,
-      birthday: newUser.birthday
+    data: {
+      user: {
+        id: newUser._id.toString(),
+        username: newUser.username,
+        email: newUser.email,
+        gender: newUser.gender,
+        birthday: newUser.birthday,
+        rank: newUser.rank
+      }
     }
   });
 };

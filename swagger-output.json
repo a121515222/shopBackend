@@ -1,0 +1,138 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "shop",
+    "description": "the backend",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8086",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "authorization",
+      "description": "請加上API Token"
+    }
+  },
+  "paths": {
+    "/api/v1/signIn": {
+      "post": {
+        "tags": [
+          "SignIn-註冊"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "註冊資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "Eason"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "56asdf@hotmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
+                },
+                "birthday": {
+                  "type": "number",
+                  "example": 595396800000
+                }
+              },
+              "required": [
+                "username",
+                "email",
+                "password",
+                "confirmPassword",
+                "gender",
+                "birthday"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "用戶新增成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "用戶新增成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "Eason"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "56asdf@hotmail.com"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "birthday": {
+                          "type": "number",
+                          "example": 595396800000
+                        },
+                        "rank": {
+                          "type": "string",
+                          "example": "normal"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/logIn": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,8 @@ import createError from "http-errors";
 import express, { Request, Response, NextFunction } from "express";
 import connectMongoDB from "@/DB/Mongo";
 import globalErrorHandler from "@/utils/globalErrorHandler";
+import swaggerUI from "swagger-ui-express";
+import swaggerFile from "./swagger-output.json";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
@@ -27,10 +29,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.get("/", (req, res) => {
-//   res.send("Hello, TypeScript with Express!");
-// });
-
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
@@ -40,6 +38,26 @@ app.use("/api/v1", usersRouter);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+/* Swagger */
+
+interface ISwaggerFile {
+  swagger: string;
+  info: {
+    title: string;
+    description: string;
+    version: string;
+  };
+  host: string;
+  basePath: string;
+  schemes: string[];
+}
+
+app.use(
+  "/api-doc",
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerFile as ISwaggerFile)
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
