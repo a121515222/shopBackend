@@ -64,16 +64,14 @@
                 "username",
                 "email",
                 "password",
-                "confirmPassword",
-                "gender",
-                "birthday"
+                "confirmPassword"
               ]
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "用戶新增成功",
+            "description": "註冊成功",
             "schema": {
               "type": "object",
               "properties": {
@@ -83,7 +81,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "用戶新增成功"
+                  "example": "註冊成功"
                 },
                 "data": {
                   "type": "object",

@@ -16,8 +16,8 @@ export function signUpSwagger(
         $email: "56asdf@hotmail.com",
         $password: "a1234567",
         $confirmPassword: "a1234567",
-        $gender:"male",
-        $birthday:595396800000,
+        gender:"male",
+        birthday:595396800000,
       }
     }
     * #swagger.responses[201] = {
