@@ -20,6 +20,93 @@
     }
   },
   "paths": {
+    "/api/v1/logIn": {
+      "post": {
+        "tags": [
+          "LogIn-登入"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "登入資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "56asdf@hotmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                }
+              },
+              "required": [
+                "account",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登入成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "example": "66441880635c6a9bc95c164b"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "56asdf@hotmail.com"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Eason"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "male"
+                    },
+                    "birthday": {
+                      "type": "number",
+                      "example": 595396800000
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "as4d5fa421sdfasdf"
+                    },
+                    "rank": {
+                      "type": "string",
+                      "example": "normal"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/signIn": {
       "post": {
         "tags": [
@@ -122,14 +209,149 @@
         }
       }
     },
-    "/api/v1/logIn": {
+    "/api/v1/user/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "user-使用者"
+        ],
+        "description": "取得使用者資料",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "使用者Id"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "取得使用者資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得使用者資料成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "Eason"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "56asdf@hotmail.com"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "birthday": {
+                          "type": "number",
+                          "example": 595396800000
+                        },
+                        "rank": {
+                          "type": "string",
+                          "example": "normal"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user-admin/{id}": {
+      "get": {
+        "tags": [
+          "user-使用者"
+        ],
+        "description": "取得使用者資料Admin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得使用者資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得使用者資料成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "Eason"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "56asdf@hotmail.com"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "birthday": {
+                          "type": "number",
+                          "example": 595396800000
+                        },
+                        "rank": {
+                          "type": "string",
+                          "example": "normal"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     }
   }

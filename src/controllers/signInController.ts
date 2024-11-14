@@ -10,7 +10,7 @@ import checkMissingFields from "@/utils/checkMissingFields";
 import validatePassword from "@/utils/validatePassword";
 /* 使用者註冊
  */
-const signIn = async (
+const signin = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -120,4 +120,4 @@ const signIn = async (
   });
 };
 
-export { signIn };
+export { signin };
