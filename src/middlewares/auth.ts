@@ -50,12 +50,15 @@ const checkAdmin = async (
   next: NextFunction
 ) => {
   const id = req.params.id;
-  const checkUserRank = await User.findById(id).select("rank");
-  if (!checkUserRank) {
+  const checkUser = await User.findById(id).select("rank isVerify");
+  if (!checkUser) {
     appErrorHandler(404, "查無使用者", next);
     return;
   }
-  if (checkUserRank.rank === "admin") {
+  if (!checkUser.isVerify) {
+    appErrorHandler(403, "未驗證", next);
+  }
+  if (checkUser.rank === "admin") {
     next();
   } else {
     appErrorHandler(403, "權限不足", next);

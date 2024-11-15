@@ -8,6 +8,8 @@ interface IUserSchema {
   gender: string;
   birthday: number;
   rank: string;
+  isVerify: boolean;
+  verifyToken: string;
 }
 
 const userSchema = new Schema<IUserSchema>(
@@ -17,11 +19,13 @@ const userSchema = new Schema<IUserSchema>(
     username: { type: String, required: true },
     gender: {
       type: String,
-      enum: ["female", "male", ""], // 使用枚舉限制性別的值
+      enum: ["female", "male", ""],
       default: ""
     },
     birthday: { type: Number, default: null },
-    rank: { type: String, default: "normal" }
+    rank: { type: String, default: "normal" },
+    isVerify: { type: Boolean, default: false },
+    verifyToken: { type: String, default: "" }
   },
   { versionKey: false, timestamps: true }
 );

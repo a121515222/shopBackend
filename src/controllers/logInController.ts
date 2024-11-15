@@ -7,7 +7,7 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
 import validatePassword from "@/utils/validatePassword";
-import generateJWT from "@/utils/generateJWT";
+import { generateJWT } from "@/utils/generateJWT";
 import { User } from "@/models/user";
 const login = async (
   req: Request,

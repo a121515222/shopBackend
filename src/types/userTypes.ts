@@ -10,4 +10,6 @@ export interface UserType {
   gender: string;
   rank: string;
   birthday: number | null;
+  isVerify?: boolean;
+  verifyToken?: string;
 }

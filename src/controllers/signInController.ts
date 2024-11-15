@@ -3,11 +3,12 @@ import type { SignUpReqBody } from "@/types/signInTypes";
 import { User } from "@/models/user";
 import bcrypt from "bcrypt";
 import validator from "validator";
-import generateJWT from "@/utils/generateJWT";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
 import validatePassword from "@/utils/validatePassword";
+import { generateVerificationCode } from "@/utils/generateVerifyCode";
+import { sendVerificationEmail } from "@/utils/sendVerifyMail";
 /* 使用者註冊
  */
 const signin = async (
@@ -86,38 +87,33 @@ const signin = async (
     birthday: modifyBirthday,
     gender: modifyGender
   });
+  const userId = newUser._id.toString();
+  const verifyToken = await generateVerificationCode(userId.toString());
 
-  // JWT payload
-  const jwtPayload = {
-    email,
-    name: username
-  };
-
-  // 產生 token
-  const token = generateJWT(jwtPayload);
-  let resUserData = null;
-
-  // Note: 開發環境下，回傳使用者資料
-  if (process.env.NODE_ENV === "dev") {
-    resUserData = await User.findOne({ "personalInfo.email": email }).select(
-      "-personalInfo.password"
-    );
-  }
-  // 回傳使用者資料
-  res.status(201).json({
-    status: true,
-    message: "註冊成功",
-    data: {
-      user: {
-        id: newUser._id.toString(),
-        username: newUser.username,
-        email: newUser.email,
-        gender: newUser.gender,
-        birthday: newUser.birthday,
-        rank: newUser.rank
-      }
-    }
+  const sendMailResult = await sendVerificationEmail(email, {
+    id: userId,
+    verifyToken
   });
+  // 回傳使用者資料
+  // res.status(201).json({
+  //   status: true,
+  //   message: "註冊成功",
+  //   data: {
+  //     user: {
+  //       id: newUser._id.toString(),
+  //       username: newUser.username,
+  //       email: newUser.email,
+  //       gender: newUser.gender,
+  //       birthday: newUser.birthday,
+  //       rank: newUser.rank
+  //     }
+  //   }
+  // });
+  if (sendMailResult) {
+    appSuccessHandler(201, "註冊成功", { info: "請至信箱收取驗證信" }, res);
+  } else {
+    appErrorHandler(500, "註冊信發送失敗", next);
+  }
 };
 
 export { signin };
