@@ -1,14 +1,12 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import axios from "axios";
-
 // 創建 OAuth2 客戶端
 const oAuth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_OAUTH_CLIENT_ID,
   process.env.GOOGLE_OAUTH_CLIENT_SECRET,
   process.env.GOOGLE_OAUTH_REDIRECT_UR
 );
-
 // 設置憑證（含 refresh_token）
 oAuth2Client.setCredentials({
   refresh_token: process.env.GOOGLE_OAUTH_REDIRECT_URI
@@ -71,13 +69,11 @@ const checkTokenAndRefresh = async (
       clientSecret,
       refreshToken
     );
-    console.log("新的 access token:", newAccessToken);
     tokenInfo.accessToken = newAccessToken.accessToken;
     transporter = createTransporter(tokenInfo.accessToken);
     return true;
     // 使用 refresh token 獲取新的 access token 的邏輯
   } else {
-    console.log("Access token 還有效，可以發送 API 請求");
     return true;
   }
 };
@@ -100,10 +96,8 @@ const refreshAccessToken = async (
       obtainedAt: Date.now() // 記錄新的 token 獲取時間
     };
 
-    console.log("新的 access_token:", newTokenInfo);
     return newTokenInfo;
   } catch (error) {
-    console.error("無法刷新 access token:", error);
     throw error;
   }
 };
@@ -138,7 +132,7 @@ const sendVerificationEmail = async (
     from: process.env.GOOGLE_SMTP_USER, // 發件人地址
     to: recipient, // 收件人地址
     subject: "驗證連結", // 郵件主題
-    text: `您的驗證碼是：${process.env.MAIL_DOMAIN}/${id}/${verifyToken}` // 郵件內容
+    text: `您的驗證碼是：${process.env.MAIL_DOMAIN}/verifyToken/${id}/${verifyToken}` // 郵件內容
   };
 
   try {

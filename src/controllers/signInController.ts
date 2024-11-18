@@ -94,21 +94,6 @@ const signin = async (
     id: userId,
     verifyToken
   });
-  // 回傳使用者資料
-  // res.status(201).json({
-  //   status: true,
-  //   message: "註冊成功",
-  //   data: {
-  //     user: {
-  //       id: newUser._id.toString(),
-  //       username: newUser.username,
-  //       email: newUser.email,
-  //       gender: newUser.gender,
-  //       birthday: newUser.birthday,
-  //       rank: newUser.rank
-  //     }
-  //   }
-  // });
   if (sendMailResult) {
     appSuccessHandler(201, "註冊成功", { info: "請至信箱收取驗證信" }, res);
   } else {

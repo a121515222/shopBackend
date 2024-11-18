@@ -10,6 +10,8 @@ interface IUserSchema {
   rank: string;
   isVerify: boolean;
   verifyToken: string;
+  sendVerifyTokenTime: Date;
+  sendVerifyTokenCount: number;
 }
 
 const userSchema = new Schema<IUserSchema>(
@@ -25,7 +27,9 @@ const userSchema = new Schema<IUserSchema>(
     birthday: { type: Number, default: null },
     rank: { type: String, default: "normal" },
     isVerify: { type: Boolean, default: false },
-    verifyToken: { type: String, default: "" }
+    verifyToken: { type: String, default: "" },
+    sendVerifyTokenTime: { type: Date, default: null },
+    sendVerifyTokenCount: { type: Number, default: 0 }
   },
   { versionKey: false, timestamps: true }
 );

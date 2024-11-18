@@ -353,6 +353,155 @@
           }
         ]
       }
+    },
+    "/api/v1/verifyToken/{id}/{token}": {
+      "post": {
+        "tags": [
+          "VerifyTokenAndSendToken-驗證與寄送Token"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Token"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "驗證成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "驗證成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "Eason"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "56asdf@hotmail.com"
+                        },
+                        "gender": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "birthday": {
+                          "type": "number",
+                          "example": 595396800000
+                        },
+                        "rank": {
+                          "type": "string",
+                          "example": "normal"
+                        },
+                        "isVerify": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-11-15T15:46:09.033Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-11-18T10:29:10.644Z"
+                        },
+                        "sendVerifyTokenCount": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "sendVerifyTokenTime": {
+                          "type": "string",
+                          "example": "2024-11-18T10:13:52.005Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sendVerifyToken/{id}": {
+      "post": {
+        "tags": [
+          "VerifyTokenAndSendToken-驗證與寄送Token"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "使用者Id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "驗證成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "寄送驗證碼成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "type": "string",
+                      "example": "請至信箱收取驗證信"
+                    },
+                    "sendVerifyTokenTime": {
+                      "type": "string",
+                      "example": "2021-09-01T00:00:00.000Z"
+                    },
+                    "sendVerifyTokenCount": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
