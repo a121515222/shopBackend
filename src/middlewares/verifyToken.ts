@@ -1,14 +1,19 @@
 import { type Request, type Response, type NextFunction } from "express";
 import { User } from "@/models/user";
 import appErrorHandler from "@/utils/appErrorHandler";
-
+import jwt from "jsonwebtoken";
 const shouldSendVerifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = req.params.id;
-  const user = await User.findById(id).select(
+  const account = req.body.account;
+  if (!account) {
+    appErrorHandler(400, "缺少必要欄位account", next);
+    return;
+  }
+
+  const user = await User.findOne({ email: account }).select(
     "sendVerifyTokenTime sendVerifyTokenCount"
   );
   if (!user) {
@@ -32,4 +37,39 @@ const shouldSendVerifyToken = async (
     }
   }
 };
-export { shouldSendVerifyToken };
+
+const verifyMailTokenMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  // 解碼 token
+  const id = req.body.id;
+  const token = req.body.token;
+  const key = process.env.JWT_SECRET;
+  if (!key) {
+    appErrorHandler(500, "缺少必要環境變數", next);
+    return;
+  }
+  if (!id || !token) {
+    appErrorHandler(400, "缺少token或id", next);
+    return;
+  }
+  const storedCode = await User.findById(id).select("verifyToken");
+  if (!storedCode) {
+    appErrorHandler(404, "查無使用者", next);
+  }
+  try {
+    const decoded = jwt.verify(token, key) as jwt.JwtPayload & { code: string };
+    if (decoded.token === storedCode?.verifyToken) {
+      next();
+    }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      appErrorHandler(400, "驗證碼已過期", next);
+    }
+    appErrorHandler(400, "無效的驗證碼", next);
+  }
+};
+
+export { shouldSendVerifyToken, verifyMailTokenMiddleware };

@@ -5,7 +5,7 @@ import axios from "axios";
 const oAuth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_OAUTH_CLIENT_ID,
   process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-  process.env.GOOGLE_OAUTH_REDIRECT_UR
+  process.env.GOOGLE_OAUTH_REDIRECT_URI
 );
 // 設置憑證（含 refresh_token）
 oAuth2Client.setCredentials({
@@ -61,9 +61,6 @@ const checkTokenAndRefresh = async (
   accessToken: string
 ) => {
   if ((await isTokenExpired(tokenInfo)) || !accessToken) {
-    console.log(
-      "Access token 已過期，請使用 refresh token 獲取新的 access token"
-    );
     const newAccessToken = await refreshAccessToken(
       clientId,
       clientSecret,
@@ -98,6 +95,7 @@ const refreshAccessToken = async (
 
     return newTokenInfo;
   } catch (error) {
+    console.log("error", error);
     throw error;
   }
 };
@@ -110,7 +108,8 @@ interface verifyUrlToken {
 // 發送驗證碼的函數
 const sendVerificationEmail = async (
   recipient: string,
-  code: { id: string; verifyToken: string }
+  code: { id: string; verifyToken: string },
+  isValidate: boolean
 ): Promise<boolean> => {
   let isAccessTokenValid = false;
   if (
@@ -132,11 +131,22 @@ const sendVerificationEmail = async (
     from: process.env.GOOGLE_SMTP_USER, // 發件人地址
     to: recipient, // 收件人地址
     subject: "驗證連結", // 郵件主題
-    text: `您的驗證碼是：${process.env.MAIL_DOMAIN}/verifyToken/${id}/${verifyToken}` // 郵件內容
+    html: `您的驗證碼是：<a href="${process.env.MAIL_DOMAIN}/verifyToken/${id}/${verifyToken}">點擊此處完成驗證</a>` // 郵件內容，使用 HTML 超連結
   };
-
+  const forgetPasswordMailOptions = {
+    from: process.env.GOOGLE_SMTP_USER, // 發件人地址
+    to: recipient, // 收件人地址
+    subject: "忘記密碼", // 郵件主題
+    html: `您的驗證碼是：<a href="${process.env.MAIL_DOMAIN}/forgetPassword/${id}/${verifyToken}">點擊此處重設密碼</a>` // 郵件內容，使用 HTML 超連結
+  };
   try {
-    const info = await transporter.sendMail(mailOptions);
+    let info;
+    console.log("process.env.MAIL_DOMAIN", process.env.MAIL_DOMAIN);
+    if (isValidate) {
+      info = await transporter.sendMail(forgetPasswordMailOptions);
+    } else {
+      info = await transporter.sendMail(mailOptions);
+    }
     console.log("郵件發送成功:", info.response);
     return true; // 發送成功
   } catch (error) {

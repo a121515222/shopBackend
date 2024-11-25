@@ -20,6 +20,7 @@ const signin = async (
     username,
     email,
     password,
+    tel,
     confirmPassword,
     gender,
     birthday
@@ -85,15 +86,20 @@ const signin = async (
     email: email.toLowerCase(),
     password: hashPassword,
     birthday: modifyBirthday,
-    gender: modifyGender
+    gender: modifyGender,
+    tel
   });
   const userId = newUser._id.toString();
   const verifyToken = await generateVerificationCode(userId.toString());
 
-  const sendMailResult = await sendVerificationEmail(email, {
-    id: userId,
-    verifyToken
-  });
+  const sendMailResult = await sendVerificationEmail(
+    email,
+    {
+      id: userId,
+      verifyToken
+    },
+    false
+  );
   if (sendMailResult) {
     appSuccessHandler(201, "註冊成功", { info: "請至信箱收取驗證信" }, res);
   } else {

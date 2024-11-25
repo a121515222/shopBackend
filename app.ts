@@ -11,10 +11,14 @@ import dotenv from "dotenv";
 import logInAndSigInRoute from "@/routes/logInAndSigInRoute";
 import userRoute from "@/routes/userRoute";
 import verifyTokenRoute from "@/routes/verifyTokenRoute";
+import forgetPasswordRouter from "@/routes/forgetPassword";
+import cors from "cors";
+import { corsOptions } from "./cors/corsOptions";
 const app = express();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const port = process.env.PORT || 8086;
 
+app.use(cors(corsOptions));
 /* 未捕捉的 Error */
 process.on("uncaughtException", (err: Error) => {
   console.error(`[server]：捕獲到 uncaughtException: ${err.message}`);
@@ -33,6 +37,7 @@ app.use(cookieParser());
 app.use("/api/v1", logInAndSigInRoute);
 app.use("/api/v1", userRoute);
 app.use("/api/v1", verifyTokenRoute);
+app.use("/api/v1", forgetPasswordRouter);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

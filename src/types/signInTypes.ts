@@ -6,4 +6,6 @@ export interface SignUpReqBody {
   confirmPassword: string;
   gender?: "" | "female" | "male";
   birthday?: number | null;
+  tel?: string;
+  name: string;
 }

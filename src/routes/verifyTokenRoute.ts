@@ -12,12 +12,12 @@ import {
 } from "@/swaggerConfig/verifyTokenSwagger";
 const router = Router();
 router.post(
-  "/verifyToken/:id/:token",
+  "/verifyMailToken",
   verifyTokenSwagger,
   asyncErrorHandler(verifyMailToken) as RequestHandler
 );
 router.post(
-  "/sendVerifyToken/:id",
+  "/sendVerifyToken/",
   sendVerifyTokenSwagger,
   shouldSendVerifyToken,
   asyncErrorHandler(handleSendVerifyToken) as RequestHandler

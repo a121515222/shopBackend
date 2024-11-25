@@ -36,12 +36,16 @@ const login = async (
     return;
   }
 
-  // 檢查帳號是否存在
+  // 檢查帳號是否存在與是否通過驗證
   const user: UserType | null = await User.findOne({
     email: modifyAccount
-  }).select("+password");
+  }).select("+password +isVerify");
   if (!user) {
     appErrorHandler(400, "登入失敗，帳號不存在", next);
+    return;
+  }
+  if (!user.isVerify) {
+    appErrorHandler(400, "登入失敗，帳號尚未驗證", next);
     return;
   }
   // 檢查密碼是否正確 compare(輸入密碼, 加密後密碼)

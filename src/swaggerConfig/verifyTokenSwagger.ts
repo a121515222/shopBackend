@@ -52,13 +52,15 @@ export function sendVerifyTokenSwagger(
 ): void {
   /**
     * #swagger.tags = ["VerifyTokenAndSendToken-驗證與寄送Token"]
-    * #swagger.parameters["path"] = {
-        in: "path",
-        name: "id",
-        required: true,
-        type: "string",
-        description: "使用者Id"
-    }
+    * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "寄送驗證碼",
+      schema: {
+        $account: "56asdf@hotmail.com",
+        }
+      }
     * #swagger.responses[201] = {
       description: '驗證成功',
       schema: {
