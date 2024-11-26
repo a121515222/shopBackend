@@ -1,6 +1,8 @@
 import type { CorsOptions } from "cors";
 const allowedOrigins = [
-  "https://localhost:3000" // 開發環境
+  "https://localhost:3000",
+  "http://localhost:3000",
+  "http://localhost:8086"
 ];
 
 export const corsOptions: CorsOptions = {

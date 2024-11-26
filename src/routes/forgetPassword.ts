@@ -3,12 +3,12 @@ import { Request, Response, NextFunction, Router } from "express";
 import asyncErrorHandler from "@/middlewares/asyncErrorHandler";
 import { verifyMailTokenMiddleware } from "@/middlewares/verifyToken";
 import { forgetPassword } from "@/controllers/forgetPasswordController";
-import { sendVerifyTokenSwagger } from "@/swaggerConfig/forgetPasswordSwagger";
+import { forgetPasswordSwagger } from "@/swaggerConfig/forgetPasswordSwagger";
 const router = Router();
 
 router.post(
   "/forgetPassword",
-  sendVerifyTokenSwagger,
+  forgetPasswordSwagger,
   verifyMailTokenMiddleware,
   asyncErrorHandler(forgetPassword) as RequestHandler
 );

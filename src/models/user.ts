@@ -13,6 +13,7 @@ interface IUserSchema {
   verifyToken: string;
   sendVerifyTokenTime: Date;
   sendVerifyTokenCount: number;
+  logInVerifyToken: string;
 }
 
 const userSchema = new Schema<IUserSchema>(
@@ -31,7 +32,8 @@ const userSchema = new Schema<IUserSchema>(
     isVerify: { type: Boolean, default: false },
     verifyToken: { type: String, default: "" },
     sendVerifyTokenTime: { type: Date, default: null },
-    sendVerifyTokenCount: { type: Number, default: 0 }
+    sendVerifyTokenCount: { type: Number, default: 0 },
+    logInVerifyToken: { type: String, default: "" }
   },
   { versionKey: false, timestamps: true }
 );

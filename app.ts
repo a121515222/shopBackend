@@ -14,6 +14,7 @@ import verifyTokenRoute from "@/routes/verifyTokenRoute";
 import forgetPasswordRouter from "@/routes/forgetPassword";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
+
 const app = express();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const port = process.env.PORT || 8086;

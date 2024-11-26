@@ -14,6 +14,12 @@ const doc = {
       in: "cookie",
       name: "authorization",
       description: "請加上API Token"
+    },
+    bearerAuth: {
+      type: "apiKey", // 授權類型
+      in: "header", // 指定使用 header 傳遞 token
+      name: "Authorization", // Header 名稱
+      description: "請在 Header 中加上 Bearer Token 格式：Bearer <Token>"
     }
   }
 };

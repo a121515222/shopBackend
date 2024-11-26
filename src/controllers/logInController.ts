@@ -66,16 +66,38 @@ const login = async (
     rank: user.rank,
     token: ""
   };
-
   // 產生 token
   const token = generateJWT(jwtPayload);
+  const logInToken = await User.findByIdAndUpdate(
+    { _id: user._id },
+    { logInVerifyToken: token }
+  ).select("logInVerifyToken");
 
   jwtPayload = {
     ...jwtPayload,
     token
   };
-
-  appSuccessHandler(200, "登入成功", jwtPayload, res);
+  if (!logInToken) {
+    appErrorHandler(500, "登入失敗", next);
+    return;
+  } else {
+    appSuccessHandler(200, "登入成功", jwtPayload, res);
+  }
 };
-
-export { login };
+const logOut = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const id = req.params.id ?? req.body.id;
+  const user = await User.findByIdAndUpdate(
+    { _id: id },
+    { logInVerifyToken: "" }
+  );
+  if (!user) {
+    appErrorHandler(404, "查無使用者", next);
+    return;
+  }
+  appSuccessHandler(200, "登出成功", null, res);
+};
+export { login, logOut };

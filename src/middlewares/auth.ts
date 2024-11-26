@@ -14,7 +14,6 @@ export const verifyToken = (token: string, next: NextFunction) => {
     appErrorHandler(500, "缺少必要環境變數", next);
     return null;
   }
-
   try {
     const decoded = jwt.verify(token, key);
     return decoded;
@@ -28,9 +27,24 @@ export const verifyToken = (token: string, next: NextFunction) => {
   }
 };
 
-const checkLogIn = (req: UserRequest, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization ?? req.params.token;
-
+const checkLogIn = async (
+  req: UserRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  // 嘗試從 Cookie 獲取
+  const cookieToken = req.cookies.authorization;
+  // 嘗試從 Header 獲取
+  const authHeader = req.headers.authorization;
+  const headerToken = authHeader?.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
+  const token = cookieToken || headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
+  if (!token) {
+    appErrorHandler(401, "未提供有效的 Token", next);
+    return;
+  }
+  const id = req.params.id ?? req.body.id;
   if (!token) {
     appErrorHandler(401, "未登入", next);
     return;
@@ -40,6 +54,15 @@ const checkLogIn = (req: UserRequest, res: Response, next: NextFunction) => {
   if (decoded) {
     req.user = decoded;
     req.token = token;
+    const logInVerifyToken = await User.findById(id).select("logInVerifyToken");
+    if (!logInVerifyToken) {
+      appErrorHandler(404, "查無使用者", next);
+      return;
+    }
+    if (logInVerifyToken.logInVerifyToken !== token) {
+      appErrorHandler(403, "token不符", next);
+      return;
+    }
     next();
   }
 };
@@ -49,14 +72,19 @@ const checkAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-  const id = req.params.id;
-  const checkUser = await User.findById(id).select("rank isVerify");
+  const id = req.params.id ?? req.body.id;
+  const checkUser = await User.findById(id).select(
+    "rank isVerify logInVerifyToken"
+  );
   if (!checkUser) {
     appErrorHandler(404, "查無使用者", next);
     return;
   }
   if (!checkUser.isVerify) {
-    appErrorHandler(403, "未驗證", next);
+    appErrorHandler(403, "信箱未驗證", next);
+  }
+  if (checkUser.logInVerifyToken !== req.token) {
+    appErrorHandler(403, "token不符", next);
   }
   if (checkUser.rank === "admin") {
     next();

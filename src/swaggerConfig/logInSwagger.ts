@@ -36,3 +36,33 @@ export function logInSwagger(
 
   next();
 }
+
+export function logOutSwagger(
+  _req: Request,
+  _res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["LogIn-登入"]
+   * #swagger.security = [{ apiKeyAuth: [] }]
+   * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "登出資訊",
+      schema: {
+        $id: "adfzcsdv565sadf",
+        }
+      }
+    * #swagger.responses[200] = {
+      description: '登出成功',
+      schema: {
+        status: true,
+        message: "登出成功",
+        data: null,
+        }
+      }
+   */
+
+  next();
+}

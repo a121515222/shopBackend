@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from "express";
-export function sendVerifyTokenSwagger(
+export function forgetPasswordSwagger(
   _req: Request,
   _res: Response,
   next: NextFunction
@@ -14,16 +14,17 @@ export function sendVerifyTokenSwagger(
       schema: {
         $password: "1111111111a",
         $confirmPassword: "1111111111a",
-        $id: "614b2f3,
-        $token:"sadfasd555a5sd5fa5sdf5asd5f"
+        $id: "614b2f3",
+        $token:"sadfasd555a5sd5fa5sdf5asd5f",
         }
-      }
+    }
     * #swagger.responses[201] = {
       description: '密碼更新結果',
       schema: {
         status: true,
         message: "密碼更新成功",
       }
+    }
    */
   next();
 }

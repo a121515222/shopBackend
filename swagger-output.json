@@ -17,6 +17,12 @@
       "in": "cookie",
       "name": "authorization",
       "description": "請加上API Token"
+    },
+    "bearerAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "請在 Header 中加上 Bearer Token 格式：Bearer <Token>"
     }
   },
   "paths": {
@@ -105,6 +111,61 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/logOut": {
+      "post": {
+        "tags": [
+          "LogIn-登入"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "登出資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登出成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "登出成功"
+                },
+                "data": {}
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     },
     "/api/v1/signIn": {
@@ -354,19 +415,13 @@
         ]
       }
     },
-    "/api/v1/verifyToken/{id}/{token}": {
+    "/api/v1/verifyMailToken": {
       "post": {
         "tags": [
           "VerifyTokenAndSendToken-驗證與寄送Token"
         ],
         "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "token",
             "in": "path",
@@ -448,7 +503,7 @@
         }
       }
     },
-    "/api/v1/sendVerifyToken/{id}": {
+    "/api/v1/sendVerifyToken/": {
       "post": {
         "tags": [
           "VerifyTokenAndSendToken-驗證與寄送Token"
@@ -456,11 +511,22 @@
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string",
-            "description": "使用者Id"
+            "description": "寄送驗證碼",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "56asdf@hotmail.com"
+                }
+              },
+              "required": [
+                "account"
+              ]
+            }
           }
         ],
         "responses": {
@@ -493,6 +559,70 @@
                       "example": 1
                     }
                   }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/forgetPassword": {
+      "post": {
+        "tags": [
+          "ForgetPassword-忘記密碼"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "寄送驗證碼",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "1111111111a"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "1111111111a"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "614b2f3"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "sadfasd555a5sd5fa5sdf5asd5f"
+                }
+              },
+              "required": [
+                "password",
+                "confirmPassword",
+                "id",
+                "token"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "密碼更新結果",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "密碼更新成功"
                 }
               },
               "xml": {
