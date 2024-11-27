@@ -343,6 +343,122 @@
         ]
       }
     },
+    "/api/v1/user": {
+      "put": {
+        "tags": [
+          "user-使用者"
+        ],
+        "description": "更新使用者資料",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "更新使用者資訊",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "Eason"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
+                },
+                "birthday": {
+                  "type": "number",
+                  "example": 595396800000
+                }
+              },
+              "required": [
+                "id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新使用者資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新使用者資料成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "Eason"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "56asdf@hotmail.com"
+                        },
+                        "rank": {
+                          "type": "string",
+                          "example": "normal"
+                        },
+                        "isVerify": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-11-15T15:46:09.033Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-11-18T10:29:10.644Z"
+                        },
+                        "sendVerifyTokenCount": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "sendVerifyTokenTime": {
+                          "type": "string",
+                          "example": "2024-11-18T10:13:52.005Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/user-admin/{id}": {
       "get": {
         "tags": [

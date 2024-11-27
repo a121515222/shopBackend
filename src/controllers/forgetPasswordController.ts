@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
-import validatePassword from "@/utils/validatePassword";
+import validatePassword from "@/utils/validate";
 import { User } from "@/models/user";
 import bcrypt from "bcrypt";
 const forgetPassword = async (

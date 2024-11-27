@@ -6,7 +6,7 @@ import validator from "validator";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
-import validatePassword from "@/utils/validatePassword";
+import { validatePassword, validateName } from "@/utils/validate";
 import { generateVerificationCode } from "@/utils/generateVerifyCode";
 import { sendVerificationEmail } from "@/utils/sendVerifyMail";
 /* 使用者註冊
@@ -37,7 +37,10 @@ const signin = async (
     appErrorHandler(400, missingFieldsMsg, next);
     return;
   }
-
+  if (!validateName(username)) {
+    appErrorHandler(400, "名字格式錯誤，只允許中文與英文", next);
+    return;
+  }
   // 檢查 email 格式
   if (!validator.isEmail(email)) {
     appErrorHandler(400, "email 格式錯誤", next);
