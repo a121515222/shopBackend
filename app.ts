@@ -1,6 +1,6 @@
 import createError from "http-errors";
 import express, { Request, Response, NextFunction } from "express";
-import connectMongoDB from "@/DB/Mongo";
+import connectMongoDB from "@/services/mongo";
 import globalErrorHandler from "@/utils/globalErrorHandler";
 import swaggerUI from "swagger-ui-express";
 import swaggerFile from "./swagger-output.json";
@@ -11,7 +11,8 @@ import dotenv from "dotenv";
 import logInAndSigInRoute from "@/routes/logInAndSigInRoute";
 import userRoute from "@/routes/userRoute";
 import verifyTokenRoute from "@/routes/verifyTokenRoute";
-import forgetPasswordRouter from "@/routes/forgetPassword";
+import forgetPasswordRoute from "@/routes/forgetPasswordRoute";
+import imageUploadRoute from "@/routes/imageUploadRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
 
@@ -38,7 +39,8 @@ app.use(cookieParser());
 app.use("/api/v1", logInAndSigInRoute);
 app.use("/api/v1", userRoute);
 app.use("/api/v1", verifyTokenRoute);
-app.use("/api/v1", forgetPasswordRouter);
+app.use("/api/v1", forgetPasswordRoute);
+app.use("/api/v1", imageUploadRoute);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
