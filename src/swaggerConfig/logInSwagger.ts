@@ -66,3 +66,24 @@ export function logOutSwagger(
 
   next();
 }
+
+export function loginCheckResponseSwagger(
+  _req: Request,
+  _res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["LogIn-登入"]
+   * #swagger.security = [{ apiKeyAuth: [] }]
+   * #swagger.responses[200] = {
+      description: '登入驗證成功',
+      schema: {
+        status: true,
+        message: "登入驗證成功",
+        data: null,
+        }
+      }
+   */
+
+  next();
+}

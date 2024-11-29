@@ -11,13 +11,13 @@ import {
 const router = Router();
 
 router.get(
-  "/user/:id",
+  "/admin/user/:id",
   userDateSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(getUsers) as RequestHandler
 );
 router.put(
-  "/user",
+  "/admin/user",
   userUpdateSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(updateUser) as RequestHandler

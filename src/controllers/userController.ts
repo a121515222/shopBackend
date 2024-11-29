@@ -19,7 +19,9 @@ const getUsers = async (
   next: NextFunction
 ): Promise<void> => {
   const id = req.params.id;
-  const users: UserType | null = await User.findById(id).select("-password");
+  const users: UserType | null = await User.findById(id).select(
+    "-password -logInVerifyToken -verifyToken"
+  );
   if (!users) {
     appErrorHandler(404, "No user found", next);
   } else {
@@ -32,7 +34,8 @@ const updateUser = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { username, password, gender, newPassword } = req.body;
+  const { username, password, gender, newPassword, confirmPassword, address } =
+    req.body;
   const id = req.params.id ?? req.body.id;
   const updates: Partial<UserType> = {};
   if (!id) {
@@ -53,6 +56,9 @@ const updateUser = async (
     }
     updates.gender = gender;
   }
+  if (address) {
+    updates.address = address;
+  }
   if (password) {
     if (!newPassword) {
       appErrorHandler(400, "缺少新密碼", next);
@@ -60,6 +66,10 @@ const updateUser = async (
     }
     if (password === newPassword) {
       appErrorHandler(400, "新舊密碼不可相同", next);
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      appErrorHandler(400, "新密碼與確認密碼不符", next);
       return;
     }
     if (!validatePassword(newPassword)) {

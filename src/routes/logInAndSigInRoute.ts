@@ -2,7 +2,11 @@ import { Request, Response, NextFunction, Router } from "express";
 import { type RequestHandler, type Handler } from "express";
 import asyncErrorHandler from "@/middlewares/asyncErrorHandler";
 import { signin } from "@/controllers/signInController";
-import { login, logOut } from "@/controllers/logInController";
+import {
+  login,
+  logOut,
+  loginCheckResponse
+} from "@/controllers/logInController";
 import { signUpSwagger } from "@/swaggerConfig/signInSwagger";
 import { logInSwagger, logOutSwagger } from "@/swaggerConfig/logInSwagger";
 import { checkLogIn } from "@/middlewares/auth";
@@ -19,6 +23,11 @@ router.post(
   "/signIn",
   signUpSwagger,
   asyncErrorHandler(signin) as RequestHandler
+);
+router.post(
+  "/logInCheck",
+  checkLogIn as Handler,
+  asyncErrorHandler(loginCheckResponse) as RequestHandler
 );
 
 export default router;

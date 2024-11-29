@@ -1,5 +1,5 @@
 // src/middlewares/auth.ts
-import { type Request, type Response, type NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import appErrorHandler from "@/utils/appErrorHandler";
 import { User } from "@/models/user";

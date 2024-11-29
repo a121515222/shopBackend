@@ -270,7 +270,17 @@
         }
       }
     },
-    "/api/v1/user/{id}": {
+    "/api/v1/logInCheck": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/admin/user/{id}": {
       "get": {
         "tags": [
           "user-使用者"
@@ -343,7 +353,7 @@
         ]
       }
     },
-    "/api/v1/user": {
+    "/api/v1/admin/user": {
       "put": {
         "tags": [
           "user-使用者"

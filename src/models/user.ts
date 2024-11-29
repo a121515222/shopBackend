@@ -6,6 +6,7 @@ interface IUserSchema {
   createdAt: Date;
   updatedAt: Date;
   username: string;
+  address: string;
   gender: string;
   birthday: number;
   rank: string;
@@ -20,6 +21,7 @@ const userSchema = new Schema<IUserSchema>(
   {
     email: { type: String, required: true, unique: true },
     tel: { type: String, default: "" },
+    address: { type: String, default: "" },
     password: { type: String, required: true },
     username: { type: String, required: true },
     gender: {

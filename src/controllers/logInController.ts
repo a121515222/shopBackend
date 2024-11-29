@@ -9,6 +9,7 @@ import checkMissingFields from "@/utils/checkMissingFields";
 import { validatePassword } from "@/utils/validate";
 import { generateJWT } from "@/utils/generateJWT";
 import { User } from "@/models/user";
+import { verifyToken } from "@/middlewares/auth";
 const login = async (
   req: Request,
   res: Response,
@@ -100,4 +101,12 @@ const logOut = async (
   }
   appSuccessHandler(200, "登出成功", null, res);
 };
-export { login, logOut };
+const loginCheckResponse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  appSuccessHandler(200, "登入驗證成功", null, res);
+};
+
+export { login, logOut, loginCheckResponse };

@@ -12,4 +12,5 @@ export interface UserType {
   birthday: number | null;
   isVerify?: boolean;
   verifyToken?: string;
+  address: string;
 }
