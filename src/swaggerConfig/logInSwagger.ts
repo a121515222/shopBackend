@@ -51,7 +51,7 @@ export function logOutSwagger(
       type: "Object",
       description: "登出資訊",
       schema: {
-        $id: "adfzcsdv565sadf",
+        $userId: "adfzcsdv565sadf",
         }
       }
     * #swagger.responses[200] = {

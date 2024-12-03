@@ -39,12 +39,17 @@ const checkLogIn = async (
   const headerToken = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : null;
-  const token = cookieToken || headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
+  let token;
+  if (process.env.NODE_ENV === "dev") {
+    token = headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
+  } else {
+    token = cookieToken || headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
+  }
   if (!token) {
     appErrorHandler(401, "未提供有效的 Token", next);
     return;
   }
-  const id = req.params.id ?? req.body.id;
+  const id = req.body.userId ?? req.params.userId;
   if (!token) {
     appErrorHandler(401, "未登入", next);
     return;
@@ -63,6 +68,7 @@ const checkLogIn = async (
       appErrorHandler(403, "token不符", next);
       return;
     }
+    req.headers.userId = id;
     next();
   }
 };

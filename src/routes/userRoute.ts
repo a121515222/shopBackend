@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 router.get(
-  "/admin/user/:id",
+  "/admin/user/:userId",
   userDateSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(getUsers) as RequestHandler
@@ -23,7 +23,7 @@ router.put(
   asyncErrorHandler(updateUser) as RequestHandler
 );
 router.get(
-  "/user-admin/:id",
+  "/user-admin/:userId",
   userDateAdminSwagger,
   checkLogIn as Handler,
   checkAdmin as Handler,

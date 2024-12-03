@@ -13,6 +13,7 @@ import userRoute from "@/routes/userRoute";
 import verifyTokenRoute from "@/routes/verifyTokenRoute";
 import forgetPasswordRoute from "@/routes/forgetPasswordRoute";
 import imageUploadRoute from "@/routes/imageUploadRoute";
+import productRoute from "@/routes/productRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
 
@@ -40,6 +41,7 @@ app.use("/api/v1", logInAndSigInRoute);
 app.use("/api/v1", userRoute);
 app.use("/api/v1", verifyTokenRoute);
 app.use("/api/v1", forgetPasswordRoute);
+app.use("/api/v1", productRoute);
 app.use("/api/v1", imageUploadRoute);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
@@ -82,7 +84,7 @@ app.use(globalErrorHandler);
 /* 未捕捉的 Promise */
 process.on("unhandledRejection", (err, promise) => {
   console.error("[server]：捕獲到 rejection：", promise, "原因：", err);
-  process.exit(1);
+  // process.exit(1);
 });
 
 export default app;
