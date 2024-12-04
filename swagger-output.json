@@ -128,13 +128,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
+                "userId": {
                   "type": "string",
                   "example": "adfzcsdv565sadf"
                 }
               },
               "required": [
-                "id"
+                "userId"
               ]
             }
           }
@@ -280,7 +280,7 @@
         }
       }
     },
-    "/api/v1/admin/user/{id}": {
+    "/api/v1/admin/user/{userId}": {
       "get": {
         "tags": [
           "user-使用者"
@@ -288,11 +288,17 @@
         "description": "取得使用者資料",
         "parameters": [
           {
-            "name": "id",
+            "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string",
-            "description": "使用者Id"
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "使用者Id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -469,7 +475,7 @@
         ]
       }
     },
-    "/api/v1/user-admin/{id}": {
+    "/api/v1/user-admin/{userId}": {
       "get": {
         "tags": [
           "user-使用者"
@@ -477,7 +483,7 @@
         "description": "取得使用者資料Admin",
         "parameters": [
           {
-            "name": "id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1109,6 +1115,12 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
             "type": "string",
             "description": "產品id"
           }
@@ -1225,6 +1237,22 @@
             "type": "string"
           },
           {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "Object",
+            "description": "文章 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              }
+            }
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -1292,7 +1320,10 @@
                     "type": "string"
                   }
                 }
-              }
+              },
+              "required": [
+                "userId"
+              ]
             }
           }
         ],
@@ -1523,6 +1554,547 @@
             "description": ""
           }
         }
+      }
+    },
+    "/api/v1/article": {
+      "post": {
+        "tags": [
+          "Article-文章"
+        ],
+        "description": "新增文章",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "文章資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "apple"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "juicy and delicious"
+                },
+                "imageUrl": {
+                  "type": "string",
+                  "example": "https://www.google.com"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                },
+                "tag": {
+                  "type": "array",
+                  "example": [
+                    "apple",
+                    "fruit"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "userId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增文章成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增文章成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "apple"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "juicy and delicious"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://www.google.com"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        },
+                        "tag": {
+                          "type": "array",
+                          "example": [
+                            "apple",
+                            "fruit"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/article/{userId}": {
+      "get": {
+        "tags": [
+          "Article-文章"
+        ],
+        "description": "取得文章",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "Object",
+            "description": "文章 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得文章成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得文章成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "apple"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "juicy and delicious"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://www.google.com"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        },
+                        "tag": {
+                          "type": "array",
+                          "example": [
+                            "apple",
+                            "fruit"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/articleById/{id}": {
+      "get": {
+        "tags": [
+          "Article-文章"
+        ],
+        "description": "取得單一文章",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "Object",
+            "description": "文章 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "articleId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得單一文章成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得單一文章成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "apple"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "juicy and delicious"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://www.google.com"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        },
+                        "tag": {
+                          "type": "array",
+                          "example": [
+                            "apple",
+                            "fruit"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Article-文章"
+        ],
+        "description": "更新文章",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "Object",
+            "description": "文章 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "articleId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              }
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "文章資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "apple"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "juicy and delicious"
+                },
+                "imageUrl": {
+                  "type": "string",
+                  "example": "https://www.google.com"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                },
+                "tag": {
+                  "type": "array",
+                  "example": [
+                    "apple",
+                    "fruit"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新文章成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新文章成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "apple"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "juicy and delicious"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://www.google.com"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        },
+                        "tag": {
+                          "type": "array",
+                          "example": [
+                            "apple",
+                            "fruit"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Article-文章"
+        ],
+        "description": "刪除文章",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "Object",
+            "description": "文章 id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "articleId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              }
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "文章資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              },
+              "required": [
+                "userId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "刪除文章成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除文章成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "article": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "example": "apple"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "juicy and delicious"
+                        },
+                        "imageUrl": {
+                          "type": "string",
+                          "example": "https://www.google.com"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        },
+                        "tag": {
+                          "type": "array",
+                          "example": [
+                            "apple",
+                            "fruit"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     }
   }

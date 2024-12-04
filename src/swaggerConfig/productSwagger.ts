@@ -1,4 +1,4 @@
-import { type NextFunction, type Request, type Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export function postUserProductSwagger(
   _req: Request,
@@ -323,7 +323,7 @@ export function getUserProductByIdSwagger(
   /**
    * #swagger.tags = ["Product-商品"]
    * #swagger.description = "取得商品資料"
-    * #swagger.parameters["id"] = {
+    * #swagger.parameters["productId"] = {
       in: "path",
       required: true,
       type: "string",
@@ -374,13 +374,22 @@ export function putUserProductSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
       }]
+   * #swagger.parameters['productId'] = {
+      in: "path",
+      required: true,
+      type: "Object",
+      description: "文章 id",
+      schema: {
+        productId: "adfzcsdv565sadf"
+      }
+    }   
    * #swagger.parameters['body'] = {
       in: "body",
       required: true,
       type: "Object",
       description: "商品資料",
       schema: {
-        userId: "adfzcsdv565sadf",
+        $userId: "adfzcsdv565sadf",
         title: "apple",
         description: "juicy and delicious",
         price: 100,

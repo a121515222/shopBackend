@@ -14,6 +14,7 @@ import verifyTokenRoute from "@/routes/verifyTokenRoute";
 import forgetPasswordRoute from "@/routes/forgetPasswordRoute";
 import imageUploadRoute from "@/routes/imageUploadRoute";
 import productRoute from "@/routes/productRoute";
+import articleRoute from "@/routes/articleRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
 
@@ -43,6 +44,7 @@ app.use("/api/v1", verifyTokenRoute);
 app.use("/api/v1", forgetPasswordRoute);
 app.use("/api/v1", productRoute);
 app.use("/api/v1", imageUploadRoute);
+app.use("/api/v1", articleRoute);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
