@@ -52,13 +52,20 @@ const getAllUserArticles = async (
   page = page || 1;
   limit = limit || 10;
   const skip = (page - 1) * limit;
-  const articles = await Article.find({ userId }).skip(skip).limit(limit);
-  if (!articles) {
-    appErrorHandler(500, "取得文章失敗", next);
-    return;
-  } else {
-    appSuccessHandler(200, "取得文章成功", articles, res);
-  }
+  const findArticlesById = await Article.find({ userId })
+    .skip(skip)
+    .limit(limit);
+  const getTotal = await Article.find({ userId }).countDocuments();
+  const [articles, totalCount] = await Promise.all([
+    findArticlesById,
+    getTotal
+  ]);
+  const pagination = {
+    currentPage: page,
+    totalCount,
+    limit
+  };
+  appSuccessHandler(200, "查詢成功", { articles, pagination }, res);
 };
 
 const getUserArticle = async (
@@ -66,7 +73,7 @@ const getUserArticle = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const articleId = req.params.articleId;
+  const articleId = req.params.id;
   const article = await Article.findById(articleId);
   if (!article) {
     appErrorHandler(404, "找不到文章", next);
@@ -81,7 +88,8 @@ const updateUserArticle = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const articleId = req.params.articleId;
+  const articleId = req.params.id;
+  const userId = req.body.userId;
   const { title, description, content, tag, imageUrl } = req.body;
   let updateArticle: Partial<ArticleType> = {};
   if (!articleId) {
@@ -104,7 +112,13 @@ const updateUserArticle = async (
     updateArticle.imageUrl = imageUrl;
   }
 
-  const article = await Article.findByIdAndUpdate(articleId, updateArticle);
+  const article = await Article.findOneAndUpdate(
+    { _id: articleId, userId },
+    updateArticle,
+    {
+      new: true
+    }
+  );
   if (!article) {
     appErrorHandler(500, "更新文章失敗", next);
     return;
@@ -118,12 +132,13 @@ const deleteUserArticle = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const articleId = req.params.articleId;
+  const articleId = req.params.id;
+  const userId = req.body.userId;
   if (!articleId) {
     appErrorHandler(400, "缺少文章 id", next);
     return;
   }
-  const article = await Article.findByIdAndDelete(articleId);
+  const article = await Article.findOneAndDelete({ _id: articleId, userId });
   if (!article) {
     appErrorHandler(500, "刪除文章失敗", next);
     return;

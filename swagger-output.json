@@ -291,14 +291,8 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "使用者Id",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "使用者Id"
           }
         ],
         "responses": {
@@ -1234,23 +1228,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "Object",
-            "description": "文章 id",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "productId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              }
-            }
+            "type": "string",
+            "description": "商品id"
           },
           {
             "name": "body",
@@ -1683,17 +1662,24 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "Object",
-            "description": "文章 id",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              }
-            }
+            "type": "string",
+            "description": "使用者Id"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "頁數，用於分頁",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "每頁顯示的項目數，默認為 10",
+            "default": 10
           }
         ],
         "responses": {
@@ -1771,23 +1757,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "articleId",
-            "in": "path",
-            "required": true,
-            "type": "Object",
-            "description": "文章 id",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "articleId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              }
-            }
+            "type": "string",
+            "description": "文章id"
           }
         ],
         "responses": {
@@ -1846,12 +1817,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "apiKeyAuth": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -1863,23 +1829,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "articleId",
-            "in": "path",
-            "required": true,
-            "type": "Object",
-            "description": "文章 id",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "articleId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              }
-            }
+            "type": "string",
+            "description": "文章id"
           },
           {
             "name": "body",
@@ -1996,23 +1947,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "articleId",
-            "in": "path",
-            "required": true,
-            "type": "Object",
-            "description": "文章 id",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "articleId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              }
-            }
+            "type": "string",
+            "description": "文章id"
           },
           {
             "name": "body",

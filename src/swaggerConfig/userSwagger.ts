@@ -11,7 +11,7 @@ export function userDateSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
     }]
-   * #swagger.parameters['id'] = {
+   * #swagger.parameters['userId'] = {
       in: 'path',
       description: '使用者Id',
       required: true,

@@ -323,7 +323,7 @@ export function getUserProductByIdSwagger(
   /**
    * #swagger.tags = ["Product-商品"]
    * #swagger.description = "取得商品資料"
-    * #swagger.parameters["productId"] = {
+    * #swagger.parameters["id"] = {
       in: "path",
       required: true,
       type: "string",
@@ -374,14 +374,11 @@ export function putUserProductSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
       }]
-   * #swagger.parameters['productId'] = {
+   * #swagger.parameters['id'] = {
       in: "path",
       required: true,
-      type: "Object",
-      description: "文章 id",
-      schema: {
-        productId: "adfzcsdv565sadf"
-      }
+      type: "string",
+      description: "商品id",
     }   
    * #swagger.parameters['body'] = {
       in: "body",
@@ -444,7 +441,7 @@ export function deleteUserProductSwagger(
       type: "string",
       description: "產品id",
     }
-       #swagger.parameters['body'] = {
+    *   #swagger.parameters['body'] = {
       in: "body",
       required: true,
       type: "Object",

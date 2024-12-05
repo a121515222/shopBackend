@@ -87,6 +87,9 @@ app.use(globalErrorHandler);
 process.on("unhandledRejection", (err, promise) => {
   console.error("[server]：捕獲到 rejection：", promise, "原因：", err);
   // process.exit(1);
+  app.use((_, res) => {
+    res.status(500).send("500 Internal Server Error");
+  });
 });
 
 export default app;

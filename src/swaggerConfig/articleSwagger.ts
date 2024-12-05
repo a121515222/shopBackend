@@ -57,12 +57,24 @@ export function getAllUserArticleSwagger(
    * #swagger.parameters['userId'] = {
       in: "path",
       required: true,
-      type: "Object",
-      description: "文章 id",
-      schema: {
-        userId: "adfzcsdv565sadf"
-      }
+      type: "string",
+      description: "使用者Id",
     }
+  * #swagger.parameters["page"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "頁數，用於分頁",
+       default: 1
+     }
+     
+   * #swagger.parameters["limit"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "每頁顯示的項目數，默認為 10",
+       default: 10
+     }  
     * #swagger.responses[200] = {
         description: '取得文章成功',
         schema: {
@@ -91,17 +103,11 @@ export function getUserArticleByIdSwagger(
   /**
    * #swagger.tags = ["Article-文章"]
    * #swagger.description = "取得單一文章"
-   * #swagger.security = [{
-      "apiKeyAuth":[]
-      }]
-   * #swagger.parameters['articleId'] = {
+   * #swagger.parameters["id"] = {
       in: "path",
       required: true,
-      type: "Object",
-      description: "文章 id",
-      schema: {
-        articleId: "adfzcsdv565sadf"
-      }
+      type: "string",
+      description: "文章id",
     }
     * #swagger.responses[200] = {
         description: '取得單一文章成功',
@@ -134,14 +140,11 @@ export function updateUserArticleSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
       }]
-   * #swagger.parameters['articleId'] = {
+ * #swagger.parameters["id"] = {
       in: "path",
       required: true,
-      type: "Object",
-      description: "文章 id",
-      schema: {
-        articleId: "adfzcsdv565sadf"
-      }
+      type: "string",
+      description: "文章id",
     }
     * #swagger.parameters['body'] = {
       in: "body",
@@ -188,14 +191,11 @@ export function deleteUserArticleSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
       }]
-   * #swagger.parameters['articleId'] = {
+   * #swagger.parameters["id"] = {
       in: "path",
       required: true,
-      type: "Object",
-      description: "文章 id",
-      schema: {
-        articleId: "adfzcsdv565sadf"
-      }
+      type: "string",
+      description: "文章id",
     }
     *   #swagger.parameters['body'] = {
       in: "body",
