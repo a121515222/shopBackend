@@ -10,4 +10,5 @@ export interface ProductType {
   tag: string[];
   content: string;
   unit: string;
+  productStatus: number;
 }

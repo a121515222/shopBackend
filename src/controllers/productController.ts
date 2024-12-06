@@ -20,9 +20,11 @@ const postUserProduct = async (
     imageUrl,
     category,
     content,
-    tag
+    tag,
+    productStatus,
+    num,
+    unit
   } = req.body;
-
   const missingFields = checkMissingFields({
     userId
   });
@@ -41,7 +43,10 @@ const postUserProduct = async (
     imageUrl,
     category,
     content,
-    tag
+    tag,
+    productStatus,
+    num,
+    unit
   });
   if (!newProduct) {
     appErrorHandler(500, "新增商品失敗", next);
@@ -75,10 +80,16 @@ const getAllUserProducts = async (
     .limit(limit);
   const getTotal = await Product.find({ userId: userId }).countDocuments();
   const [products, totalCount] = await Promise.all([findProductById, getTotal]);
+  const hasPrevPage = page > 1;
+  const hasNextPage = page * limit < totalCount;
+  const totalPages = Math.ceil(totalCount / limit);
   const pagination = {
     currentPage: page,
     totalCount,
-    limit
+    totalPages,
+    limit,
+    hasPrevPage,
+    hasNextPage
   };
   appSuccessHandler(200, "查詢成功", { products, pagination }, res);
 };

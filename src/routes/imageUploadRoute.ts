@@ -7,7 +7,7 @@ import asyncErrorHandler from "@/middlewares/asyncErrorHandler";
 const router = Router();
 
 router.post(
-  "/uploadImage",
+  "/uploadImage/:userId",
   checkLogIn as Handler,
   uploadSingleFile,
   asyncErrorHandler(uploadImage) as RequestHandler

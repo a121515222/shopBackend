@@ -100,8 +100,7 @@ export const uploadImage = async (
 
     // 上傳圖片到 Firebase
     const url = await uploadToFirebase(compressedImage, fileName);
-
-    appSuccessHandler(200, "上傳成功", url, res);
+    appSuccessHandler(200, "上傳成功", { imageUrl: url }, res);
   } catch (err) {
     console.error(err);
     appErrorHandler(500, "圖片處理或上傳失敗", next);

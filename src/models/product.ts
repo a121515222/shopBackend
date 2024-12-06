@@ -11,7 +11,17 @@ interface ProductSchema {
   tag: string[];
   content: string;
   unit: string;
+  productStatus: number;
+  num: number; //產品數量
 }
+const productStatus = {
+  0: "未上架",
+  1: "已上架",
+  2: "缺貨中",
+  3: "補貨中",
+  4: "促銷中",
+  5: "待下架"
+};
 const productSchema = new Schema<ProductSchema>(
   {
     userId: { type: Schema.Types.ObjectId, required: true },
@@ -24,7 +34,9 @@ const productSchema = new Schema<ProductSchema>(
     category: { type: [String], default: [] },
     content: { type: String, default: "" },
     tag: { type: [String], default: [] },
-    unit: { type: String, default: "" }
+    unit: { type: String, default: "" },
+    productStatus: { type: Number, default: 0 },
+    num: { type: Number, default: 0 }
   },
   { versionKey: false, timestamps: true }
 );

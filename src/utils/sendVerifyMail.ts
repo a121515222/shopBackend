@@ -141,13 +141,11 @@ const sendVerificationEmail = async (
   };
   try {
     let info;
-    console.log("process.env.MAIL_DOMAIN", process.env.MAIL_DOMAIN);
     if (isValidate) {
       info = await transporter.sendMail(forgetPasswordMailOptions);
     } else {
       info = await transporter.sendMail(mailOptions);
     }
-    console.log("郵件發送成功:", info.response);
     return true; // 發送成功
   } catch (error) {
     console.log("發送失敗:", error);
