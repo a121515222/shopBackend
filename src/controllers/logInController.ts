@@ -9,7 +9,6 @@ import checkMissingFields from "@/utils/checkMissingFields";
 import { validatePassword } from "@/utils/validate";
 import { generateJWT } from "@/utils/generateJWT";
 import { User } from "@/models/user";
-import { verifyToken } from "@/middlewares/auth";
 const login = async (
   req: Request,
   res: Response,
@@ -90,9 +89,9 @@ const logOut = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = req.params.id ?? req.body.id;
+  const userId = req.params.userId ?? req.body.userId;
   const user = await User.findByIdAndUpdate(
-    { _id: id },
+    { _id: userId },
     { logInVerifyToken: "" }
   );
   if (!user) {
