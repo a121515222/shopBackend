@@ -306,7 +306,10 @@ export function getAllUserProductSwagger(
     "pagination": {
       "currentPage": 1,
       "totalCount": 22,
-      "limit": 10
+      "totalPages": 3,
+      "limit": 10,
+      "hasPrevPage": false,
+      "hasNextPage": true
     }
   }
           }

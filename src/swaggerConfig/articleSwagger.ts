@@ -81,13 +81,21 @@ export function getAllUserArticleSwagger(
           status: true,
           message: "取得文章成功",
           data: {
-            article: {
+            articles: [{
               title: "apple",
               description: "juicy and delicious",
               imageUrl: "https://www.google.com",
               content: "juicy and delicious, sweet and sour, a day keeps the doctor away",
               tag: ["apple", "fruit"]
-            }
+              }],
+            "pagination": {
+            "currentPage": 1,
+            "totalCount": 22,
+            "totalPages": 3,
+            "limit": 10,
+            "hasPrevPage": false,
+            "hasNextPage": true
+              }
           }
       }      
     }     
@@ -122,6 +130,7 @@ export function getUserArticleByIdSwagger(
               content: "juicy and delicious, sweet and sour, a day keeps the doctor away",
               tag: ["apple", "fruit"]
             }
+
           }
       }      
     }     

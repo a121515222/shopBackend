@@ -6,6 +6,9 @@ interface ArticleSchema {
   content: string;
   tag: string[];
   imageUrl: string;
+  author: string;
+  articleDate: Date;
+  isPublic: boolean;
 }
 const articleSchema = new Schema<ArticleSchema>(
   {
@@ -14,7 +17,10 @@ const articleSchema = new Schema<ArticleSchema>(
     description: { type: String, default: "" },
     content: { type: String, default: "" },
     tag: { type: [String], default: [] },
-    imageUrl: { type: String, default: "" }
+    imageUrl: { type: String, default: "" },
+    author: { type: String, default: "" },
+    articleDate: { type: Date, default: Date.now },
+    isPublic: { type: Boolean, default: false }
   },
   { versionKey: false, timestamps: true }
 );

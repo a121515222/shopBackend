@@ -935,7 +935,7 @@
         ]
       }
     },
-    "/api/v1/product/{userId}": {
+    "/api/v1/products/{userId}": {
       "get": {
         "tags": [
           "Product-商品"
@@ -1076,9 +1076,21 @@
                           "type": "number",
                           "example": 22
                         },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 3
+                        },
                         "limit": {
                           "type": "number",
                           "example": 10
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
                         }
                       }
                     }
@@ -1107,12 +1119,6 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "productId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1525,9 +1531,17 @@
         ]
       }
     },
-    "/api/v1/uploadImage": {
+    "/api/v1/uploadImage/{userId}": {
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -1699,34 +1713,66 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "article": {
+                    "articles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "example": "apple"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "juicy and delicious"
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                          },
+                          "tag": {
+                            "type": "array",
+                            "example": [
+                              "apple",
+                              "fruit"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
                       "type": "object",
                       "properties": {
-                        "title": {
-                          "type": "string",
-                          "example": "apple"
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
                         },
-                        "description": {
-                          "type": "string",
-                          "example": "juicy and delicious"
+                        "totalCount": {
+                          "type": "number",
+                          "example": 22
                         },
-                        "imageUrl": {
-                          "type": "string",
-                          "example": "https://www.google.com"
+                        "totalPages": {
+                          "type": "number",
+                          "example": 3
                         },
-                        "content": {
-                          "type": "string",
-                          "example": "juicy and delicious, sweet and sour, a day keeps the doctor away"
+                        "limit": {
+                          "type": "number",
+                          "example": 10
                         },
-                        "tag": {
-                          "type": "array",
-                          "example": [
-                            "apple",
-                            "fruit"
-                          ],
-                          "items": {
-                            "type": "string"
-                          }
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
                         }
                       }
                     }

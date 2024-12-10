@@ -4,7 +4,7 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
 import { Product } from "@/models/product";
-
+import { handlePagination } from "@/utils/paginationHandler";
 const postUserProduct = async (
   req: Request,
   res: Response,
@@ -80,17 +80,7 @@ const getAllUserProducts = async (
     .limit(limit);
   const getTotal = await Product.find({ userId: userId }).countDocuments();
   const [products, totalCount] = await Promise.all([findProductById, getTotal]);
-  const hasPrevPage = page > 1;
-  const hasNextPage = page * limit < totalCount;
-  const totalPages = Math.ceil(totalCount / limit);
-  const pagination = {
-    currentPage: page,
-    totalCount,
-    totalPages,
-    limit,
-    hasPrevPage,
-    hasNextPage
-  };
+  const pagination = handlePagination(page, limit, totalCount);
   appSuccessHandler(200, "查詢成功", { products, pagination }, res);
 };
 

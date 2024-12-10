@@ -5,4 +5,7 @@ export interface ArticleType {
   content: string;
   tag: string[];
   imageUrl: string;
+  author: string;
+  articleDate: Date;
+  isPublic: boolean;
 }

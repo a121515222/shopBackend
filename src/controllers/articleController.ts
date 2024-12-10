@@ -11,7 +11,16 @@ const postUserArticle = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.params.userId ?? req.body.userId;
-  const { title, description, content, tag, imageUrl } = req.body;
+  const {
+    title,
+    description,
+    content,
+    tag,
+    imageUrl,
+    author,
+    articleDate,
+    isPublic
+  } = req.body;
 
   const missingFields = checkMissingFields({
     userId
@@ -27,7 +36,10 @@ const postUserArticle = async (
     description,
     content,
     tag,
-    imageUrl
+    imageUrl,
+    author,
+    articleDate: new Date(articleDate),
+    isPublic
   });
   if (!newArticle) {
     appErrorHandler(500, "新增文章失敗", next);
@@ -90,7 +102,16 @@ const updateUserArticle = async (
 ): Promise<void> => {
   const articleId = req.params.id;
   const userId = req.body.userId;
-  const { title, description, content, tag, imageUrl } = req.body;
+  const {
+    title,
+    description,
+    content,
+    tag,
+    imageUrl,
+    author,
+    articleDate,
+    isPublic
+  } = req.body;
   let updateArticle: Partial<ArticleType> = {};
   if (!articleId) {
     appErrorHandler(400, "缺少文章 id", next);
@@ -110,6 +131,17 @@ const updateUserArticle = async (
   }
   if (imageUrl) {
     updateArticle.imageUrl = imageUrl;
+  }
+  if (author) {
+    updateArticle.author = author;
+    console.log("author", updateArticle.author);
+  }
+  if (articleDate) {
+    updateArticle.articleDate = new Date(articleDate);
+    console.log("articleDate", updateArticle.articleDate);
+  }
+  if (typeof isPublic === "boolean") {
+    updateArticle.isPublic = isPublic;
   }
 
   const article = await Article.findOneAndUpdate(
