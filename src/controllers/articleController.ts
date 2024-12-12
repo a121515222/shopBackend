@@ -4,7 +4,7 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
 import { Article } from "@/models/article";
-
+import { handlePagination } from "@/utils/paginationHandler";
 const postUserArticle = async (
   req: Request,
   res: Response,
@@ -72,11 +72,7 @@ const getAllUserArticles = async (
     findArticlesById,
     getTotal
   ]);
-  const pagination = {
-    currentPage: page,
-    totalCount,
-    limit
-  };
+  const pagination = handlePagination(page, limit, totalCount);
   appSuccessHandler(200, "查詢成功", { articles, pagination }, res);
 };
 
