@@ -127,7 +127,8 @@ const updateUserProduct = async (
     imageUrl,
     category,
     content,
-    tag
+    tag,
+    num
   } = req.body;
   if (title) {
     updateProductData.title = title;
@@ -153,10 +154,12 @@ const updateUserProduct = async (
   if (content) {
     updateProductData.content = content;
   }
+  if (num) {
+    updateProductData.num;
+  }
   if (tag.length > 0) {
     updateProductData.tag = tag;
   }
-
   const updateProduct = await Product.findOneAndUpdate(
     {
       _id: productId,

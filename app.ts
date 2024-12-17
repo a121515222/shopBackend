@@ -15,6 +15,8 @@ import forgetPasswordRoute from "@/routes/forgetPasswordRoute";
 import imageUploadRoute from "@/routes/imageUploadRoute";
 import productRoute from "@/routes/productRoute";
 import articleRoute from "@/routes/articleRoute";
+import couponRoute from "@/routes/couponRoute";
+import cartRoute from "@/routes/cartRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
 
@@ -45,6 +47,8 @@ app.use("/api/v1", forgetPasswordRoute);
 app.use("/api/v1", productRoute);
 app.use("/api/v1", imageUploadRoute);
 app.use("/api/v1", articleRoute);
+app.use("/api/v1", couponRoute);
+app.use("/api/v1", cartRoute);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

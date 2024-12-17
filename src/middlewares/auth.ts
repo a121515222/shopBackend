@@ -1,5 +1,6 @@
 // src/middlewares/auth.ts
 import type { Request, Response, NextFunction } from "express";
+import type { LoginResData } from "@/types/logInTypes";
 import jwt from "jsonwebtoken";
 import appErrorHandler from "@/utils/appErrorHandler";
 import { User } from "@/models/user";
@@ -43,22 +44,28 @@ const checkLogIn = async (
   if (process.env.NODE_ENV === "dev") {
     token = headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
   } else {
-    token = cookieToken || headerToken || authHeader; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
+    token = headerToken || authHeader || cookieToken; // 選擇一種方式,可以接受前頭沒有 Bearer 的 token
   }
   if (!token) {
     appErrorHandler(401, "未提供有效的 Token", next);
     return;
   }
-  const id = req.body.userId ?? req.params.userId;
   if (!token) {
     appErrorHandler(401, "未登入", next);
     return;
   }
 
   const decoded = verifyToken(token, next);
+
   if (decoded) {
-    req.user = decoded;
-    req.token = token;
+    let id;
+    // 型別守衛：確認 decoded 是 LoginResData
+    if (typeof decoded === "object" && "userId" in decoded) {
+      id = (decoded as LoginResData).userId;
+    } else {
+      appErrorHandler(401, "無效的 Token", next);
+      return;
+    }
     const logInVerifyToken = await User.findById(id).select("logInVerifyToken");
     if (!logInVerifyToken) {
       appErrorHandler(404, "查無使用者", next);
@@ -68,7 +75,9 @@ const checkLogIn = async (
       appErrorHandler(403, "token不符", next);
       return;
     }
-    req.headers.userId = id;
+    req.user = decoded;
+    req.token = token;
+    req.headers.userId = id.toString();
     next();
   }
 };

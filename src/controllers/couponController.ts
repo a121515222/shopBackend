@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
-import { Coupon } from "@/models/coupon";
+import { Coupon, type CouponSchema } from "@/models/coupon";
 import { handlePagination } from "@/utils/paginationHandler";
 
 const createCoupon = async (
@@ -10,14 +10,13 @@ const createCoupon = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { title, description, discount, code, expireDate, isPublic } = req.body;
-
+  const { discount, code, expireDate, isPublic, couponNum } = req.body;
+  const userId = req.headers.userId;
   const missingFields = checkMissingFields({
-    title,
-    description,
     discount,
     code,
-    expireDate
+    expireDate,
+    couponNum
   });
   if (missingFields.length > 0) {
     const missingFieldsMsg = `缺少: ${missingFields.join(", ")}`;
@@ -25,12 +24,12 @@ const createCoupon = async (
     return;
   }
   const newCoupon = await Coupon.create({
-    title,
-    description,
+    userId,
     discount,
     code,
     expireDate: new Date(expireDate),
-    isPublic
+    isPublic,
+    couponNum
   });
   if (!newCoupon) {
     appErrorHandler(500, "新增優惠券失敗", next);
@@ -45,7 +44,7 @@ const getUserCreateCoupon = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.userId;
+  const userId = req.headers.userId;
   let page: number | undefined = req.query.page
     ? parseInt(req.query.page as string)
     : 1;
@@ -81,17 +80,30 @@ const putUserCoupon = async (
   next: NextFunction
 ): Promise<void> => {
   const couponId = req.params.couponId;
-  const { title, description, discount, code, expireDate, isPublic } = req.body;
+  const { discount, code, expireDate, isPublic, couponNum } = req.body;
+  const updateCouponData: Partial<CouponSchema> = {};
+  if (discount) {
+    if (discount <= 0) {
+      appErrorHandler(400, "折扣不能為負數或0", next);
+      return;
+    }
+    updateCouponData.discount = discount;
+  }
+  if (code) {
+    updateCouponData.code = code;
+  }
+  if (expireDate) {
+    updateCouponData.expireDate = new Date(expireDate);
+  }
+  if (isPublic) {
+    updateCouponData.isPublic = isPublic;
+  }
+  if (couponNum) {
+    updateCouponData.couponNum = couponNum;
+  }
   const updateCoupon = await Coupon.findByIdAndUpdate(
     couponId,
-    {
-      title,
-      description,
-      discount,
-      code,
-      expireDate: new Date(expireDate),
-      isPublic
-    },
+    updateCouponData,
     { new: true }
   );
   if (!updateCoupon) {

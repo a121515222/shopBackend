@@ -1,6 +1,7 @@
 import { Schema, model, type Types } from "mongoose";
 
 interface CouponSchema {
+  userId: Types.ObjectId;
   code: string;
   discount: number;
   expireDate: Date;
@@ -10,6 +11,7 @@ interface CouponSchema {
 
 const CouponSchema = new Schema<CouponSchema>(
   {
+    userId: { type: Schema.Types.ObjectId, required: true },
     code: { type: String, required: true },
     discount: { type: Number, default: 0 },
     expireDate: { type: Date, default: Date.now },

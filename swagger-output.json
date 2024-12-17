@@ -1665,7 +1665,7 @@
         ]
       }
     },
-    "/api/v1/article/{userId}": {
+    "/api/v1/articles/{userId}": {
       "get": {
         "tags": [
           "Article-文章"
@@ -2059,6 +2059,599 @@
                           ],
                           "items": {
                             "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/coupon": {
+      "post": {
+        "tags": [
+          "Coupon-優惠券"
+        ],
+        "description": "新增優惠券",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "新增優惠券資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "example": "Discount100"
+                },
+                "discount": {
+                  "type": "number",
+                  "example": 100
+                },
+                "expireDate": {
+                  "type": "string",
+                  "example": "2022-12-31"
+                },
+                "isPublic": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "couponNum": {
+                  "type": "number",
+                  "example": 10000
+                }
+              },
+              "required": [
+                "code",
+                "discount",
+                "expireDate",
+                "couponNum"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "coupon": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "Discount100"
+                        },
+                        "discount": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "expireDate": {
+                          "type": "string",
+                          "example": "2022-12-31"
+                        },
+                        "isPublic": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "couponNum": {
+                          "type": "number",
+                          "example": 10000
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/coupons": {
+      "get": {
+        "tags": [
+          "Coupon-優惠券"
+        ],
+        "description": "取得使用者建立的優惠券",
+        "responses": {
+          "200": {
+            "description": "取得使用者建立的優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得使用者建立的優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "coupons": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "example": "Discount100"
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "expireDate": {
+                            "type": "string",
+                            "example": "2022-12-31"
+                          },
+                          "isPublic": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "couponNum": {
+                            "type": "number",
+                            "example": 10000
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/couponById/{couponId}": {
+      "get": {
+        "tags": [
+          "Coupon-優惠券"
+        ],
+        "description": "取得優惠券",
+        "parameters": [
+          {
+            "name": "couponId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "優惠券 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "coupon": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "Discount100"
+                        },
+                        "discount": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "expireDate": {
+                          "type": "string",
+                          "example": "2022-12-31"
+                        },
+                        "isPublic": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "couponNum": {
+                          "type": "number",
+                          "example": 10000
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Coupon-優惠券"
+        ],
+        "description": "更新優惠券",
+        "parameters": [
+          {
+            "name": "couponId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "優惠券 ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "更新優惠券資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Discount100"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "100 off"
+                },
+                "discount": {
+                  "type": "number",
+                  "example": 100
+                },
+                "code": {
+                  "type": "string",
+                  "example": "Discount100"
+                },
+                "expireDate": {
+                  "type": "string",
+                  "example": "2022-12-31"
+                },
+                "isPublic": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "coupon": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "Discount100"
+                        },
+                        "discount": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "expireDate": {
+                          "type": "string",
+                          "example": "2022-12-31"
+                        },
+                        "isPublic": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "couponNum": {
+                          "type": "number",
+                          "example": 10000
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Coupon-優惠券"
+        ],
+        "description": "刪除優惠券",
+        "parameters": [
+          {
+            "name": "couponId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "優惠券 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "刪除優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "coupon": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "Discount100"
+                        },
+                        "discount": {
+                          "type": "number",
+                          "example": 100
+                        },
+                        "expireDate": {
+                          "type": "string",
+                          "example": "2022-12-31"
+                        },
+                        "isPublic": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "couponNum": {
+                          "type": "number",
+                          "example": 10000
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/cart": {
+      "post": {
+        "tags": [
+          "Cart-購物車"
+        ],
+        "description": "新增購物車",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "新增購物車資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "quantity": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "required": [
+                "productId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "新增購物車成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增購物車成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "cart": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "example": "123456"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Cart-購物車"
+        ],
+        "description": "取得購物車",
+        "responses": {
+          "200": {
+            "description": "取得購物車成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得購物車成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "carts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "sellerId": {
+                            "type": "string",
+                            "example": "456"
+                          },
+                          "totalPrice": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "productList": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "productId": {
+                                  "type": "string",
+                                  "example": "123456"
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "example": "apple"
+                                },
+                                "price": {
+                                  "type": "number",
+                                  "example": 100
+                                },
+                                "discount": {
+                                  "type": "number",
+                                  "example": 0
+                                },
+                                "imageUrl": {
+                                  "type": "string",
+                                  "example": "https://www.google.com"
+                                },
+                                "num": {
+                                  "type": "number",
+                                  "example": 1
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "example": "kg"
+                                },
+                                "productSellPrice": {
+                                  "type": "number",
+                                  "example": 100
+                                }
+                              }
+                            }
                           }
                         }
                       }
