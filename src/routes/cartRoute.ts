@@ -10,7 +10,8 @@ import {
 } from "@/controllers/cartController";
 import {
   postUserAddCartSwagger,
-  getUserCartSwagger
+  getUserCartSwagger,
+  putUserCartSwagger
 } from "@/swaggerConfig/cartSwagger";
 
 const router = Router();
@@ -27,5 +28,10 @@ router.get(
   checkLogIn as Handler,
   asyncErrorHandler(getUserCart) as RequestHandler
 );
-
+router.put(
+  "/cart",
+  putUserCartSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(putUserCart) as RequestHandler
+);
 export default router;

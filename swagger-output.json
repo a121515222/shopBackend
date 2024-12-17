@@ -1269,6 +1269,10 @@
                   "type": "string",
                   "example": "kg"
                 },
+                "num": {
+                  "type": "number",
+                  "example": 10
+                },
                 "imagesUrl": {
                   "type": "array",
                   "example": [
@@ -1351,6 +1355,10 @@
                         "unit": {
                           "type": "string",
                           "example": "kg"
+                        },
+                        "num": {
+                          "type": "number",
+                          "example": 10
                         },
                         "imagesUrl": {
                           "type": "array",
@@ -2094,6 +2102,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "123"
+                },
                 "code": {
                   "type": "string",
                   "example": "Discount100"
@@ -2116,6 +2128,7 @@
                 }
               },
               "required": [
+                "userId",
                 "code",
                 "discount",
                 "expireDate",
@@ -2144,6 +2157,10 @@
                     "coupon": {
                       "type": "object",
                       "properties": {
+                        "userId": {
+                          "type": "string",
+                          "example": "67405af5e85ca5d5551ed8a7"
+                        },
                         "code": {
                           "type": "string",
                           "example": "Discount100"
@@ -2154,7 +2171,7 @@
                         },
                         "expireDate": {
                           "type": "string",
-                          "example": "2022-12-31"
+                          "example": "2022-12-31T00:00:00.000Z"
                         },
                         "isPublic": {
                           "type": "boolean",
@@ -2163,6 +2180,18 @@
                         "couponNum": {
                           "type": "number",
                           "example": 10000
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "676135f0da5b7d452386ec9f"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-12-17T08:27:28.832Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-12-17T08:27:28.832Z"
                         }
                       }
                     }
@@ -2210,6 +2239,10 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "676135"
+                          },
                           "code": {
                             "type": "string",
                             "example": "Discount100"
@@ -2342,14 +2375,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "type": "string",
-                  "example": "Discount100"
-                },
-                "description": {
-                  "type": "string",
-                  "example": "100 off"
-                },
                 "discount": {
                   "type": "number",
                   "example": 100
@@ -2390,17 +2415,25 @@
                     "coupon": {
                       "type": "object",
                       "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "676135f0da5b7d555f86ec9f"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "67405af5e85ca5d9991ed8a7"
+                        },
                         "code": {
                           "type": "string",
-                          "example": "Discount100"
+                          "example": "Discount10"
                         },
                         "discount": {
                           "type": "number",
-                          "example": 100
+                          "example": 10
                         },
                         "expireDate": {
                           "type": "string",
-                          "example": "2022-12-31"
+                          "example": "2022-12-31T00:00:00.000Z"
                         },
                         "isPublic": {
                           "type": "boolean",
@@ -2409,6 +2442,14 @@
                         "couponNum": {
                           "type": "number",
                           "example": 10000
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-12-17T08:27:28.832Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-12-17T09:48:33.019Z"
                         }
                       }
                     }
@@ -2461,17 +2502,25 @@
                     "coupon": {
                       "type": "object",
                       "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "676135f0da5b7da44f86ec9f"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "67405af5e85ca5d5551ed8a7"
+                        },
                         "code": {
                           "type": "string",
-                          "example": "Discount100"
+                          "example": "Discount10"
                         },
                         "discount": {
                           "type": "number",
-                          "example": 100
+                          "example": 10
                         },
                         "expireDate": {
                           "type": "string",
-                          "example": "2022-12-31"
+                          "example": "2022-12-31T00:00:00.000Z"
                         },
                         "isPublic": {
                           "type": "boolean",
@@ -2480,6 +2529,14 @@
                         "couponNum": {
                           "type": "number",
                           "example": 10000
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-12-17T08:27:28.832Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-12-17T09:48:33.019Z"
                         }
                       }
                     }
@@ -2553,7 +2610,7 @@
                           "type": "string",
                           "example": "123456"
                         },
-                        "quantity": {
+                        "num": {
                           "type": "number",
                           "example": 1
                         }
@@ -2653,6 +2710,91 @@
                               }
                             }
                           }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Cart-購物車"
+        ],
+        "description": "更新購物車",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "更新購物車資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cartId": {
+                  "type": "string",
+                  "example": "12345655555"
+                },
+                "productId": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "num": {
+                  "type": "number",
+                  "example": 1
+                },
+                "isDelete": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "required": [
+                "cartId",
+                "productId",
+                "num",
+                "isDelete"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "更新購物車成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "更新購物車成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "cart": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "example": "123456"
+                        },
+                        "num": {
+                          "type": "number",
+                          "example": 1
                         }
                       }
                     }

@@ -68,7 +68,7 @@ export function getUserCreateCouponSwagger(
           data: {
             coupons: [
               {
-                _id: "676135
+                _id: "676135",
                 code: "Discount100",
                 discount: 100,
                 expireDate: "2022-12-31",

@@ -79,7 +79,7 @@ export function getUserCartSwagger(
   next();
 }
 
-export function putCartSwagger(
+export function putUserCartSwagger(
   req: Request,
   res: Response,
   next: NextFunction
