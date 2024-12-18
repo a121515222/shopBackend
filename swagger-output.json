@@ -774,10 +774,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                },
                 "title": {
                   "type": "string",
                   "example": "apple"
@@ -834,10 +830,7 @@
                     "type": "string"
                   }
                 }
-              },
-              "required": [
-                "userId"
-              ]
+              }
             }
           }
         ],
@@ -935,7 +928,7 @@
         ]
       }
     },
-    "/api/v1/products/{userId}": {
+    "/api/v1/products": {
       "get": {
         "tags": [
           "Product-商品"
@@ -1245,10 +1238,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                },
                 "title": {
                   "type": "string",
                   "example": "apple"
@@ -1309,10 +1298,7 @@
                     "type": "string"
                   }
                 }
-              },
-              "required": [
-                "userId"
-              ]
+              }
             }
           }
         ],
@@ -1425,24 +1411,6 @@
             "required": true,
             "type": "string",
             "description": "產品id"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "商品資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              },
-              "required": [
-                "userId"
-              ]
-            }
           }
         ],
         "responses": {
@@ -1673,7 +1641,7 @@
         ]
       }
     },
-    "/api/v1/articles/{userId}": {
+    "/api/v1/articles": {
       "get": {
         "tags": [
           "Article-文章"
@@ -1894,10 +1862,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                },
                 "title": {
                   "type": "string",
                   "example": "apple"
@@ -2003,24 +1967,6 @@
             "required": true,
             "type": "string",
             "description": "文章id"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "文章資料",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                }
-              },
-              "required": [
-                "userId"
-              ]
-            }
           }
         ],
         "responses": {
@@ -2785,6 +2731,132 @@
                 "data": {
                   "type": "object",
                   "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "67615d0d9d1199301364380e"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 340
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecdce8d091f0024c8a710"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "bnana"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 80
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 80
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "6761735d6a4a0a52b18fc601"
+                          }
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-17T11:14:21.781Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024-12-18T05:43:45.469Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Cart-購物車"
+        ],
+        "description": "刪除購物車",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "刪除購物車資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cartId": {
+                  "type": "string",
+                  "example": "12345655555"
+                },
+                "sellerId": {
+                  "type": "string",
+                  "example": "123"
+                }
+              },
+              "required": [
+                "cartId",
+                "sellerId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "刪除購物車成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "刪除購物車成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
                     "cart": {
                       "type": "object",
                       "properties": {
@@ -2795,6 +2867,74 @@
                         "num": {
                           "type": "number",
                           "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/cartUsedCoupon": {
+      "post": {
+        "tags": [
+          "Cart-購物車"
+        ],
+        "description": "使用優惠券",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "使用優惠券資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "coupon": {
+                  "type": "string",
+                  "example": "Discount10"
+                }
+              },
+              "required": [
+                "coupon"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "使用優惠券成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "使用優惠券成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "cart": {
+                      "type": "object",
+                      "properties": {
+                        "totalPrice": {
+                          "type": "number",
+                          "example": 90
                         }
                       }
                     }

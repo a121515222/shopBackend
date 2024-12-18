@@ -17,7 +17,6 @@ export function postUserProductSwagger(
       type: "Object",
       description: "商品資料",
       schema: {
-        $userId: "adfzcsdv565sadf",
         title: "apple",
         description: "juicy and delicious",
         price: 100,
@@ -389,7 +388,6 @@ export function putUserProductSwagger(
       type: "Object",
       description: "商品資料",
       schema: {
-        $userId: "adfzcsdv565sadf",
         title: "apple",
         description: "juicy and delicious",
         price: 100,
@@ -445,15 +443,6 @@ export function deleteUserProductSwagger(
       required: true,
       type: "string",
       description: "產品id",
-    }
-    *   #swagger.parameters['body'] = {
-      in: "body",
-      required: true,
-      type: "Object",
-      description: "商品資料",
-      schema: {
-        $userId: "adfzcsdv565sadf",
-      }
     }
     * #swagger.responses[200] = {
         description: '刪除商品',

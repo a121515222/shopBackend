@@ -161,7 +161,6 @@ export function updateUserArticleSwagger(
       type: "Object",
       description: "文章資料",
       schema: {
-        userId:"adfzcsdv565sadf",
         title: "apple",
         description: "juicy and delicious",
         imageUrl: "https://www.google.com",
@@ -205,16 +204,7 @@ export function deleteUserArticleSwagger(
       required: true,
       type: "string",
       description: "文章id",
-    }
-    *   #swagger.parameters['body'] = {
-      in: "body",
-      required: true,
-      type: "Object",
-      description: "文章資料",
-      schema: {
-        $userId: "adfzcsdv565sadf",
-      }
-    }  
+    } 
     * #swagger.responses[200] = {
         description: '刪除文章成功',
         schema: {

@@ -25,7 +25,7 @@ router.post(
   asyncErrorHandler(postUserProduct) as RequestHandler
 );
 router.get(
-  "/products/:userId",
+  "/products",
   getAllUserProductSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(getAllUserProducts) as RequestHandler

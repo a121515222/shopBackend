@@ -25,7 +25,7 @@ router.post(
   asyncErrorHandler(postUserArticle) as RequestHandler
 );
 router.get(
-  "/articles/:userId",
+  "/articles",
   getAllUserArticleSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(getAllUserArticles) as RequestHandler

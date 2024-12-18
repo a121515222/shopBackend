@@ -10,7 +10,7 @@ const postUserProduct = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.userId ?? req.body.userId;
+  const userId = req.headers.userId;
   const {
     title,
     description,
@@ -61,7 +61,7 @@ const getAllUserProducts = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.userId;
+  const userId = req.headers.userId;
   let page: number | undefined = req.query.page
     ? Number(req.query.page)
     : undefined;

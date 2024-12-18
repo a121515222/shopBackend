@@ -6,12 +6,15 @@ import {
   postUserAddCart,
   getUserCart,
   putUserCart,
-  deleteCart
+  deleteCart,
+  postCouponDiscount
 } from "@/controllers/cartController";
 import {
   postUserAddCartSwagger,
   getUserCartSwagger,
-  putUserCartSwagger
+  putUserCartSwagger,
+  deleteUserCartSwagger,
+  postCouponCartSwagger
 } from "@/swaggerConfig/cartSwagger";
 
 const router = Router();
@@ -33,5 +36,17 @@ router.put(
   putUserCartSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(putUserCart) as RequestHandler
+);
+router.delete(
+  "/cart",
+  deleteUserCartSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(deleteCart) as RequestHandler
+);
+router.post(
+  "/cartUsedCoupon",
+  postCouponCartSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(postCouponDiscount) as RequestHandler
 );
 export default router;

@@ -10,7 +10,7 @@ const postUserArticle = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.userId ?? req.body.userId;
+  const userId = req.headers.userId;
   const {
     title,
     description,
@@ -54,7 +54,7 @@ const getAllUserArticles = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.params.userId;
+  const userId = req.headers.userId;
   let page: number | undefined = req.query.page
     ? parseInt(req.query.page as string)
     : 1;
@@ -97,7 +97,7 @@ const updateUserArticle = async (
   next: NextFunction
 ): Promise<void> => {
   const articleId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.headers.userId;
   const {
     title,
     description,
@@ -161,7 +161,7 @@ const deleteUserArticle = async (
   next: NextFunction
 ): Promise<void> => {
   const articleId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.headers.userId;
   if (!articleId) {
     appErrorHandler(400, "缺少文章 id", next);
     return;

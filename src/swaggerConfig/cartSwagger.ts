@@ -18,7 +18,7 @@ export function postUserAddCartSwagger(
       description: "新增購物車資料",
       schema: {
         $productId: "123456",
-        quantity: 1
+        num: 1
       }
     }
     * #swagger.responses[201] = {
@@ -107,6 +107,68 @@ export function putUserCartSwagger(
         schema: {
           status: true,
           message: "更新購物車成功",
+          "data": {
+    "_id": "67615d0d9d1199301364380e",
+    "userId": "67405af5e85ca5d5551ed8a7",
+    "sellerId": "67405af5e85ca5d5551ed8a7",
+    "totalPrice": 340,
+    "productList": [
+      {
+        "productId": "674ecd448d091f0024c8a70a",
+        "num": 2,
+        "title": "orange",
+        "price": 100,
+        "discount": 90,
+        "imageUrl": "https://www.google.com",
+        "productSellPrice": 90,
+        "_id": "67615d0d9d1199301364380f"
+      },
+      {
+        "productId": "674ecdce8d091f0024c8a710",
+        "num": 2,
+        "title": "bnana",
+        "price": 100,
+        "discount": 80,
+        "imageUrl": "https://www.google.com",
+        "productSellPrice": 80,
+        "_id": "6761735d6a4a0a52b18fc601"
+      }
+    ],
+    "createdAt": "2024-12-17T11:14:21.781Z",
+    "updatedAt": "2024-12-18T05:43:45.469Z"
+  }
+      }      
+    }
+  */
+  next();
+}
+
+export function deleteUserCartSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  /**
+   * #swagger.tags = ["Cart-購物車"]
+   * #swagger.description = "刪除購物車"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+    * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "刪除購物車資料",
+      schema: {
+        $cartId:"12345655555",
+        $sellerId: "123"
+      }
+    }
+    * #swagger.responses[200] = {
+        description: '刪除購物車成功',
+        schema: {
+          status: true,
+          message: "刪除購物車成功",
           data: {
             cart: {
               productId: "123456",
@@ -116,5 +178,57 @@ export function putUserCartSwagger(
       }      
     }
   */
+  next();
+}
+
+export function postCouponCartSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  /**
+   * #swagger.tags = ["Cart-購物車"]
+   * #swagger.description = "使用優惠券"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+   * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "使用優惠券資料",
+      schema: {
+       $coupon:"Discount10",
+      }
+    }
+    * #swagger.responses[201] = {
+        description: '使用優惠券成功',
+        schema: {
+          status: true,
+          message: "使用優惠券成功",
+          "data": {
+    "_id": "67615d0d9d1199301364380e",
+    "userId": "67405af5e85ca5d5551ed8a7",
+    "sellerId": "67405af5e85ca5d5551ed8a7",
+    "totalPrice": 60,
+    "productList": [
+      {
+        "productId": "674ecdce8d091f0024c8a710",
+        "num": 2,
+        "title": "bnana",
+        "price": 100,
+        "discount": 80,
+        "imageUrl": "https://www.google.com",
+        "productSellPrice": 80,
+        "_id": "6761735d6a4a0a52b18fc601"
+      }
+    ],
+    "createdAt": "2024-12-17T11:14:21.781Z",
+    "updatedAt": "2024-12-18T08:21:57.563Z",
+    "isUsedCoupon": true
+  }
+      }      
+    }
+    */
   next();
 }

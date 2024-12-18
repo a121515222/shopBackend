@@ -215,6 +215,45 @@ const putUserCart = async (
     appErrorHandler(400, "缺少產品數量或產品數量不能為0", next);
     return;
   }
+  if (!num || num <= 0) {
+    appErrorHandler(400, "缺少產品數量或產品數量不能為0", next);
+    return;
+  }
+
+  // 查找當前商品信息
+  const cart = await Cart.findOne(
+    { _id: cartId, userId, "productList.productId": productId },
+    { "productList.$": 1, totalPrice: 1 }
+  );
+
+  if (!cart || !cart.productList || cart.productList.length === 0) {
+    appErrorHandler(404, "找不到商品", next);
+    return;
+  }
+
+  const productInCart = cart.productList[0];
+  const oldNum = productInCart.num; // 原有數量
+  const productSellPrice = productInCart.productSellPrice; // 單價
+
+  // 計算價格差異
+  const priceDifference = (num - oldNum) * productSellPrice;
+
+  // 更新購物車
+  const editCart = await Cart.findOneAndUpdate(
+    { _id: cartId, userId, "productList.productId": productId },
+    {
+      $set: { "productList.$.num": num },
+      $inc: { totalPrice: priceDifference }
+    },
+    { new: true }
+  );
+
+  if (!editCart) {
+    appErrorHandler(500, "更新購物車失敗", next);
+    return;
+  }
+
+  appSuccessHandler(200, "更新購物車成功", editCart, res);
 };
 const deleteProductFromCart = async (
   userId: string,
@@ -254,7 +293,8 @@ const deleteCart = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.headers.userId as string;
-  const cart = await Cart.findOneAndDelete({ userId });
+  const sellerId = req.body.sellerId;
+  const cart = await Cart.findOneAndDelete({ userId, sellerId });
   if (!cart) {
     appErrorHandler(404, "找不到購物車", next);
     return;
@@ -262,4 +302,71 @@ const deleteCart = async (
   appSuccessHandler(200, "刪除購物車成功", cart, res);
 };
 
-export { postUserAddCart, getUserCart, putUserCart, deleteCart };
+const postCouponDiscount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const couponCode = req.body.coupon;
+  const userId = req.headers.userId as string;
+
+  const couponData = await Coupon.findOne({ code: couponCode });
+  if (!couponData) {
+    appErrorHandler(404, "找不到優惠券", next);
+    return;
+  }
+  if (couponData.couponNum <= 0 || !couponData.isPublic) {
+    appErrorHandler(400, "優惠券已無法使用", next);
+    return;
+  }
+  if (couponData.expireDate < new Date()) {
+    appErrorHandler(400, "優惠券已過期", next);
+    return;
+  }
+  const sellerId = couponData.userId;
+  const discount = couponData.discount;
+  const cartInfo = await Cart.findOne({ userId, sellerId }).select(
+    "totalPrice isUsedCoupon"
+  );
+  if (!cartInfo) {
+    appErrorHandler(404, "找不到購物車", next);
+    return;
+  }
+  if (cartInfo.isUsedCoupon) {
+    appErrorHandler(400, "此購物車已使用過優惠券", next);
+    return;
+  }
+  if (cartInfo.totalPrice < discount) {
+    appErrorHandler(400, "購物車金額小於折扣金額", next);
+    return;
+  }
+  // 更新優惠券使用次數
+  const updatedCoupon = await Coupon.findOneAndUpdate(
+    { code: couponCode },
+    { $inc: { couponNum: -1 } }, // 使用 $inc 來減少數量
+    { new: true }
+  );
+
+  if (!updatedCoupon) {
+    appErrorHandler(500, "更新優惠券失敗", next);
+    return;
+  }
+  const usedCouponCart = await Cart.findOneAndUpdate(
+    { userId, sellerId },
+    { isUsedCoupon: true, $inc: { totalPrice: -discount } },
+    { new: true }
+  );
+  if (!usedCouponCart) {
+    appErrorHandler(500, "使用優惠券失敗", next);
+    return;
+  }
+  appSuccessHandler(200, "使用優惠券成功", usedCouponCart, res);
+};
+
+export {
+  postUserAddCart,
+  getUserCart,
+  putUserCart,
+  deleteCart,
+  postCouponDiscount
+};

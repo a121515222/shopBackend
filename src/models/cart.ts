@@ -14,12 +14,14 @@ interface CartSchema {
   sellerId: Types.ObjectId;
   totalPrice: number;
   productList: ProductCartType[];
+  isUsedCoupon: boolean;
 }
 const cartSchema = new Schema<CartSchema>(
   {
     userId: { type: Schema.Types.ObjectId, required: true },
     sellerId: { type: Schema.Types.ObjectId, required: true },
     totalPrice: { type: Number, default: 0 },
+    isUsedCoupon: { type: Boolean, default: false },
     productList: {
       type: [
         new Schema<ProductCartType>({

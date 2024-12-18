@@ -32,7 +32,6 @@ export function createCouponSwagger(
           message: "新增優惠券成功",
           data: {
             coupon: {
-              "userId": "67405af5e85ca5d5551ed8a7",
              "code": "Discount100",
              "discount": 100,
               "expireDate": "2022-12-31T00:00:00.000Z",
@@ -195,14 +194,58 @@ export function deleteCouponSwagger(
           data: {
             coupon: {
               "_id": "676135f0da5b7da44f86ec9f",
-    "userId": "67405af5e85ca5d5551ed8a7",
-    "code": "Discount10",
-    "discount": 10,
-    "expireDate": "2022-12-31T00:00:00.000Z",
-    "isPublic": true,
-    "couponNum": 10000,
-    "createdAt": "2024-12-17T08:27:28.832Z",
-    "updatedAt": "2024-12-17T09:48:33.019Z"
+              "userId": "67405af5e85ca5d5551ed8a7",
+              "code": "Discount10",
+              "discount": 10,
+              "expireDate": "2022-12-31T00:00:00.000Z",
+              "isPublic": true,
+              "couponNum": 10000,
+              "createdAt": "2024-12-17T08:27:28.832Z",
+              "updatedAt": "2024-12-17T09:48:33.019Z"
+            }
+          }
+        }
+      }
+  */
+  next();
+}
+
+export function postCouponDiscountSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  /**
+   * #swagger.tags = ["Coupon-優惠券"]
+   * #swagger.description = "使用優惠券"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+   * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "使用優惠券資料",
+      schema: {
+        $couponCode: "Discount100"
+      }
+    }
+    * #swagger.responses[200] = {
+        description: '使用優惠券成功',
+        schema: {
+          status: true,
+          message: "使用優惠券成功",
+          data: {
+            coupon: {
+              "_id": "676135f0da5b7d452386ec9f",
+              "userId": "67405af5e85ca5d5551ed8a7",
+              "code": "Discount100",
+              "discount": 100,
+              "expireDate": "2022-12-31T00:00:00.000Z",
+              "isPublic": true,
+              "couponNum": 9999,
+              "createdAt": "2024-12-17T08:27:28.832Z",
+              "updatedAt": "2024-12-17T08:27:28.832Z"
             }
           }
         }
