@@ -31,19 +31,19 @@ router.get(
   asyncErrorHandler(getUserCreateCoupon) as RequestHandler
 );
 router.get(
-  "/couponById/:couponId",
+  "/coupon/:couponId",
   getCouponByIdSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(getCouponById) as RequestHandler
 );
 router.put(
-  "/couponById/:couponId",
+  "/coupon/:couponId",
   putUserCouponSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(putUserCoupon) as RequestHandler
 );
 router.delete(
-  "/couponById/:couponId",
+  "/coupon/:couponId",
   deleteCouponSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(deleteCoupon) as RequestHandler

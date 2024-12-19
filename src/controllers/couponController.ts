@@ -10,7 +10,7 @@ const createCoupon = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { discount, code, expireDate, isPublic, couponNum } = req.body;
+  const { discount, code, expireDate, isPublic, couponNum, title } = req.body;
   const userId = req.headers.userId;
   const missingFields = checkMissingFields({
     discount,
@@ -23,7 +23,13 @@ const createCoupon = async (
     appErrorHandler(400, missingFieldsMsg, next);
     return;
   }
+  const coupon = await Coupon.findOne({ userId, code });
+  if (coupon) {
+    appErrorHandler(400, "優惠碼已存在", next);
+    return;
+  }
   const newCoupon = await Coupon.create({
+    title,
     userId,
     discount,
     code,
@@ -79,8 +85,9 @@ const putUserCoupon = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const userId = req.headers.userId;
   const couponId = req.params.couponId;
-  const { discount, code, expireDate, isPublic, couponNum } = req.body;
+  const { discount, code, expireDate, isPublic, couponNum, title } = req.body;
   const updateCouponData: Partial<CouponSchema> = {};
   if (discount) {
     if (discount <= 0) {
@@ -89,20 +96,29 @@ const putUserCoupon = async (
     }
     updateCouponData.discount = discount;
   }
+  if (title) {
+    updateCouponData.title = title;
+  }
   if (code) {
+    // 檢查是否有重複的優惠碼, 且不是所要更新的優惠碼
+    const coupon = await Coupon.findOne({ userId, code }).select("_id");
+    if (coupon && coupon._id.toString() !== couponId) {
+      appErrorHandler(400, "優惠碼已存在", next);
+      return;
+    }
     updateCouponData.code = code;
   }
   if (expireDate) {
     updateCouponData.expireDate = new Date(expireDate);
   }
-  if (isPublic) {
+  if (typeof isPublic === "boolean") {
     updateCouponData.isPublic = isPublic;
   }
   if (couponNum) {
     updateCouponData.couponNum = couponNum;
   }
-  const updateCoupon = await Coupon.findByIdAndUpdate(
-    couponId,
+  const updateCoupon = await Coupon.findOneAndUpdate(
+    { _id: couponId, userId },
     updateCouponData,
     { new: true }
   );
