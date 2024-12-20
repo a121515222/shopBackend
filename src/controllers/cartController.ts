@@ -292,8 +292,8 @@ const deleteCart = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.headers.userId as string;
-  const sellerId = req.body.sellerId;
-  const cart = await Cart.findOneAndDelete({ userId, sellerId });
+  const _id = req.params.cartId;
+  const cart = await Cart.findOneAndDelete({ userId, _id });
   if (!cart) {
     appErrorHandler(404, "找不到購物車", next);
     return;

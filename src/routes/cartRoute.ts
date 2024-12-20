@@ -38,7 +38,7 @@ router.put(
   asyncErrorHandler(putUserCart) as RequestHandler
 );
 router.delete(
-  "/cart",
+  "/cart/:cartId",
   deleteUserCartSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(deleteCart) as RequestHandler
