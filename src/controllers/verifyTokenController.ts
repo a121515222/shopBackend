@@ -37,6 +37,7 @@ const verifyMailToken = async (
         },
         { new: true }
       ).select("-password, -verifyToken");
+
       appSuccessHandler(200, "驗證成功", result, res);
     }
   } catch (error) {

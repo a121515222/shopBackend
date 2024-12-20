@@ -65,12 +65,6 @@ export function getAllUserProductSwagger(
    * #swagger.security = [{
       "apiKeyAuth":[]
       }]
-   * #swagger.parameters["userId"] = {
-      in: "path",
-      required: true,
-      type: "string",
-      description: "使用者id",
-    }
    * #swagger.parameters["page"] = {
        in: "query",
        required: false,

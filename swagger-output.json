@@ -936,13 +936,6 @@
         "description": "取得商品資料",
         "parameters": [
           {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "使用者id"
-          },
-          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -2103,10 +2096,6 @@
                     "coupon": {
                       "type": "object",
                       "properties": {
-                        "userId": {
-                          "type": "string",
-                          "example": "67405af5e85ca5d5551ed8a7"
-                        },
                         "code": {
                           "type": "string",
                           "example": "Discount100"
@@ -2228,7 +2217,7 @@
         ]
       }
     },
-    "/api/v1/couponById/{couponId}": {
+    "/api/v1/coupon/{couponId}": {
       "get": {
         "tags": [
           "Coupon-優惠券"
@@ -2521,7 +2510,7 @@
                   "type": "string",
                   "example": "123456"
                 },
-                "quantity": {
+                "num": {
                   "type": "number",
                   "example": 1
                 }
@@ -2555,6 +2544,10 @@
                         "productId": {
                           "type": "string",
                           "example": "123456"
+                        },
+                        "sellerId": {
+                          "type": "string",
+                          "example": "123"
                         },
                         "num": {
                           "type": "number",
@@ -2652,6 +2645,14 @@
                                 "productSellPrice": {
                                   "type": "number",
                                   "example": 100
+                                },
+                                "isUsedCoupon": {
+                                  "type": "boolean",
+                                  "example": false
+                                },
+                                "discountPriceWhitCoupon": {
+                                  "type": "number",
+                                  "example": 0
                                 }
                               }
                             }
@@ -2746,6 +2747,14 @@
                     "totalPrice": {
                       "type": "number",
                       "example": 340
+                    },
+                    "isUsedCoupon": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "discountPriceWhitCoupon": {
+                      "type": "number",
+                      "example": 0
                     },
                     "productList": {
                       "type": "array",
@@ -2929,14 +2938,77 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "cart": {
-                      "type": "object",
-                      "properties": {
-                        "totalPrice": {
-                          "type": "number",
-                          "example": 90
+                    "_id": {
+                      "type": "string",
+                      "example": "67615d0d9d1199301364380e"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 60
+                    },
+                    "isUsedCoupon": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "discountPriceWhitCoupon": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecdce8d091f0024c8a710"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "bnana"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 80
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 80
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "6761735d6a4a0a52b18fc601"
+                          }
                         }
                       }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-17T11:14:21.781Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024-12-18T08:21:57.563Z"
                     }
                   }
                 }

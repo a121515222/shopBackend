@@ -15,6 +15,7 @@ interface CartSchema {
   totalPrice: number;
   productList: ProductCartType[];
   isUsedCoupon: boolean;
+  discountPriceWhitCoupon: number;
 }
 const cartSchema = new Schema<CartSchema>(
   {
@@ -22,6 +23,7 @@ const cartSchema = new Schema<CartSchema>(
     sellerId: { type: Schema.Types.ObjectId, required: true },
     totalPrice: { type: Number, default: 0 },
     isUsedCoupon: { type: Boolean, default: false },
+    discountPriceWhitCoupon: { type: Number, default: 0 },
     productList: {
       type: [
         new Schema<ProductCartType>({

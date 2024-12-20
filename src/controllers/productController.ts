@@ -79,6 +79,7 @@ const getAllUserProducts = async (
     .skip((page - 1) * limit)
     .limit(limit);
   const getTotal = await Product.find({ userId: userId }).countDocuments();
+
   const [products, totalCount] = await Promise.all([findProductById, getTotal]);
   const pagination = handlePagination(page, limit, totalCount);
   appSuccessHandler(200, "查詢成功", { products, pagination }, res);

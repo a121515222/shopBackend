@@ -225,7 +225,6 @@ const putUserCart = async (
     { _id: cartId, userId, "productList.productId": productId },
     { "productList.$": 1, totalPrice: 1 }
   );
-
   if (!cart || !cart.productList || cart.productList.length === 0) {
     appErrorHandler(404, "找不到商品", next);
     return;
@@ -353,7 +352,11 @@ const postCouponDiscount = async (
   }
   const usedCouponCart = await Cart.findOneAndUpdate(
     { userId, sellerId },
-    { isUsedCoupon: true, $inc: { totalPrice: -discount } },
+    {
+      isUsedCoupon: true,
+
+      $inc: { totalPrice: -discount, discountPriceWhitCoupon: discount }
+    },
     { new: true }
   );
   if (!usedCouponCart) {

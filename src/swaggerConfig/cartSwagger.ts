@@ -29,6 +29,7 @@ export function postUserAddCartSwagger(
           data: {
             cart: {
               productId: "123456",
+              sellerId: "123",
               num: 1
             }
           }
@@ -69,6 +70,8 @@ export function getUserCartSwagger(
                 num: 1,
                 unit: "kg",
                 productSellPrice: 100,
+                isUsedCoupon: false,
+                discountPriceWhitCoupon: 0
               }
             ],}
            ]
@@ -112,6 +115,8 @@ export function putUserCartSwagger(
     "userId": "67405af5e85ca5d5551ed8a7",
     "sellerId": "67405af5e85ca5d5551ed8a7",
     "totalPrice": 340,
+    isUsedCoupon: false,
+    discountPriceWhitCoupon: 0,
     "productList": [
       {
         "productId": "674ecd448d091f0024c8a70a",
@@ -211,6 +216,8 @@ export function postCouponCartSwagger(
     "userId": "67405af5e85ca5d5551ed8a7",
     "sellerId": "67405af5e85ca5d5551ed8a7",
     "totalPrice": 60,
+    isUsedCoupon: false,
+    discountPriceWhitCoupon: 0,
     "productList": [
       {
         "productId": "674ecdce8d091f0024c8a710",
