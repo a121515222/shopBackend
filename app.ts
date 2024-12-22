@@ -19,11 +19,12 @@ import couponRoute from "@/routes/couponRoute";
 import cartRoute from "@/routes/cartRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
-
+import googleService from "@/services/google";
 const app = express();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const port = process.env.PORT || 8086;
-
+// 建立google auth
+googleService.setupAuth(app);
 app.use(cors(corsOptions));
 /* 未捕捉的 Error */
 process.on("uncaughtException", (err: Error) => {
@@ -49,6 +50,7 @@ app.use("/api/v1", imageUploadRoute);
 app.use("/api/v1", articleRoute);
 app.use("/api/v1", couponRoute);
 app.use("/api/v1", cartRoute);
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

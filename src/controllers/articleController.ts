@@ -130,11 +130,9 @@ const updateUserArticle = async (
   }
   if (author) {
     updateArticle.author = author;
-    console.log("author", updateArticle.author);
   }
   if (articleDate) {
     updateArticle.articleDate = new Date(articleDate);
-    console.log("articleDate", updateArticle.articleDate);
   }
   if (typeof isPublic === "boolean") {
     updateArticle.isPublic = isPublic;

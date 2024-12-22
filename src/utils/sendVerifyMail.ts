@@ -154,4 +154,3 @@ const sendVerificationEmail = async (
 };
 export { sendVerificationEmail };
 // 測試發送郵件
-// sendVerificationEmail("recipient-email@example.com", "123456");

@@ -4,7 +4,7 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import jwt from "jsonwebtoken";
 import { User } from "@/models/user";
 import { generateVerificationCode } from "@/utils/generateVerifyCode";
-import { sendVerificationEmail } from "@/utils/sendVerifyMail";
+import googleService from "@/services/google";
 // 驗證驗證碼
 const verifyMailToken = async (
   req: Request,
@@ -94,14 +94,13 @@ const handleSendVerifyToken = async (
   const email = user.email;
   const id = user._id.toString();
   const verifyToken = await generateVerificationCode(id);
-  const sendMailResult = await sendVerificationEmail(
+
+  const sendMailResult = await googleService.sendMail(
     email,
-    {
-      id,
-      verifyToken
-    },
+    { id, verifyToken },
     user.isVerify
   );
+
   if (sendMailResult) {
     appSuccessHandler(
       201,

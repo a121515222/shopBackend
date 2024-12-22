@@ -10,6 +10,7 @@ import {
 import { signUpSwagger } from "@/swaggerConfig/signInSwagger";
 import { logInSwagger, logOutSwagger } from "@/swaggerConfig/logInSwagger";
 import { checkLogIn } from "@/middlewares/auth";
+import googleService from "@/services/google";
 const router = Router();
 
 router.post("/logIn", logInSwagger, asyncErrorHandler(login) as RequestHandler);
@@ -28,6 +29,15 @@ router.post(
   "/logInCheck",
   checkLogIn as Handler,
   asyncErrorHandler(loginCheckResponse) as RequestHandler
+);
+
+router.get(
+  "/google",
+  asyncErrorHandler(googleService.googleAuthenticate) as RequestHandler
+);
+router.get(
+  "/google/callback",
+  asyncErrorHandler(googleService.googleCallback) as RequestHandler
 );
 
 export default router;
