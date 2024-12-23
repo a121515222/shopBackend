@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import connectMongoDB from "@/services/mongo";
 import globalErrorHandler from "@/utils/globalErrorHandler";
 import swaggerUI from "swagger-ui-express";

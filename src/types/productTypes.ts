@@ -15,3 +15,14 @@ export interface ProductType {
   productStatus: number;
   num: number;
 }
+
+export interface ProductCartType {
+  productId: string;
+  title: string;
+  price: number;
+  discount: number;
+  imageUrl: string;
+  unit: string;
+  num: number;
+  productSellPrice: number;
+}

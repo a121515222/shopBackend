@@ -1,14 +1,6 @@
 import { Schema, model, type Types } from "mongoose";
-interface ProductCartType {
-  productId: string;
-  title: string;
-  price: number;
-  discount: number;
-  imageUrl: string;
-  unit: string;
-  num: number;
-  productSellPrice: number;
-}
+import type { ProductCartType } from "@/types/productTypes";
+
 interface CartSchema {
   userId: Types.ObjectId;
   sellerId: Types.ObjectId;
@@ -45,4 +37,4 @@ const cartSchema = new Schema<CartSchema>(
 
 const Cart = model<CartSchema>("Cart", cartSchema);
 
-export { Cart, CartSchema };
+export { Cart, type CartSchema };

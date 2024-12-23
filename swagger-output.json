@@ -280,6 +280,26 @@
         }
       }
     },
+    "/api/v1/google": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/google/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/v1/admin/user/{userId}": {
       "get": {
         "tags": [
@@ -2818,13 +2838,21 @@
             "apiKeyAuth": []
           }
         ]
-      },
+      }
+    },
+    "/api/v1/cart/{cartId}": {
       "delete": {
         "tags": [
           "Cart-購物車"
         ],
         "description": "刪除購物車",
         "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
