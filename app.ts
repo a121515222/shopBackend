@@ -17,6 +17,7 @@ import productRoute from "@/routes/productRoute";
 import articleRoute from "@/routes/articleRoute";
 import couponRoute from "@/routes/couponRoute";
 import cartRoute from "@/routes/cartRoute";
+import orderRoute from "@/routes/orderRoute";
 import cors from "cors";
 import { corsOptions } from "./cors/corsOptions";
 import googleService from "@/services/google";
@@ -50,7 +51,7 @@ app.use("/api/v1", imageUploadRoute);
 app.use("/api/v1", articleRoute);
 app.use("/api/v1", couponRoute);
 app.use("/api/v1", cartRoute);
-
+app.use("/api/v1", orderRoute);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

@@ -18,6 +18,7 @@ export function postUserAddCartSwagger(
       description: "新增購物車資料",
       schema: {
         $productId: "123456",
+        $sellerId: "123",
         num: 1
       }
     }

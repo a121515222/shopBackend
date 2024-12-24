@@ -1,7 +1,8 @@
 import { Schema, model, type Types } from "mongoose";
 interface IUserSchema {
   email: string;
-  tel?: string;
+  tel: string;
+  name: string;
   password: string;
   createdAt: Date;
   updatedAt: Date;
@@ -20,7 +21,7 @@ interface IUserSchema {
 const userSchema = new Schema<IUserSchema>(
   {
     email: { type: String, required: true, unique: true },
-    tel: { type: String, default: "" },
+    tel: { type: String, default: "", require: true },
     address: { type: String, default: "" },
     password: { type: String, required: true },
     username: { type: String, required: true },

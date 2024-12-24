@@ -6,6 +6,7 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import { handlePagination } from "@/utils/paginationHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
+import mongoose from "mongoose";
 const buyerAddOrder = async (
   req: Request,
   res: Response,
@@ -13,10 +14,8 @@ const buyerAddOrder = async (
 ): Promise<void> => {
   const userId = req.headers.userId as string;
   const { sellerId, cartId, address, tel } = req.body;
-
   const missingFields = checkMissingFields({
     sellerId,
-    userId,
     cartId,
     address,
     tel
@@ -27,13 +26,14 @@ const buyerAddOrder = async (
     return;
   }
   const cart = await Cart.findOne({ _id: cartId, userId }).select(
-    "productList, totalPrice"
+    " productList totalPrice"
   );
   if (!cart) {
     appErrorHandler(400, "找不到此購物車", next);
     return;
   }
   const { productList, totalPrice } = cart;
+  console.log("cart", cart);
   const order = await Order.create({
     buyerId: userId,
     sellerId,
@@ -41,8 +41,11 @@ const buyerAddOrder = async (
     totalPrice,
     productList,
     status: "unpaid",
+    address,
+    tel,
     orderDate: new Date()
   });
+  console.log("order", order);
   const productBulkOperate = productList.map((item) => {
     return {
       updateOne: {
@@ -72,7 +75,7 @@ const buyerEditOrder = async (
   if (address) {
   }
   const updatedOrder = await Order.findOneAndUpdate(
-    { _id: orderId, userId },
+    { _id: orderId, buyerId: userId },
     { address, tel },
     { new: true }
   );
@@ -158,9 +161,8 @@ const buyerGetOrderList = async (
 
   const totalCount = await Order.countDocuments({ buyerId: userId });
   const pagination = handlePagination(page, limit, totalCount);
-
   const orderList = await Order.aggregate([
-    { $match: { userId } }, // 匹配條件
+    { $match: { buyerId: new mongoose.Types.ObjectId(userId) } }, // 匹配條件在aggregate中要確認是不是ObjectId
     { $skip: skip }, // 跳過指定數量的文檔（分頁）
     { $limit: limit }, // 限制返回的文檔數量
     {
@@ -179,8 +181,9 @@ const buyerGetOrderList = async (
         _id: 1, // 保留訂單的 `_id`
         userId: 1, // 保留用戶 ID
         sellerId: 1, // 保留賣家 ID
-        "sellerInfo.name": 1, // 包含賣家的 `name`
-        "sellerInfo.tel": 1 // 包含賣家的 `tel`
+        "sellerInfo.username": 1, // 包含賣家的 `userName`
+        "sellerInfo.tel": 1, // 包含賣家的 `tel`
+        "sellerInfo.email": 1 // 包含賣家的 `email`
       }
     }
   ]);
@@ -209,9 +212,10 @@ const sellerGetOrderList = async (
   limit = limit || 10;
   const skip = (page - 1) * limit;
 
-  const totalCount = await Order.countDocuments({ buyerId: userId });
+  const totalCount = await Order.countDocuments({ sellerId: userId });
+  const pagination = handlePagination(page, limit, totalCount);
   const orderList = await Order.aggregate([
-    { $match: { userId } }, // 匹配條件
+    { $match: { sellerId: new mongoose.Types.ObjectId(userId) } }, // 匹配條件在aggregate中要確認是不是ObjectId
     { $skip: skip }, // 跳過指定數量的文檔（分頁）
     { $limit: limit }, // 限制返回的文檔數量
     {
@@ -236,9 +240,10 @@ const sellerGetOrderList = async (
         _id: 1, // 保留訂單的 `_id`
         userId: 1, // 保留用戶 ID
         sellerId: 1, // 保留賣家 ID
-        "buyerInfo.name": 1, // 包含買家的 `name`
+        "buyerInfo.username": 1, // 包含買家的 `name`
         "buyerInfo.tel": 1, // 包含訂單內的 `tel`
-        "buyerInfo.address": 1 // 包含訂單內的 `address`
+        "buyerInfo.address": 1, // 包含訂單內的 `address`
+        "buyerInfo.email": 1 // 包含買家的 `email`
       }
     }
   ]);
@@ -246,7 +251,7 @@ const sellerGetOrderList = async (
     appErrorHandler(400, "找不到訂單", next);
     return;
   } else {
-    appSuccessHandler(200, "取得訂單成功", { orderList, totalCount }, res);
+    appSuccessHandler(200, "取得訂單成功", { orderList, pagination }, res);
   }
 };
 
