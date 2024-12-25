@@ -11,7 +11,6 @@ interface OrderSchema {
   status: string;
   address: string;
   tel: string;
-  orderDate: Date | string | number;
   paidDate: Date | string | number | null;
 }
 const orderStatus = [
@@ -30,7 +29,6 @@ const orderSchema = new Schema<OrderSchema>(
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
     status: { type: String, required: true },
-    orderDate: { type: Date, required: true },
     paidDate: { type: Date, default: null },
     address: { type: String, required: true },
     tel: { type: String, required: true },

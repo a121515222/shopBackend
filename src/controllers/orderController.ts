@@ -33,7 +33,6 @@ const buyerAddOrder = async (
     return;
   }
   const { productList, totalPrice } = cart;
-  console.log("cart", cart);
   const order = await Order.create({
     buyerId: userId,
     sellerId,
@@ -42,8 +41,7 @@ const buyerAddOrder = async (
     productList,
     status: "unpaid",
     address,
-    tel,
-    orderDate: new Date()
+    tel
   });
   console.log("order", order);
   const productBulkOperate = productList.map((item) => {
