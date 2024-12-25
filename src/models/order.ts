@@ -6,11 +6,13 @@ interface OrderSchema {
   sellerId: Types.ObjectId;
   cartId: Types.ObjectId;
   productList: ProductCartType[];
+  isPaid: boolean;
   totalPrice: number;
   status: string;
   address: string;
   tel: string;
   orderDate: Date | string | number;
+  paidDate: Date | string | number | null;
 }
 const orderStatus = [
   "unpaid",
@@ -26,8 +28,10 @@ const orderSchema = new Schema<OrderSchema>(
     sellerId: { type: Schema.Types.ObjectId, required: true },
     cartId: { type: Schema.Types.ObjectId, required: true },
     totalPrice: { type: Number, required: true },
+    isPaid: { type: Boolean, default: false },
     status: { type: String, required: true },
     orderDate: { type: Date, required: true },
+    paidDate: { type: Date, default: null },
     address: { type: String, required: true },
     tel: { type: String, required: true },
     productList: {

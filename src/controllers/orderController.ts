@@ -181,6 +181,11 @@ const buyerGetOrderList = async (
         _id: 1, // 保留訂單的 `_id`
         userId: 1, // 保留用戶 ID
         sellerId: 1, // 保留賣家 ID
+        productList: 1, // 保留訂單內的 `productList`
+        createdAt: 1, // 保留訂單的 `createdAt`
+        paidDate: 1, // 保留訂單的 `paidDate`
+        status: 1, // 保留訂單的 `status`
+        isPaid: 1, // 保留訂單的 `isPaid`
         "sellerInfo.username": 1, // 包含賣家的 `userName`
         "sellerInfo.tel": 1, // 包含賣家的 `tel`
         "sellerInfo.email": 1 // 包含賣家的 `email`
@@ -240,6 +245,11 @@ const sellerGetOrderList = async (
         _id: 1, // 保留訂單的 `_id`
         userId: 1, // 保留用戶 ID
         sellerId: 1, // 保留賣家 ID
+        productList: 1, // 保留訂單內的 `productList`
+        createdAt: 1, // 保留訂單的 `createdAt`
+        paidDate: 1, // 保留訂單的 `paidDate`
+        status: 1, // 保留訂單的 `status`
+        isPaid: 1, // 保留訂單的 `isPaid`
         "buyerInfo.username": 1, // 包含買家的 `name`
         "buyerInfo.tel": 1, // 包含訂單內的 `tel`
         "buyerInfo.address": 1, // 包含訂單內的 `address`
