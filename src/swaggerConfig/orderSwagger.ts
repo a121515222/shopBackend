@@ -250,6 +250,59 @@ export function buyerGetOrderListSwagger(
   next();
 }
 
+export function buyerGetOrderSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["Order-訂單"]
+   * #swagger.description = "取得訂單"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+   * #swagger.parameters['orderId'] = {
+      in: "path",
+      required: true,
+      type: "string",
+      description: "訂單 ID"
+    }
+    * #swagger.responses[200] = {
+        description: '取得訂單成功',
+        schema: {
+          status: true,
+          message: "取得訂單成功",
+          data: {
+           "_id": "676a59c8752d68bc1a3b5d51",
+            "buyerId": "67405af5e85ca5d5551ed8a7",
+            "sellerId": "67405af5e85ca5d5551ed8a7",
+            "cartId": "676a59ae752d68bc1a3b5d45",
+            "totalPrice": 180,
+            "status": "unpaid",
+            "orderDate": "2024-12-24T06:50:48.594Z",
+            "address": "台北市信義區",
+            "tel": "0912345678",
+            "productList": [
+       {
+        "productId": "674ecd448d091f0024c8a70a",
+        "num": 2,
+        "title": "orange",
+        "price": 100,
+        "discount": 90,
+        "imageUrl": "https://www.google.com",
+        "productSellPrice": 90,
+        "_id": "676a59ae752d68bc1a3b5d46"
+      }
+    ],
+        "createdAt": "2024-12-24T06:50:48.597Z",
+        "updatedAt": "2024-12-24T06:50:48.597Z"
+          }
+      }      
+    }     
+   */
+  next();
+}
+
 export function sellerGetOrderListSwagger(
   req: Request,
   res: Response,

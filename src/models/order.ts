@@ -11,7 +11,10 @@ interface OrderSchema {
   status: string;
   address: string;
   tel: string;
+  username: string;
+  email: string;
   paidDate: Date | string | number | null;
+  buyerMessage: string;
 }
 const orderStatus = [
   "unpaid",
@@ -31,7 +34,10 @@ const orderSchema = new Schema<OrderSchema>(
     status: { type: String, required: true },
     paidDate: { type: Date, default: null },
     address: { type: String, required: true },
+    username: { type: String, required: true },
+    email: { type: String, required: true },
     tel: { type: String, required: true },
+    buyerMessage: { type: String, default: "" },
     productList: {
       type: [
         new Schema<ProductCartType>({

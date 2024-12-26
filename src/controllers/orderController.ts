@@ -13,12 +13,16 @@ const buyerAddOrder = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.headers.userId as string;
-  const { sellerId, cartId, address, tel } = req.body;
+  const { sellerId, cartId, address, tel, email, username, buyerMessage } =
+    req.body;
+  console.log("addOrder", req.body);
   const missingFields = checkMissingFields({
     sellerId,
     cartId,
     address,
-    tel
+    tel,
+    email,
+    username
   });
 
   if (missingFields.length > 0) {
@@ -41,9 +45,11 @@ const buyerAddOrder = async (
     productList,
     status: "unpaid",
     address,
-    tel
+    tel,
+    email,
+    username,
+    buyerMessage
   });
-  console.log("order", order);
   const productBulkOperate = productList.map((item) => {
     return {
       updateOne: {
@@ -69,12 +75,12 @@ const buyerEditOrder = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.headers.userId as string;
-  const { orderId, address, tel } = req.body;
+  const { orderId, address, tel, buyerMessage } = req.body;
   if (address) {
   }
   const updatedOrder = await Order.findOneAndUpdate(
     { _id: orderId, buyerId: userId },
-    { address, tel },
+    { address, tel, buyerMessage },
     { new: true }
   );
   if (!updatedOrder) {
@@ -84,7 +90,10 @@ const buyerEditOrder = async (
     appSuccessHandler(200, "更新訂單成功", updatedOrder, res);
   }
 };
-
+interface sellerEditOrder {
+  status: string;
+  isPaid?: boolean;
+}
 const sellerEditOrder = async (
   req: Request,
   res: Response,
@@ -92,10 +101,16 @@ const sellerEditOrder = async (
 ): Promise<void> => {
   const sellerId = req.headers.userId as string;
   const { orderId, status } = req.body;
-
+  const updateData: sellerEditOrder = { status };
+  if (status === "paid") {
+    updateData.isPaid = true;
+  }
+  if (status === "unpaid") {
+    updateData.isPaid = false;
+  }
   const updatedOrder = await Order.findOneAndUpdate(
     { _id: orderId, sellerId },
-    { status },
+    updateData,
     { new: true }
   );
   if (!updatedOrder) {
@@ -184,6 +199,8 @@ const buyerGetOrderList = async (
         paidDate: 1, // 保留訂單的 `paidDate`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
+        totalPrice: 1, // 保留訂單的 `totalPrice`
+        buyerMessage: 1, // 保留訂單的 `buyerMessage`
         "sellerInfo.username": 1, // 包含賣家的 `userName`
         "sellerInfo.tel": 1, // 包含賣家的 `tel`
         "sellerInfo.email": 1 // 包含賣家的 `email`
@@ -196,6 +213,51 @@ const buyerGetOrderList = async (
     return;
   } else {
     appSuccessHandler(200, "取得訂單列表成功", { orderList, pagination }, res);
+  }
+};
+
+const buyerGetOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = req.headers.userId as string;
+  const orderId = req.params.orderId;
+  const order = await Order.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(orderId), buyerId: userId } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "sellerId",
+        foreignField: "_id",
+        as: "sellerInfo"
+      }
+    },
+    {
+      $unwind: "$sellerInfo"
+    },
+    {
+      $project: {
+        _id: 1,
+        userId: 1,
+        sellerId: 1,
+        productList: 1,
+        createdAt: 1,
+        paidDate: 1,
+        status: 1,
+        isPaid: 1,
+        totalPrice: 1,
+        "sellerInfo.username": 1,
+        "sellerInfo.tel": 1,
+        "sellerInfo.email": 1
+      }
+    }
+  ]);
+  if (!order) {
+    appErrorHandler(400, "找不到訂單", next);
+    return;
+  } else {
+    appSuccessHandler(200, "取得訂單成功", order, res);
   }
 };
 
@@ -235,7 +297,9 @@ const sellerGetOrderList = async (
     {
       $addFields: {
         "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
-        "buyerInfo.tel": "$tel" // 將訂單內的 `tel` 添加到 `buyerInfo` 中
+        "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
+        "buyerInfo.email": "$email", // 將訂單內的 `email` 添加到 `buyerInfo` 中
+        "buyerInfo.username": "$username" // 將訂單內的 `username` 添加到 `buyerInfo` 中
       }
     },
     {
@@ -248,6 +312,8 @@ const sellerGetOrderList = async (
         paidDate: 1, // 保留訂單的 `paidDate`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
+        totalPrice: 1, // 保留訂單的 `totalPrice`
+        buyerMessage: 1, // 保留訂單的 `buyerMessage`
         "buyerInfo.username": 1, // 包含買家的 `name`
         "buyerInfo.tel": 1, // 包含訂單內的 `tel`
         "buyerInfo.address": 1, // 包含訂單內的 `address`
@@ -269,5 +335,6 @@ export {
   sellerEditOrder,
   buyerDeleteOrder,
   buyerGetOrderList,
+  buyerGetOrder,
   sellerGetOrderList
 };

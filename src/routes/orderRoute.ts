@@ -8,6 +8,7 @@ import {
   sellerEditOrder,
   buyerDeleteOrder,
   buyerGetOrderList,
+  buyerGetOrder,
   sellerGetOrderList
 } from "@/controllers/orderController";
 import {
@@ -16,6 +17,7 @@ import {
   sellerEditOrderSwagger,
   buyerDeleteOrderSwagger,
   buyerGetOrderListSwagger,
+  buyerGetOrderSwagger,
   sellerGetOrderListSwagger
 } from "@/swaggerConfig/orderSwagger";
 
@@ -23,43 +25,48 @@ const router = Router();
 
 router.post(
   "/buyerAddOrder",
-  checkLogIn as Handler,
   buyerAddOrderSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(buyerAddOrder) as RequestHandler
 );
 
 router.put(
   "/buyerEditOrder",
-  checkLogIn as Handler,
   buyerEditOrderSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(buyerEditOrder) as RequestHandler
 );
 
 router.put(
   "/sellerEditOrder",
-  checkLogIn as Handler,
   sellerEditOrderSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(sellerEditOrder) as RequestHandler
 );
 
 router.delete(
   "/buyerDeleteOrder",
-  checkLogIn as Handler,
   buyerDeleteOrderSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(buyerDeleteOrder) as RequestHandler
 );
 
 router.get(
   "/buyerGetOrderList",
-  checkLogIn as Handler,
   buyerGetOrderListSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(buyerGetOrderList) as RequestHandler
 );
-
+router.get(
+  "/buyerGetOrder",
+  buyerGetOrderSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(buyerGetOrder) as RequestHandler
+);
 router.get(
   "/sellerGetOrderList",
-  checkLogIn as Handler,
   sellerGetOrderListSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(sellerGetOrderList) as RequestHandler
 );
 
