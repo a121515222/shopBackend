@@ -15,6 +15,11 @@ interface OrderSchema {
   email: string;
   paidDate: Date | string | number | null;
   buyerMessage: string;
+  couponCode: string;
+  isUsedCoupon: boolean;
+  discountPriceWhitCoupon: number;
+  couponExpireDate: Date | null;
+  couponTitle: string;
 }
 const orderStatus = [
   "unpaid",
@@ -38,6 +43,11 @@ const orderSchema = new Schema<OrderSchema>(
     email: { type: String, required: true },
     tel: { type: String, required: true },
     buyerMessage: { type: String, default: "" },
+    couponCode: { type: String, default: "" },
+    discountPriceWhitCoupon: { type: Number, default: 0 },
+    isUsedCoupon: { type: Boolean, default: false },
+    couponExpireDate: { type: Date, default: null },
+    couponTitle: { type: String, default: "" },
     productList: {
       type: [
         new Schema<ProductCartType>({

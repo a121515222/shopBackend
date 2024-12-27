@@ -58,7 +58,7 @@ router.get(
   asyncErrorHandler(buyerGetOrderList) as RequestHandler
 );
 router.get(
-  "/buyerGetOrder",
+  "/buyerGetOrder/:orderId",
   buyerGetOrderSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(buyerGetOrder) as RequestHandler

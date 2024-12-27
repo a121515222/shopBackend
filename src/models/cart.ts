@@ -7,7 +7,10 @@ interface CartSchema {
   totalPrice: number;
   productList: ProductCartType[];
   isUsedCoupon: boolean;
+  couponCode: string;
   discountPriceWhitCoupon: number;
+  couponExpireDate: Date | null;
+  couponTitle: string;
 }
 const cartSchema = new Schema<CartSchema>(
   {
@@ -15,6 +18,9 @@ const cartSchema = new Schema<CartSchema>(
     sellerId: { type: Schema.Types.ObjectId, required: true },
     totalPrice: { type: Number, default: 0 },
     isUsedCoupon: { type: Boolean, default: false },
+    couponCode: { type: String, default: "" },
+    couponExpireDate: { type: Date, default: null },
+    couponTitle: { type: String, default: "" },
     discountPriceWhitCoupon: { type: Number, default: 0 },
     productList: {
       type: [

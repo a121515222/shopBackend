@@ -18,15 +18,12 @@ const getUsers = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = req.params.userId;
   const headerId = req.headers.userId;
-  if (!id) {
+  if (!headerId) {
     appErrorHandler(400, "缺少使用者 ID", next);
   }
-  if (id !== headerId) {
-    appErrorHandler(401, "無權限", next);
-  }
-  const users: UserType | null = await User.findById(id).select(
+
+  const users: UserType | null = await User.findById(headerId).select(
     "-password -logInVerifyToken -verifyToken"
   );
   if (!users) {

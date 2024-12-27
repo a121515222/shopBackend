@@ -15,7 +15,6 @@ const buyerAddOrder = async (
   const userId = req.headers.userId as string;
   const { sellerId, cartId, address, tel, email, username, buyerMessage } =
     req.body;
-  console.log("addOrder", req.body);
   const missingFields = checkMissingFields({
     sellerId,
     cartId,
@@ -36,7 +35,13 @@ const buyerAddOrder = async (
     appErrorHandler(400, "找不到此購物車", next);
     return;
   }
-  const { productList, totalPrice } = cart;
+  const {
+    productList,
+    totalPrice,
+    isUsedCoupon,
+    couponCode,
+    discountPriceWhitCoupon
+  } = cart;
   const order = await Order.create({
     buyerId: userId,
     sellerId,
@@ -48,7 +53,10 @@ const buyerAddOrder = async (
     tel,
     email,
     username,
-    buyerMessage
+    buyerMessage,
+    isUsedCoupon,
+    couponCode,
+    discountPriceWhitCoupon
   });
   const productBulkOperate = productList.map((item) => {
     return {
@@ -190,6 +198,15 @@ const buyerGetOrderList = async (
       $unwind: "$sellerInfo" // 展平關聯結果，如果確定每個訂單對應一個賣家
     },
     {
+      $addFields: {
+        "useCoupon.isUsedCoupon": "$isUsedCoupon",
+        "useCoupon.couponCode": "$couponCode",
+        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
+        "useCoupon.couponTitle": "$couponTitle",
+        "useCoupon.couponExpireDate": "$couponExpireDate"
+      }
+    },
+    {
       $project: {
         _id: 1, // 保留訂單的 `_id`
         userId: 1, // 保留用戶 ID
@@ -203,7 +220,12 @@ const buyerGetOrderList = async (
         buyerMessage: 1, // 保留訂單的 `buyerMessage`
         "sellerInfo.username": 1, // 包含賣家的 `userName`
         "sellerInfo.tel": 1, // 包含賣家的 `tel`
-        "sellerInfo.email": 1 // 包含賣家的 `email`
+        "sellerInfo.email": 1, // 包含賣家的 `email`
+        "useCoupon.isUsedCoupon": 1, // 包含訂單的 `isUsedCoupon`
+        "useCoupon.couponCode": 1, // 包含訂單的 `couponCode`
+        "useCoupon.discountPriceWhitCoupon": 1, // 包含訂單的 `discountPriceWhitCoupon
+        "useCoupon.couponTitle": 1, // 包含訂單的 `couponTitle`
+        "useCoupon.couponExpireDate": 1 // 包含訂單的 `couponExpireDate`
       }
     }
   ]);
@@ -224,7 +246,12 @@ const buyerGetOrder = async (
   const userId = req.headers.userId as string;
   const orderId = req.params.orderId;
   const order = await Order.aggregate([
-    { $match: { _id: new mongoose.Types.ObjectId(orderId), buyerId: userId } },
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(orderId),
+        buyerId: new mongoose.Types.ObjectId(userId)
+      }
+    },
     {
       $lookup: {
         from: "users",
@@ -237,10 +264,23 @@ const buyerGetOrder = async (
       $unwind: "$sellerInfo"
     },
     {
+      $addFields: {
+        "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
+        "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
+        "buyerInfo.email": "$email", // 將訂單內的 `email` 添加到 `buyerInfo` 中
+        "buyerInfo.username": "$username", // 將訂單內的 `username` 添加到 `buyerInfo` 中
+        "sellerInfo.sellerId": "$sellerId",
+        "useCoupon.isUsedCoupon": "$isUsedCoupon",
+        "useCoupon.couponCode": "$couponCode",
+        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
+        "useCoupon.couponTitle": "$couponTitle",
+        "useCoupon.couponExpireDate": "$couponExpireDate"
+      }
+    },
+    {
       $project: {
         _id: 1,
-        userId: 1,
-        sellerId: 1,
+        buyerId: 1,
         productList: 1,
         createdAt: 1,
         paidDate: 1,
@@ -249,7 +289,17 @@ const buyerGetOrder = async (
         totalPrice: 1,
         "sellerInfo.username": 1,
         "sellerInfo.tel": 1,
-        "sellerInfo.email": 1
+        "sellerInfo.email": 1,
+        "sellerInfo.sellerId": 1,
+        "buyerInfo.username": 1,
+        "buyerInfo.tel": 1,
+        "buyerInfo.email": 1,
+        "buyerInfo.address": 1,
+        "useCoupon.isUsedCoupon": 1,
+        "useCoupon.couponCode": 1,
+        "useCoupon.discountPriceWhitCoupon": 1,
+        "useCoupon.couponTitle": 1,
+        "useCoupon.couponExpireDate": 1
       }
     }
   ]);
@@ -257,7 +307,7 @@ const buyerGetOrder = async (
     appErrorHandler(400, "找不到訂單", next);
     return;
   } else {
-    appSuccessHandler(200, "取得訂單成功", order, res);
+    appSuccessHandler(200, "取得訂單成功", order[0], res);
   }
 };
 
@@ -299,7 +349,12 @@ const sellerGetOrderList = async (
         "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
         "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
         "buyerInfo.email": "$email", // 將訂單內的 `email` 添加到 `buyerInfo` 中
-        "buyerInfo.username": "$username" // 將訂單內的 `username` 添加到 `buyerInfo` 中
+        "buyerInfo.username": "$username", // 將訂單內的 `username` 添加到 `buyerInfo` 中
+        "useCoupon.isUsedCoupon": "$isUsedCoupon",
+        "useCoupon.couponCode": "$couponCode",
+        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
+        "useCoupon.couponTitle": "$couponTitle",
+        "useCoupon.couponExpireDate": "$couponExpireDate"
       }
     },
     {
@@ -317,7 +372,12 @@ const sellerGetOrderList = async (
         "buyerInfo.username": 1, // 包含買家的 `name`
         "buyerInfo.tel": 1, // 包含訂單內的 `tel`
         "buyerInfo.address": 1, // 包含訂單內的 `address`
-        "buyerInfo.email": 1 // 包含買家的 `email`
+        "buyerInfo.email": 1, // 包含買家的 `email`
+        "useCoupon.isUsedCoupon": 1, // 包含訂單的 `isUsedCoupon`
+        "useCoupon.couponCode": 1, // 包含訂單的 `couponCode`
+        "useCoupon.discountPriceWhitCoupon": 1, // 包含訂單的 `discountPriceWhitCoupon
+        "useCoupon.couponTitle": 1, // 包含訂單的 `couponTitle`
+        "useCoupon.couponExpireDate": 1 // 包含訂單的 `couponExpireDate`
       }
     }
   ]);

@@ -7,7 +7,6 @@ import checkMissingFields from "@/utils/checkMissingFields";
 import { Coupon } from "@/models/coupon";
 import { Cart } from "@/models/cart";
 import { Product } from "@/models/product";
-import { handlePagination } from "@/utils/paginationHandler";
 
 const postUserAddCart = async (
   req: Request,
@@ -310,6 +309,7 @@ const postCouponDiscount = async (
   const userId = req.headers.userId as string;
 
   const couponData = await Coupon.findOne({ code: couponCode });
+
   if (!couponData) {
     appErrorHandler(404, "找不到優惠券", next);
     return;
@@ -323,7 +323,11 @@ const postCouponDiscount = async (
     return;
   }
   const sellerId = couponData.userId;
-  const discount = couponData.discount;
+  const {
+    expireDate: couponExpireDate,
+    title: couponTitle,
+    discount
+  } = couponData;
   const cartInfo = await Cart.findOne({ userId, sellerId }).select(
     "totalPrice isUsedCoupon"
   );
@@ -354,7 +358,9 @@ const postCouponDiscount = async (
     { userId, sellerId },
     {
       isUsedCoupon: true,
-
+      couponCode,
+      couponExpireDate,
+      couponTitle,
       $inc: { totalPrice: -discount, discountPriceWhitCoupon: discount }
     },
     { new: true }
