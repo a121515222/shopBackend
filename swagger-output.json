@@ -2615,72 +2615,92 @@
                   "example": "取得購物車成功"
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "carts": {
-                      "type": "array",
-                      "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "67738342e6739de5d5fdd6c3"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "67405af5e85ca5d5551ed8a7"
+                      },
+                      "sellerId": {
+                        "type": "string",
+                        "example": "67405af5e85ca5d5551ed8a7"
+                      },
+                      "totalPrice": {
+                        "type": "number",
+                        "example": 1790
+                      },
+                      "isUsedCoupon": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "productList": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string",
+                              "example": "674ecd448d091f0024c8a70a"
+                            },
+                            "num": {
+                              "type": "number",
+                              "example": 20
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "orange"
+                            },
+                            "price": {
+                              "type": "number",
+                              "example": 100
+                            },
+                            "discount": {
+                              "type": "number",
+                              "example": 90
+                            },
+                            "imageUrl": {
+                              "type": "string",
+                              "example": "https://www.google.com"
+                            },
+                            "productSellPrice": {
+                              "type": "number",
+                              "example": 90
+                            },
+                            "_id": {
+                              "type": "string",
+                              "example": "67738342e6739de5d5fdd6c4"
+                            }
+                          }
+                        }
+                      },
+                      "couponInfo": {
                         "type": "object",
                         "properties": {
-                          "userId": {
+                          "code": {
                             "type": "string",
-                            "example": "123"
+                            "example": "Discount10Dollar"
                           },
-                          "sellerId": {
-                            "type": "string",
-                            "example": "456"
-                          },
-                          "totalPrice": {
+                          "discount": {
                             "type": "number",
-                            "example": 100
+                            "example": 10
                           },
-                          "productList": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "productId": {
-                                  "type": "string",
-                                  "example": "123456"
-                                },
-                                "title": {
-                                  "type": "string",
-                                  "example": "apple"
-                                },
-                                "price": {
-                                  "type": "number",
-                                  "example": 100
-                                },
-                                "discount": {
-                                  "type": "number",
-                                  "example": 0
-                                },
-                                "imageUrl": {
-                                  "type": "string",
-                                  "example": "https://www.google.com"
-                                },
-                                "num": {
-                                  "type": "number",
-                                  "example": 1
-                                },
-                                "unit": {
-                                  "type": "string",
-                                  "example": "kg"
-                                },
-                                "productSellPrice": {
-                                  "type": "number",
-                                  "example": 100
-                                },
-                                "isUsedCoupon": {
-                                  "type": "boolean",
-                                  "example": false
-                                },
-                                "discountPriceWhitCoupon": {
-                                  "type": "number",
-                                  "example": 0
-                                }
-                              }
-                            }
+                          "expireDate": {
+                            "type": "string",
+                            "example": "2025-12-31T00:00:00.000Z"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "折10元"
+                          },
+                          "couponId": {
+                            "type": "string",
+                            "example": "67613dba66fcdb3832a4d35b"
                           }
                         }
                       }
@@ -3074,10 +3094,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "adfzcsdv565sadf"
-                },
                 "sellerId": {
                   "type": "string",
                   "example": "adfzcsdv565sadf"
@@ -3093,14 +3109,23 @@
                 "tel": {
                   "type": "string",
                   "example": "0912345678"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "Jack"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "a121515222@yahoo.com"
                 }
               },
               "required": [
-                "userId",
                 "sellerId",
                 "cartId",
                 "address",
-                "tel"
+                "tel",
+                "username",
+                "email"
               ]
             }
           }
@@ -3121,7 +3146,92 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "buyerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "cartId": {
+                      "type": "string",
+                      "example": "676a59ae752d68bc1a3b5d45"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 180
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "unpaid"
+                    },
+                    "orderDate": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.594Z"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "台北市信義區"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "example": "0912345678"
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecd448d091f0024c8a70a"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "orange"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "676a59ae752d68bc1a3b5d46"
+                          }
+                        }
+                      }
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "676a59c8752d68bc1a3b5d51"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -3189,7 +3299,92 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "676a59c8752d68bc1a3b5d51"
+                    },
+                    "buyerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "cartId": {
+                      "type": "string",
+                      "example": "676a59ae752d68bc1a3b5d45"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 180
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "paid"
+                    },
+                    "orderDate": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.594Z"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "新北市中和區"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "example": "0912345000"
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecd448d091f0024c8a70a"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "orange"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "676a59ae752d68bc1a3b5d46"
+                          }
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024-12-24T09:03:31.220Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -3226,7 +3421,7 @@
                 },
                 "status": {
                   "type": "string",
-                  "example": "已出貨"
+                  "example": "paid"
                 }
               },
               "required": [
@@ -3366,7 +3561,288 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "orderList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "67739fe9d8b0d2771fcd5fe3"
+                          },
+                          "sellerId": {
+                            "type": "string",
+                            "example": "67405af5e85ca5d5551ed8a7"
+                          },
+                          "totalPrice": {
+                            "type": "number",
+                            "example": 790
+                          },
+                          "isPaid": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "unpaid"
+                          },
+                          "paidDate": {},
+                          "buyerMessage": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "productList": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "productId": {
+                                  "type": "string",
+                                  "example": "674ecdce8d091f0024c8a710"
+                                },
+                                "num": {
+                                  "type": "number",
+                                  "example": 10
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "example": "bnana"
+                                },
+                                "price": {
+                                  "type": "number",
+                                  "example": 100
+                                },
+                                "discount": {
+                                  "type": "number",
+                                  "example": 80
+                                },
+                                "imageUrl": {
+                                  "type": "string",
+                                  "example": "https://www.google.com"
+                                },
+                                "productSellPrice": {
+                                  "type": "number",
+                                  "example": 80
+                                },
+                                "_id": {
+                                  "type": "string",
+                                  "example": "67739f97d8b0d2771fcd5fd3"
+                                }
+                              }
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024-12-31T07:40:25.733Z"
+                          },
+                          "sellerInfo": {
+                            "type": "object",
+                            "properties": {
+                              "email": {
+                                "type": "string",
+                                "example": "a121515222@hotmail.com"
+                              },
+                              "tel": {
+                                "type": "string",
+                                "example": "0927173739"
+                              },
+                              "username": {
+                                "type": "string",
+                                "example": "Eason"
+                              }
+                            }
+                          },
+                          "couponInfo": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string",
+                                "example": "Discount10Dollar"
+                              },
+                              "discount": {
+                                "type": "number",
+                                "example": 10
+                              },
+                              "expireDate": {
+                                "type": "string",
+                                "example": "2025-12-31T00:00:00.000Z"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "折10元"
+                              },
+                              "couponId": {
+                                "type": "string",
+                                "example": "67613dba66fcdb3832a4d35b"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "totalCount": {
+                          "type": "number",
+                          "example": 6
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/buyerGetOrder/{orderId}": {
+      "get": {
+        "tags": [
+          "Order-訂單"
+        ],
+        "description": "取得訂單",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "訂單 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得訂單成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得訂單成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "676a59c8752d68bc1a3b5d51"
+                    },
+                    "buyerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "cartId": {
+                      "type": "string",
+                      "example": "676a59ae752d68bc1a3b5d45"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 180
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "unpaid"
+                    },
+                    "orderDate": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.594Z"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "台北市信義區"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "example": "0912345678"
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecd448d091f0024c8a70a"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "orange"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "676a59ae752d68bc1a3b5d46"
+                          }
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -3422,7 +3898,160 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "orderList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "6773997ed7dc8e578003a2f9"
+                          },
+                          "sellerId": {
+                            "type": "string",
+                            "example": "67405af5e85ca5d5551ed8a7"
+                          },
+                          "totalPrice": {
+                            "type": "number",
+                            "example": 1590
+                          },
+                          "isPaid": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "unpaid"
+                          },
+                          "paidDate": {},
+                          "productList": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "productId": {
+                                  "type": "string",
+                                  "example": "674ecdce8d091f0024c8a710"
+                                },
+                                "num": {
+                                  "type": "number",
+                                  "example": 20
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "example": "bnana"
+                                },
+                                "price": {
+                                  "type": "number",
+                                  "example": 100
+                                },
+                                "discount": {
+                                  "type": "number",
+                                  "example": 80
+                                },
+                                "imageUrl": {
+                                  "type": "string",
+                                  "example": "https://www.google.com"
+                                },
+                                "productSellPrice": {
+                                  "type": "number",
+                                  "example": 80
+                                },
+                                "_id": {
+                                  "type": "string",
+                                  "example": "6773928a77669ac1ed0a0929"
+                                }
+                              }
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024-12-31T07:13:02.499Z"
+                          },
+                          "buyerInfo": {
+                            "type": "object",
+                            "properties": {
+                              "email": {
+                                "type": "string",
+                                "example": "a121515222@yahoo.com"
+                              },
+                              "tel": {
+                                "type": "string",
+                                "example": "0912345678"
+                              },
+                              "username": {
+                                "type": "string",
+                                "example": "JACK測試"
+                              },
+                              "address": {
+                                "type": "string",
+                                "example": "台北市信義區測是測試6555"
+                              },
+                              "buyerMessage": {
+                                "type": "string",
+                                "example": ""
+                              }
+                            }
+                          },
+                          "couponInfo": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string",
+                                "example": "Discount10Dollar"
+                              },
+                              "discount": {
+                                "type": "number",
+                                "example": 10
+                              },
+                              "expireDate": {
+                                "type": "string",
+                                "example": "2025-12-31T00:00:00.000Z"
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "折10元"
+                              },
+                              "couponId": {
+                                "type": "string",
+                                "example": "67613dba66fcdb3832a4d35b"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "totalCount": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
                 }
               },
               "xml": {

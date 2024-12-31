@@ -4,24 +4,18 @@ import type { ProductCartType } from "@/types/productTypes";
 interface CartSchema {
   userId: Types.ObjectId;
   sellerId: Types.ObjectId;
+  couponId: Types.ObjectId | null;
   totalPrice: number;
   productList: ProductCartType[];
   isUsedCoupon: boolean;
-  couponCode: string;
-  discountPriceWhitCoupon: number;
-  couponExpireDate: Date | null;
-  couponTitle: string;
 }
 const cartSchema = new Schema<CartSchema>(
   {
     userId: { type: Schema.Types.ObjectId, required: true },
     sellerId: { type: Schema.Types.ObjectId, required: true },
+    couponId: { type: Schema.Types.ObjectId, default: null },
     totalPrice: { type: Number, default: 0 },
     isUsedCoupon: { type: Boolean, default: false },
-    couponCode: { type: String, default: "" },
-    couponExpireDate: { type: Date, default: null },
-    couponTitle: { type: String, default: "" },
-    discountPriceWhitCoupon: { type: Number, default: 0 },
     productList: {
       type: [
         new Schema<ProductCartType>({

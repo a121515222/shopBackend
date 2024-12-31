@@ -56,28 +56,37 @@ export function getUserCartSwagger(
         schema: {
           status: true,
           message: "取得購物車成功",
-          data: {
-            carts: [
-            {userId: "123",
-            sellerId: "456",
-            totalPrice: 100,
-            productList: [
-              {
-                productId: "123456",
-                title: "apple",
-                price: 100,
-                discount: 0,
-                imageUrl: "https://www.google.com",
-                num: 1,
-                unit: "kg",
-                productSellPrice: 100,
-                isUsedCoupon: false,
-                discountPriceWhitCoupon: 0
-              }
-            ],}
-           ]
-          }
-      }      
+          data: [
+    {
+      "_id": "67738342e6739de5d5fdd6c3",
+      "userId": "67405af5e85ca5d5551ed8a7",
+      "sellerId": "67405af5e85ca5d5551ed8a7",
+      "totalPrice": 1790,
+      "isUsedCoupon": true,
+      "productList": [
+        {
+          "productId": "674ecd448d091f0024c8a70a",
+          "num": 20,
+          "title": "orange",
+          "price": 100,
+          "discount": 90,
+          "imageUrl": "https://www.google.com",
+          "productSellPrice": 90,
+          "_id": "67738342e6739de5d5fdd6c4"
+        }
+      ],
+       "couponInfo": {
+        "code": "Discount10Dollar",
+        "discount": 10,
+        "expireDate": "2025-12-31T00:00:00.000Z",
+        "title": "折10元",
+        "couponId": "67613dba66fcdb3832a4d35b"
+      }
+        }
+      ]
+           
+    }
+            
     }
   */
   next();

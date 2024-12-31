@@ -17,11 +17,12 @@ export function buyerAddOrderSwagger(
       type: "Object",
       description: "訂單資料",
       schema: {
-        $userId: "adfzcsdv565sadf",
         $sellerId: "adfzcsdv565sadf",
         $cartId: "adfzcsdv565sadf",
         $address: "台北市信義區",
         $tel: "0912345678",
+        $username: "Jack",
+        $email: "a121515222@yahoo.com"
       }
     }
     * #swagger.responses[201] = {
@@ -218,32 +219,196 @@ export function buyerGetOrderListSwagger(
         schema: {
           status: true,
           message: "取得訂單列表成功",
-          data: {
-           "orderList": [
+           "data": {
+    "orderList": [
       {
         "_id": "676a59c8752d68bc1a3b5d51",
         "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 180,
+        "status": "unpaid",
+        "productList": [
+          {
+            "productId": "674ecd448d091f0024c8a70a",
+            "num": 2,
+            "title": "orange",
+            "price": 100,
+            "discount": 90,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 90,
+            "_id": "676a59ae752d68bc1a3b5d46"
+          }
+        ],
+        "createdAt": "2024-12-24T06:50:48.597Z",
+        "isPaid": false,
+        "paidDate": null,
+        "buyerMessage": "",
         "sellerInfo": {
-          "tel": "0927173739"
-        }
+          "email": "a121515222@hotmail.com",
+          "tel": "0927173739",
+          "username": "Eason"
+        },
+        "couponInfo": {}
       },
       {
         "_id": "676a7cbdd8427834aa82b88f",
         "sellerId": "67650411ccb48d8ebb4b75dd",
+        "totalPrice": 2375000,
+        "status": "unpaid",
+        "productList": [
+          {
+            "productId": "67650faeefb0ef81f1998ff4",
+            "num": 50,
+            "title": "apple1111",
+            "price": 50000,
+            "discount": 95,
+            "imageUrl": "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/3c4ba073-6463-408b-9916-25a3c32b3ebf.jpg?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=gYliF8C%2FqvwGDrp1Ia6vrMfORhoTV8ZL8av7rfoXYs8E4WQOFaoV9fFk0kNQbFNPPu96SDWFmwUypLyvY01XsZnln85yYNaAo1Au3YEaqruHC54tQX6fxUmkFwuzzhYk3rRvyIhb3ggdj9mteEKxiCapcyNRw7V2fyzdAC8RlneViIwkQwlj1%2F3dbaW4HOvWdlNdpLVRjfki7auV0fOG6tZ%2FSmv1Cywy5bkkq3mDZHSO7eBo2y3b8Y868R8N2TAJ9JI%2FknIZJbjJaFHBi9zaGYjV00p613NlP2hN6t4bdPaQqE%2B6Z%2Fg3xeCgguK6YfH3e%2BrFaSwof5aVjZto7JU8dw%3D%3D",
+            "productSellPrice": 47500,
+            "_id": "676a7c91d8427834aa82b88a"
+          }
+        ],
+        "createdAt": "2024-12-24T09:19:57.777Z",
+        "isPaid": false,
+        "paidDate": null,
+        "buyerMessage": "",
         "sellerInfo": {
-          "tel": "0911111111"
+          "email": "a84174426@gmail.com",
+          "tel": "0911111111",
+          "username": "jack"
+        },
+        "couponInfo": {}
+      },
+      {
+        "_id": "676e44ec65fba599f4825557",
+        "sellerId": "67650411ccb48d8ebb4b75dd",
+        "totalPrice": 100,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "buyerMessage": "測試",
+        "productList": [
+          {
+            "productId": "676509e8efb0ef81f1998fe1",
+            "num": 1,
+            "title": "測試",
+            "price": 100,
+            "discount": 100,
+            "imageUrl": "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/a0e91ebf-c3f1-4c02-b537-fa5c2f9b0474.png?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=NAWPyf7TBTEAJJUTMUmg5c9kwPzHwI6JfgY%2B0T37MXF4eXBFFttwO9Qev%2FEtgVqrW0aOd%2BVyrPQHUgPecD%2B4CwngmHCZUD07nZPx85sNT1H1Joz0pGG8tTWocBUDuAgxBa61wlt6WGup96zlX9fzINrDv9TN42cQY%2BumMiKxbGyPqHVLzt2ZN81tkPnHGMOp95cZc0L6iA90Rge3GJBm31RfyWWlUDD%2FVo71n45LLJx7zCKo0KDH0X5kH9J1pmcHkZCZ5ntW8MHZHoo9qB2cvGSnWwECKhCDI%2FUwgJ3q0ogWiimw1Zokfe3ZhtOnYOlNHQd6ElrkKhmYWmZK8oSvoA%3D%3D",
+            "productSellPrice": 100,
+            "_id": "676d1a7ef711261a300f4890"
+          }
+        ],
+        "createdAt": "2024-12-27T06:10:52.790Z",
+        "sellerInfo": {
+          "email": "a84174426@gmail.com",
+          "tel": "0911111111",
+          "username": "jack"
+        },
+        "couponInfo": {}
+      },
+      {
+        "_id": "67738be0c4dc92800e0f57a3",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 1790,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "buyerMessage": "",
+        "productList": [
+          {
+            "productId": "674ecd448d091f0024c8a70a",
+            "num": 20,
+            "title": "orange",
+            "price": 100,
+            "discount": 90,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 90,
+            "_id": "67738342e6739de5d5fdd6c4"
+          }
+        ],
+        "createdAt": "2024-12-31T06:14:56.912Z",
+        "sellerInfo": {
+          "email": "a121515222@hotmail.com",
+          "tel": "0927173739",
+          "username": "Eason"
+        },
+        "couponInfo": {
+          "couponId": null
+        }
+      },
+      {
+        "_id": "6773997ed7dc8e578003a2f9",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 1590,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "buyerMessage": "",
+        "productList": [
+          {
+            "productId": "674ecdce8d091f0024c8a710",
+            "num": 20,
+            "title": "bnana",
+            "price": 100,
+            "discount": 80,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 80,
+            "_id": "6773928a77669ac1ed0a0929"
+          }
+        ],
+        "createdAt": "2024-12-31T07:13:02.499Z",
+        "sellerInfo": {
+          "email": "a121515222@hotmail.com",
+          "tel": "0927173739",
+          "username": "Eason"
+        },
+        "couponInfo": {
+          "couponId": null
+        }
+      },
+      {
+        "_id": "67739fe9d8b0d2771fcd5fe3",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 790,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "buyerMessage": "",
+        "productList": [
+          {
+            "productId": "674ecdce8d091f0024c8a710",
+            "num": 10,
+            "title": "bnana",
+            "price": 100,
+            "discount": 80,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 80,
+            "_id": "67739f97d8b0d2771fcd5fd3"
+          }
+        ],
+        "createdAt": "2024-12-31T07:40:25.733Z",
+        "sellerInfo": {
+          "email": "a121515222@hotmail.com",
+          "tel": "0927173739",
+          "username": "Eason"
+        },
+        "couponInfo": {
+          "code": "Discount10Dollar",
+          "discount": 10,
+          "expireDate": "2025-12-31T00:00:00.000Z",
+          "title": "折10元",
+          "couponId": "67613dba66fcdb3832a4d35b"
         }
       }
     ],
     "pagination": {
       "currentPage": 1,
-      "totalCount": 2,
+      "totalCount": 6,
       "totalPages": 1,
       "limit": 10,
       "hasPrevPage": false,
       "hasNextPage": false
     }
-          }
+  }
       }      
     }     
    */
@@ -335,8 +500,112 @@ export function sellerGetOrderListSwagger(
           status: true,
           message: "取得訂單列表成功",
           data: {
-           
+            
+    "orderList": [
+      {
+        "_id": "676a59c8752d68bc1a3b5d51",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 180,
+        "status": "unpaid",
+        "productList": [
+          {
+            "productId": "674ecd448d091f0024c8a70a",
+            "num": 2,
+            "title": "orange",
+            "price": 100,
+            "discount": 90,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 90,
+            "_id": "676a59ae752d68bc1a3b5d46"
           }
+        ],
+        "createdAt": "2024-12-24T06:50:48.597Z",
+        "isPaid": false,
+        "paidDate": null,
+        "buyerInfo": {
+          "tel": "0912345000",
+          "address": "新北市中和區",
+          "buyerMessage": ""
+        },
+        "couponInfo": {}
+      },
+      {
+        "_id": "67738be0c4dc92800e0f57a3",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 1790,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "productList": [
+          {
+            "productId": "674ecd448d091f0024c8a70a",
+            "num": 20,
+            "title": "orange",
+            "price": 100,
+            "discount": 90,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 90,
+            "_id": "67738342e6739de5d5fdd6c4"
+          }
+        ],
+        "createdAt": "2024-12-31T06:14:56.912Z",
+        "buyerInfo": {
+          "email": "a121515222@yahoo.com",
+          "tel": "0912345678",
+          "username": "JACK",
+          "address": "台北市信義區測是測試",
+          "buyerMessage": ""
+        },
+        "couponInfo": {
+          "couponId": null
+        }
+      },
+      {
+        "_id": "6773997ed7dc8e578003a2f9",
+        "sellerId": "67405af5e85ca5d5551ed8a7",
+        "totalPrice": 1590,
+        "isPaid": false,
+        "status": "unpaid",
+        "paidDate": null,
+        "productList": [
+          {
+            "productId": "674ecdce8d091f0024c8a710",
+            "num": 20,
+            "title": "bnana",
+            "price": 100,
+            "discount": 80,
+            "imageUrl": "https://www.google.com",
+            "productSellPrice": 80,
+            "_id": "6773928a77669ac1ed0a0929"
+          }
+        ],
+        "createdAt": "2024-12-31T07:13:02.499Z",
+        "buyerInfo": {
+          "email": "a121515222@yahoo.com",
+          "tel": "0912345678",
+          "username": "JACK測試",
+          "address": "台北市信義區測是測試6555",
+          "buyerMessage": ""
+        },
+        "couponInfo": {
+          "code": "Discount10Dollar",
+          "discount": 10,
+          "expireDate": "2025-12-31T00:00:00.000Z",
+          "title": "折10元",
+          "couponId": "67613dba66fcdb3832a4d35b"
+        }
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalCount": 3,
+      "totalPages": 1,
+      "limit": 10,
+      "hasPrevPage": false,
+      "hasNextPage": false
+    }
+  }
+          
       }      
     }     
    */

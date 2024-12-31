@@ -29,19 +29,13 @@ const buyerAddOrder = async (
     return;
   }
   const cart = await Cart.findOne({ _id: cartId, userId }).select(
-    " productList totalPrice"
+    " productList totalPrice couponId"
   );
   if (!cart) {
     appErrorHandler(400, "找不到此購物車", next);
     return;
   }
-  const {
-    productList,
-    totalPrice,
-    isUsedCoupon,
-    couponCode,
-    discountPriceWhitCoupon
-  } = cart;
+  const { productList, totalPrice, couponId } = cart;
   const order = await Order.create({
     buyerId: userId,
     sellerId,
@@ -54,9 +48,7 @@ const buyerAddOrder = async (
     email,
     username,
     buyerMessage,
-    isUsedCoupon,
-    couponCode,
-    discountPriceWhitCoupon
+    couponId
   });
   const productBulkOperate = productList.map((item) => {
     return {
@@ -198,12 +190,22 @@ const buyerGetOrderList = async (
       $unwind: "$sellerInfo" // 展平關聯結果，如果確定每個訂單對應一個賣家
     },
     {
+      $lookup: {
+        from: "coupons",
+        localField: "couponId",
+        foreignField: "_id",
+        as: "couponInfo"
+      }
+    },
+    {
+      $unwind: {
+        path: "$couponInfo",
+        preserveNullAndEmptyArrays: true // 允许空数组，结果为 null
+      }
+    },
+    {
       $addFields: {
-        "useCoupon.isUsedCoupon": "$isUsedCoupon",
-        "useCoupon.couponCode": "$couponCode",
-        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
-        "useCoupon.couponTitle": "$couponTitle",
-        "useCoupon.couponExpireDate": "$couponExpireDate"
+        "couponInfo.couponId": "$couponId"
       }
     },
     {
@@ -218,14 +220,18 @@ const buyerGetOrderList = async (
         isPaid: 1, // 保留訂單的 `isPaid`
         totalPrice: 1, // 保留訂單的 `totalPrice`
         buyerMessage: 1, // 保留訂單的 `buyerMessage`
-        "sellerInfo.username": 1, // 包含賣家的 `userName`
-        "sellerInfo.tel": 1, // 包含賣家的 `tel`
-        "sellerInfo.email": 1, // 包含賣家的 `email`
-        "useCoupon.isUsedCoupon": 1, // 包含訂單的 `isUsedCoupon`
-        "useCoupon.couponCode": 1, // 包含訂單的 `couponCode`
-        "useCoupon.discountPriceWhitCoupon": 1, // 包含訂單的 `discountPriceWhitCoupon
-        "useCoupon.couponTitle": 1, // 包含訂單的 `couponTitle`
-        "useCoupon.couponExpireDate": 1 // 包含訂單的 `couponExpireDate`
+        couponInfo: {
+          code: 1,
+          discount: 1,
+          expireDate: 1,
+          title: 1,
+          couponId: 1
+        },
+        sellerInfo: {
+          tel: 1,
+          email: 1,
+          username: 1
+        }
       }
     }
   ]);
@@ -264,17 +270,28 @@ const buyerGetOrder = async (
       $unwind: "$sellerInfo"
     },
     {
+      $lookup: {
+        from: "coupons",
+        localField: "couponId",
+        foreignField: "_id",
+        as: "couponInfo"
+      }
+    },
+    {
+      $unwind: {
+        path: "$couponInfo",
+        preserveNullAndEmptyArrays: true // 允许空数组，结果为 null
+      }
+    },
+    {
       $addFields: {
         "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
         "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
         "buyerInfo.email": "$email", // 將訂單內的 `email` 添加到 `buyerInfo` 中
         "buyerInfo.username": "$username", // 將訂單內的 `username` 添加到 `buyerInfo` 中
+        "buyerInfo.buyerMessage": "$buyerMessage", // 將訂單內的 `buyerMessage` 添加到 `buyerInfo` 中
         "sellerInfo.sellerId": "$sellerId",
-        "useCoupon.isUsedCoupon": "$isUsedCoupon",
-        "useCoupon.couponCode": "$couponCode",
-        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
-        "useCoupon.couponTitle": "$couponTitle",
-        "useCoupon.couponExpireDate": "$couponExpireDate"
+        "couponInfo.couponId": "$couponId"
       }
     },
     {
@@ -287,19 +304,25 @@ const buyerGetOrder = async (
         status: 1,
         isPaid: 1,
         totalPrice: 1,
-        "sellerInfo.username": 1,
-        "sellerInfo.tel": 1,
-        "sellerInfo.email": 1,
-        "sellerInfo.sellerId": 1,
-        "buyerInfo.username": 1,
-        "buyerInfo.tel": 1,
-        "buyerInfo.email": 1,
-        "buyerInfo.address": 1,
-        "useCoupon.isUsedCoupon": 1,
-        "useCoupon.couponCode": 1,
-        "useCoupon.discountPriceWhitCoupon": 1,
-        "useCoupon.couponTitle": 1,
-        "useCoupon.couponExpireDate": 1
+        sellerInfo: {
+          tel: 1,
+          email: 1,
+          username: 1
+        },
+        couponInfo: {
+          code: 1,
+          discount: 1,
+          expireDate: 1,
+          title: 1,
+          couponId: 1
+        },
+        buyerInfo: {
+          address: 1,
+          tel: 1,
+          email: 1,
+          username: 1,
+          buyerMessage: 1
+        }
       }
     }
   ]);
@@ -345,16 +368,27 @@ const sellerGetOrderList = async (
       $unwind: "$buyerInfo" // 展平關聯結果，如果確定每個訂單對應一個賣家
     },
     {
+      $lookup: {
+        from: "coupons",
+        localField: "couponId",
+        foreignField: "_id",
+        as: "couponInfo"
+      }
+    },
+    {
+      $unwind: {
+        path: "$couponInfo",
+        preserveNullAndEmptyArrays: true // 允许空数组，结果为 null
+      }
+    },
+    {
       $addFields: {
         "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
         "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
         "buyerInfo.email": "$email", // 將訂單內的 `email` 添加到 `buyerInfo` 中
         "buyerInfo.username": "$username", // 將訂單內的 `username` 添加到 `buyerInfo` 中
-        "useCoupon.isUsedCoupon": "$isUsedCoupon",
-        "useCoupon.couponCode": "$couponCode",
-        "useCoupon.discountPriceWhitCoupon": "$discountPriceWhitCoupon",
-        "useCoupon.couponTitle": "$couponTitle",
-        "useCoupon.couponExpireDate": "$couponExpireDate"
+        "buyerInfo.buyerMessage": "$buyerMessage", // 將訂單內的 `buyerMessage` 添加到 `buyerInfo` 中
+        "couponInfo.couponId": "$couponId"
       }
     },
     {
@@ -368,16 +402,20 @@ const sellerGetOrderList = async (
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
         totalPrice: 1, // 保留訂單的 `totalPrice`
-        buyerMessage: 1, // 保留訂單的 `buyerMessage`
-        "buyerInfo.username": 1, // 包含買家的 `name`
-        "buyerInfo.tel": 1, // 包含訂單內的 `tel`
-        "buyerInfo.address": 1, // 包含訂單內的 `address`
-        "buyerInfo.email": 1, // 包含買家的 `email`
-        "useCoupon.isUsedCoupon": 1, // 包含訂單的 `isUsedCoupon`
-        "useCoupon.couponCode": 1, // 包含訂單的 `couponCode`
-        "useCoupon.discountPriceWhitCoupon": 1, // 包含訂單的 `discountPriceWhitCoupon
-        "useCoupon.couponTitle": 1, // 包含訂單的 `couponTitle`
-        "useCoupon.couponExpireDate": 1 // 包含訂單的 `couponExpireDate`
+        couponInfo: {
+          code: 1,
+          discount: 1,
+          expireDate: 1,
+          title: 1,
+          couponId: 1
+        },
+        buyerInfo: {
+          address: 1,
+          tel: 1,
+          email: 1,
+          username: 1,
+          buyerMessage: 1
+        }
       }
     }
   ]);

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "node ./bin/www",
+    "start": "node dist/app.js",
     "dev": "cross-env NODE_ENV=dev tsx watch ./app.ts",
     "swagger": "cross-env NODE_ENV=dev tsx ./swagger.ts",
     "project": "ts-node ./app.ts"

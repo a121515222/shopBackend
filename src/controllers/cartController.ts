@@ -4,9 +4,11 @@ import type { ProductType } from "@/types/productTypes";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
+import mongoose from "mongoose";
 import { Coupon } from "@/models/coupon";
 import { Cart } from "@/models/cart";
 import { Product } from "@/models/product";
+import { title } from "process";
 
 const postUserAddCart = async (
   req: Request,
@@ -177,7 +179,53 @@ const getUserCart = async (
   page = page || 1;
   limit = limit || 10;
   const skip = (page - 1) * limit;
-  const carts = await Cart.find({ userId }).skip(skip).limit(limit);
+  // const carts = await Cart.find({ userId }).skip(skip).limit(limit);
+  const carts = await Cart.aggregate([
+    {
+      $match: { userId: new mongoose.Types.ObjectId(userId) } // 匹配当前用户的购物车
+    },
+    {
+      $lookup: {
+        from: "coupons", // 关联的集合名称
+        localField: "couponId", // Cart 中的字段
+        foreignField: "_id", // Coupon 集合中的字段
+        as: "couponInfo" // 结果中加入的字段名称
+      }
+    },
+    {
+      $set: {
+        couponInfo: { $arrayElemAt: ["$couponInfo", 0] } // 将数组格式的 couponInfo 转换为对象
+      }
+    },
+    {
+      $addFields: {
+        "couponInfo.couponId": "$couponId"
+      }
+    },
+    {
+      $skip: skip // 分页 - 跳过指定数量的文档
+    },
+    {
+      $limit: limit // 分页 - 限制返回的文档数量
+    },
+    {
+      $project: {
+        _id: 1,
+        userId: 1,
+        sellerId: 1,
+        totalPrice: 1,
+        productList: 1,
+        isUsedCoupon: 1,
+        couponInfo: {
+          code: 1,
+          discount: 1,
+          expireDate: 1,
+          title: 1,
+          couponId: 1
+        }
+      }
+    }
+  ]);
 
   appSuccessHandler(200, "取得購物車成功", carts, res);
 };
@@ -326,7 +374,8 @@ const postCouponDiscount = async (
   const {
     expireDate: couponExpireDate,
     title: couponTitle,
-    discount
+    discount,
+    _id: couponId
   } = couponData;
   const cartInfo = await Cart.findOne({ userId, sellerId }).select(
     "totalPrice isUsedCoupon"
@@ -336,7 +385,7 @@ const postCouponDiscount = async (
     return;
   }
   if (cartInfo.isUsedCoupon) {
-    appErrorHandler(400, "此購物車已使用過優惠券", next);
+    appErrorHandler(400, "此同賣家的購物車已使用過優惠券", next);
     return;
   }
   if (cartInfo.totalPrice < discount) {
@@ -358,10 +407,8 @@ const postCouponDiscount = async (
     { userId, sellerId },
     {
       isUsedCoupon: true,
-      couponCode,
-      couponExpireDate,
-      couponTitle,
-      $inc: { totalPrice: -discount, discountPriceWhitCoupon: discount }
+      couponId,
+      $inc: { totalPrice: -discount }
     },
     { new: true }
   );
