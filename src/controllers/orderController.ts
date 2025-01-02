@@ -75,12 +75,11 @@ const buyerEditOrder = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.headers.userId as string;
-  const { orderId, address, tel, buyerMessage } = req.body;
-  if (address) {
-  }
+  const { orderId, address, tel, buyerMessage, username } = req.body;
+
   const updatedOrder = await Order.findOneAndUpdate(
     { _id: orderId, buyerId: userId },
-    { address, tel, buyerMessage },
+    { address, tel, buyerMessage, username },
     { new: true }
   );
   if (!updatedOrder) {
