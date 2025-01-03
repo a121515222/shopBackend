@@ -12,6 +12,7 @@ export const corsOptions: CorsOptions = {
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void
   ) => {
+    console.log("Request origin: ", origin);
     if (
       (typeof origin === "string" && allowedOrigins.indexOf(origin) !== -1) ||
       !origin
