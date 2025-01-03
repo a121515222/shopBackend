@@ -2,7 +2,8 @@ import type { CorsOptions } from "cors";
 const allowedOrigins = [
   "https://localhost:3000",
   "http://localhost:3000",
-  "http://localhost:8086"
+  "http://localhost:8086",
+  "https://backnuxt.zeabur.app"
 ];
 
 export const corsOptions: CorsOptions = {
