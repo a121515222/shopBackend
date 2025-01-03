@@ -8,7 +8,6 @@
   "host": "backnuxt.zeabur.app",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "securityDefinitions": {

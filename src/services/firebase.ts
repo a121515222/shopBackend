@@ -8,7 +8,6 @@ import appSuccessHandler from "@/utils/appSuccessHandler";
 import dotenv from "dotenv";
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 // 配置 Firebase
-console.log("`.env.process.env.NODE_ENV", `.env.${process.env.NODE_ENV}`);
 export const config = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
