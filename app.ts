@@ -19,7 +19,7 @@ import couponRoute from "@/routes/couponRoute";
 import cartRoute from "@/routes/cartRoute";
 import orderRoute from "@/routes/orderRoute";
 import cors from "cors";
-import { corsOptions } from "./cors/corsOptions";
+import { corsOptions } from "@/corsOption/corsOptions";
 import googleService from "@/services/google";
 const app = express();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
