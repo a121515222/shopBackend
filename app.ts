@@ -3,7 +3,7 @@ import express from "express";
 import connectMongoDB from "@/services/mongo";
 import globalErrorHandler from "@/utils/globalErrorHandler";
 import swaggerUI from "swagger-ui-express";
-import swaggerFile from "./swagger-output.json";
+import swaggerFile from "@/swagger-output.json";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
