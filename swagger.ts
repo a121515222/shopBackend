@@ -6,7 +6,9 @@ const doc = {
     title: "shop",
     description: "the backend"
   },
-  host: process.env.PORT ? `localhost:${process.env.PORT}` : "",
+  host: process.env.PORT
+    ? `localhost:${process.env.PORT}`
+    : "backnuxt.zeabur.app",
   schemes: ["http", "https"],
   securityDefinitions: {
     apiKeyAuth: {
