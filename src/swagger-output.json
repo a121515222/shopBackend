@@ -5,7 +5,7 @@
     "description": "the backend",
     "version": "1.0.0"
   },
-  "host": "localhost:8086",
+  "host": "backnuxt.zeabur.app",
   "basePath": "/",
   "schemes": [
     "http",

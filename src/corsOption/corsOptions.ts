@@ -3,7 +3,8 @@ const allowedOrigins = [
   "https://localhost:3000",
   "http://localhost:3000",
   "http://localhost:8086",
-  "https://backnuxt.zeabur.app"
+  "https://backnuxt.zeabur.app",
+  "http://backnuxt.zeabur.app"
 ];
 
 export const corsOptions: CorsOptions = {
