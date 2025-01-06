@@ -215,6 +215,7 @@ const buyerGetOrderList = async (
         productList: 1, // 保留訂單內的 `productList`
         createdAt: 1, // 保留訂單的 `createdAt`
         paidDate: 1, // 保留訂單的 `paidDate`
+        paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
         totalPrice: 1, // 保留訂單的 `totalPrice`
@@ -300,6 +301,7 @@ const buyerGetOrder = async (
         productList: 1,
         createdAt: 1,
         paidDate: 1,
+        paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1,
         isPaid: 1,
         totalPrice: 1,
@@ -398,6 +400,7 @@ const sellerGetOrderList = async (
         productList: 1, // 保留訂單內的 `productList`
         createdAt: 1, // 保留訂單的 `createdAt`
         paidDate: 1, // 保留訂單的 `paidDate`
+        paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
         totalPrice: 1, // 保留訂單的 `totalPrice`
@@ -426,6 +429,35 @@ const sellerGetOrderList = async (
   }
 };
 
+const buyerPayOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = req.headers.userId as string;
+  const orderId = req.body.orderId;
+  const paidMethod = req.body.paidMethod;
+  if (
+    paidMethod !== "creditCard" &&
+    paidMethod !== "transfer" &&
+    paidMethod !== "cashOnDelivery"
+  ) {
+    appErrorHandler(400, "付款方式錯誤", next);
+    return;
+  }
+  const order = await Order.findOneAndUpdate(
+    { _id: orderId, buyerId: userId },
+    { status: "paid", paidMethod, paidDate: new Date(), isPaid: true },
+    { new: true }
+  );
+  if (!order) {
+    appErrorHandler(500, "付款失敗", next);
+    return;
+  } else {
+    appSuccessHandler(200, "付款成功", order, res);
+  }
+};
+
 export {
   buyerAddOrder,
   buyerEditOrder,
@@ -433,5 +465,6 @@ export {
   buyerDeleteOrder,
   buyerGetOrderList,
   buyerGetOrder,
-  sellerGetOrderList
+  sellerGetOrderList,
+  buyerPayOrder
 };

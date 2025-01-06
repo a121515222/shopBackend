@@ -9,7 +9,8 @@ import {
   buyerDeleteOrder,
   buyerGetOrderList,
   buyerGetOrder,
-  sellerGetOrderList
+  sellerGetOrderList,
+  buyerPayOrder
 } from "@/controllers/orderController";
 import {
   buyerAddOrderSwagger,
@@ -18,7 +19,8 @@ import {
   buyerDeleteOrderSwagger,
   buyerGetOrderListSwagger,
   buyerGetOrderSwagger,
-  sellerGetOrderListSwagger
+  sellerGetOrderListSwagger,
+  buyerPayOrderSwagger
 } from "@/swaggerConfig/orderSwagger";
 
 const router = Router();
@@ -68,6 +70,13 @@ router.get(
   sellerGetOrderListSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(sellerGetOrderList) as RequestHandler
+);
+
+router.post(
+  "/buyerPayOrder",
+  buyerPayOrderSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(buyerPayOrder) as RequestHandler
 );
 
 export default router;

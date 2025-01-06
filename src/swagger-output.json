@@ -5,10 +5,10 @@
     "description": "the backend",
     "version": "1.0.0"
   },
-  "host": "backnuxt.zeabur.app",
+  "host": "localhost:8086",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "apiKeyAuth": {
@@ -4051,6 +4051,69 @@
                       }
                     }
                   }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/buyerPayOrder": {
+      "post": {
+        "tags": [
+          "Order-訂單"
+        ],
+        "description": "付款",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "訂單資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "orderId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                },
+                "paidMethod": {
+                  "type": "string",
+                  "example": "creditCard"
+                }
+              },
+              "required": [
+                "orderId",
+                "paidMethod"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "付款成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "付款成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
                 }
               },
               "xml": {

@@ -8,13 +8,14 @@ interface OrderSchema {
   couponId: Types.ObjectId;
   productList: ProductCartType[];
   isPaid: boolean;
+  paidMethod: string;
+  paidDate: Date | string | number | null;
   totalPrice: number;
   status: string;
   address: string;
   tel: string;
   username: string;
   email: string;
-  paidDate: Date | string | number | null;
   buyerMessage: string;
 }
 const orderStatus = [
@@ -25,6 +26,7 @@ const orderStatus = [
   "completed",
   "cancelled"
 ];
+const paidMethodConfig = ["creditCard", "transfer", "cashOnDelivery"];
 const orderSchema = new Schema<OrderSchema>(
   {
     buyerId: { type: Schema.Types.ObjectId, required: true },
@@ -35,6 +37,7 @@ const orderSchema = new Schema<OrderSchema>(
     isPaid: { type: Boolean, default: false },
     status: { type: String, required: true },
     paidDate: { type: Date, default: null },
+    paidMethod: { type: String, default: "" },
     address: { type: String, required: true },
     username: { type: String, required: true },
     email: { type: String, required: true },
