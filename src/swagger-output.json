@@ -4113,7 +4113,105 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "couponId": {},
+                    "_id": {
+                      "type": "string",
+                      "example": "676a59c8752d68bc1a3b5d51"
+                    },
+                    "buyerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "cartId": {
+                      "type": "string",
+                      "example": "676a59ae752d68bc1a3b5d45"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 180
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "paid"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "新北市中和區"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "example": "0912345000"
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "674ecd448d091f0024c8a70a"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 2
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "orange"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://www.google.com"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 90
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "676a59ae752d68bc1a3b5d46"
+                          }
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-24T06:50:48.597Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2025-01-06T08:47:12.181Z"
+                    },
+                    "isPaid": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "paidDate": {
+                      "type": "string",
+                      "example": "2025-01-06T08:47:12.181Z"
+                    },
+                    "buyerMessage": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "paidMethod": {
+                      "type": "string",
+                      "example": "creditCard"
+                    }
+                  }
                 }
               },
               "xml": {

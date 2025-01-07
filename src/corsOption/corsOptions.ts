@@ -4,7 +4,9 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:8086",
   "https://backnuxt.zeabur.app",
-  "http://backnuxt.zeabur.app"
+  "http://backnuxt.zeabur.app",
+  `${process.env.BACK_DOMAIN}`,
+  `${process.env.FRONT_DOMAIN}`
 ];
 
 export const corsOptions: CorsOptions = {

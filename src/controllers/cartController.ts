@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import { Coupon } from "@/models/coupon";
 import { Cart } from "@/models/cart";
 import { Product } from "@/models/product";
-import { title } from "process";
 
 const postUserAddCart = async (
   req: Request,

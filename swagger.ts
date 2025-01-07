@@ -8,7 +8,8 @@ const doc = {
   },
   host: process.env.PORT
     ? `localhost:${process.env.PORT}`
-    : "backnuxt.zeabur.app",
+    : `${process.env.BACKEND_DOMAIN}`,
+
   schemes: process.env.PORT ? ["http"] : ["https"],
   securityDefinitions: {
     apiKeyAuth: {

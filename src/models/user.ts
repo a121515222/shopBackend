@@ -16,6 +16,9 @@ interface IUserSchema {
   sendVerifyTokenTime: Date;
   sendVerifyTokenCount: number;
   logInVerifyToken: string;
+  bankAccount: string;
+  averageScore: number;
+  commentCount: number;
 }
 
 const userSchema = new Schema<IUserSchema>(
@@ -36,7 +39,10 @@ const userSchema = new Schema<IUserSchema>(
     verifyToken: { type: String, default: "" },
     sendVerifyTokenTime: { type: Date, default: null },
     sendVerifyTokenCount: { type: Number, default: 0 },
-    logInVerifyToken: { type: String, default: "" }
+    logInVerifyToken: { type: String, default: "" },
+    bankAccount: { type: String, default: "" },
+    averageScore: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 }
   },
   { versionKey: false, timestamps: true }
 );

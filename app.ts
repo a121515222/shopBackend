@@ -53,7 +53,11 @@ app.use("/api/v1", couponRoute);
 app.use("/api/v1", cartRoute);
 app.use("/api/v1", orderRoute);
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  if (process.env.NODE_ENV === "dev") {
+    console.log(`Server is running at http://localhost:${port}`);
+  } else {
+    console.log(`Server is running ${process.env.BACK_DOMAIN}`);
+  }
 });
 
 /* Swagger */
