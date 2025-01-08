@@ -8,6 +8,7 @@ interface OrderSchema {
   couponId: Types.ObjectId;
   productList: ProductCartType[];
   isPaid: boolean;
+  isCommented: boolean;
   paidMethod: string;
   paidDate: Date | string | number | null;
   totalPrice: number;
@@ -35,6 +36,7 @@ const orderSchema = new Schema<OrderSchema>(
     couponId: { type: Schema.Types.ObjectId, default: null },
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
+    isCommented: { type: Boolean, default: false },
     status: { type: String, required: true },
     paidDate: { type: Date, default: null },
     paidMethod: { type: String, default: "" },

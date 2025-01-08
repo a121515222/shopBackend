@@ -4226,6 +4226,90 @@
           }
         ]
       }
+    },
+    "/api/v1/comment": {
+      "post": {
+        "tags": [
+          "Comment-評論"
+        ],
+        "description": "買家新增評論",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "新增評論資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sellerId": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "comment": {
+                  "type": "string",
+                  "example": "很棒"
+                },
+                "score": {
+                  "type": "number",
+                  "example": 5
+                },
+                "orderId": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增評論成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "新增評論成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "sellerId": {
+                      "type": "string",
+                      "example": "123"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "example": "123"
+                    },
+                    "comment": {
+                      "type": "string",
+                      "example": "很棒"
+                    },
+                    "score": {
+                      "type": "number",
+                      "example": 5
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
     }
   }
 }

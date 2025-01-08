@@ -284,6 +284,20 @@ const buyerGetOrder = async (
       }
     },
     {
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "orderId",
+        as: "commentInfo"
+      }
+    },
+    {
+      $unwind: {
+        path: "$commentInfo",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
       $addFields: {
         "buyerInfo.address": "$address", // 將訂單內的 `address` 添加到 `buyerInfo` 中
         "buyerInfo.tel": "$tel", // 將訂單內的 `tel` 添加到 `buyerInfo` 中
@@ -298,6 +312,7 @@ const buyerGetOrder = async (
       $project: {
         _id: 1,
         buyerId: 1,
+        sellerId: 1,
         productList: 1,
         createdAt: 1,
         paidDate: 1,
@@ -323,6 +338,11 @@ const buyerGetOrder = async (
           email: 1,
           username: 1,
           buyerMessage: 1
+        },
+        commentInfo: {
+          _id: 1,
+          comment: 1,
+          score: 1
         }
       }
     }

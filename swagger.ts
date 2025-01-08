@@ -8,7 +8,7 @@ const doc = {
   },
   host: process.env.PORT
     ? `localhost:${process.env.PORT}`
-    : `${process.env.BACKEND_DOMAIN}`,
+    : `${process.env.BACK_DOMAIN}`,
 
   schemes: process.env.PORT ? ["http"] : ["https"],
   securityDefinitions: {

@@ -9,7 +9,7 @@ const buyerAddComment = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.headers.userid;
+  const userId = req.headers.userId;
   const { sellerId, comment, score, orderId } = req.body;
   if (!sellerId || !comment || !score || !orderId) {
     appErrorHandler(500, "缺少必要資料", next);
@@ -24,14 +24,20 @@ const buyerAddComment = async (
     appErrorHandler(500, "訂單尚未完成", next);
     return;
   }
+  if (order.isCommented) {
+    appErrorHandler(500, "已經評論過了", next);
+    return;
+  }
   const buyerComment = await Comment.create({
     sellerId,
     userId,
+    orderId,
     comment,
     score
   });
   if (buyerComment) {
     appSuccessHandler(200, "新增評論成功", buyerComment, res);
+    await Order.findOneAndUpdate({ _id: orderId }, { isCommented: true });
     await User.findOneAndUpdate({ _id: sellerId }, [
       {
         $set: {

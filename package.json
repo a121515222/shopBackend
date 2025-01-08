@@ -7,7 +7,7 @@
     "start": "node dist/app.js",
     "dev": "cross-env NODE_ENV=dev tsx watch ./app.ts",
     "swagger": "cross-env NODE_ENV=dev tsx ./swagger.ts",
-    "swaggerdev": "cross-env NODE_ENV=swagger tsx ./swagger.ts",
+    "swaggerdep": "cross-env NODE_ENV=swagger tsx ./swagger.ts",
     "project": "ts-node ./app.ts"
   },
   "dependencies": {

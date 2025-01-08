@@ -16,10 +16,10 @@ export function buyerAddCommentSwagger(
       type: "Object",
       description: "新增評論資料",
       schema: {
-        sellerId: "123",
-        comment: "很棒",
-        score: 5,
-        orderId: "123456"
+        $sellerId: "123",
+        $comment: "很棒",
+        $score: 5,
+        $orderId: "123456"
       }
     }
     * #swagger.responses[200] = {
