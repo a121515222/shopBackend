@@ -38,3 +38,55 @@ export function buyerAddCommentSwagger(
   */
   next();
 }
+
+export function sellerGetCommentSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  /**
+   * #swagger.tags = ["Comment-評論"]
+   * #swagger.description = "賣家取得評論"
+   * #swagger.security = [{
+       "apiKeyAuth": []
+     }]
+   * #swagger.parameters["page"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "頁數，用於分頁",
+       default: 1
+     }
+   * #swagger.parameters["limit"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "每頁顯示的項目數，默認為 10",
+       default: 10
+     }
+   * #swagger.responses[200] = {
+       description: "取得評論成功",
+       schema: {
+         status: true,
+         message: "取得評論成功",
+         data: {
+           comments: [
+             {
+               sellerId: "123",
+               userId: "123",
+               comment: "很棒",
+               score: 5
+             }
+           ],
+           pagination: {
+             totalPage: 1,
+             totalItems: 1,
+             currentPage: 1,
+             limit: 10
+           }
+         }
+       }
+     }
+   */
+  next();
+}

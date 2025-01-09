@@ -4,6 +4,8 @@ import appSuccessHandler from "@/utils/appSuccessHandler";
 import { Comment } from "@/models/comment";
 import { User } from "@/models/user";
 import { Order } from "@/models/order";
+import { handlePagination } from "@/utils/paginationHandler";
+import mongoose from "mongoose";
 const buyerAddComment = async (
   req: Request,
   res: Response,
@@ -76,4 +78,65 @@ const buyerAddComment = async (
   }
 };
 
-export { buyerAddComment };
+const sellerGetComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const sellerId = req.headers.userId as string;
+  let page: number | undefined = req.query.page
+    ? parseInt(req.query.page as string)
+    : 1;
+  let limit: number | undefined = req.query.limit
+    ? Number(req.query.limit)
+    : undefined;
+  page = page || 1;
+  limit = limit || 10;
+  const skip = (page - 1) * limit;
+  const getTotalCount = await Comment.find({ sellerId }).countDocuments();
+  const sellerGetCommentList = await Comment.aggregate([
+    {
+      $match: {
+        sellerId: new mongoose.Types.ObjectId(sellerId)
+      }
+    },
+    {
+      $lookup: {
+        from: "orders",
+        localField: "orderId",
+        foreignField: "_id",
+        as: "orderInfo"
+      }
+    },
+    {
+      $set: {
+        orderInfo: { $arrayElemAt: ["$orderInfo", 0] } // 将数组格式的 couponInfo 转换为对象
+      }
+    },
+    {
+      $skip: skip
+    },
+    {
+      $limit: limit
+    },
+    {
+      $project: {
+        _id: 0,
+        sellerId: 1,
+        userId: 1,
+        comment: 1,
+        score: 1,
+        createdAt: 1,
+        orderInfo: 1
+      }
+    }
+  ]);
+  const [commentList, totalCount] = await Promise.all([
+    sellerGetCommentList,
+    getTotalCount
+  ]);
+  const pagination = handlePagination(page, limit, totalCount);
+  appSuccessHandler(200, "取得評論成功", { commentList, pagination }, res);
+};
+
+export { buyerAddComment, sellerGetComment };

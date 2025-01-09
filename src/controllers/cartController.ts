@@ -178,7 +178,6 @@ const getUserCart = async (
   page = page || 1;
   limit = limit || 10;
   const skip = (page - 1) * limit;
-  // const carts = await Cart.find({ userId }).skip(skip).limit(limit);
   const carts = await Cart.aggregate([
     {
       $match: { userId: new mongoose.Types.ObjectId(userId) } // 匹配当前用户的购物车

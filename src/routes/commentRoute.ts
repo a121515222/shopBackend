@@ -2,8 +2,14 @@ import { Request, Response, NextFunction, Router } from "express";
 import type { RequestHandler, Handler } from "express";
 import asyncErrorHandler from "@/middlewares/asyncErrorHandler";
 import { checkLogIn, checkAdmin } from "@/middlewares/auth";
-import { buyerAddComment } from "@/controllers/commentController";
-import { buyerAddCommentSwagger } from "@/swaggerConfig/commentSwagger";
+import {
+  buyerAddComment,
+  sellerGetComment
+} from "@/controllers/commentController";
+import {
+  buyerAddCommentSwagger,
+  sellerGetCommentSwagger
+} from "@/swaggerConfig/commentSwagger";
 
 const router = Router();
 
@@ -12,6 +18,13 @@ router.post(
   buyerAddCommentSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(buyerAddComment) as RequestHandler
+);
+
+router.get(
+  "/sellerGetComment",
+  sellerGetCommentSwagger,
+  checkLogIn as Handler,
+  asyncErrorHandler(sellerGetComment) as RequestHandler
 );
 
 export default router;
