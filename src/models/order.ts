@@ -20,12 +20,12 @@ interface OrderSchema {
   buyerMessage: string;
 }
 const orderStatus = [
-  "unpaid",
-  "paid",
+  "inProcessed",
   "shipped",
   "confirmed",
   "completed",
-  "cancelled"
+  "buyerCancelled",
+  "sellerCancelled"
 ];
 const paidMethodConfig = ["creditCard", "transfer", "cashOnDelivery"];
 const orderSchema = new Schema<OrderSchema>(

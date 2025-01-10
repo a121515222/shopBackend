@@ -42,7 +42,7 @@ const buyerAddOrder = async (
     cartId,
     totalPrice,
     productList,
-    status: "unpaid",
+    status: "inProcessed",
     address,
     tel,
     email,
@@ -101,12 +101,7 @@ const sellerEditOrder = async (
   const sellerId = req.headers.userId as string;
   const { orderId, status } = req.body;
   const updateData: sellerEditOrder = { status };
-  if (status === "paid") {
-    updateData.isPaid = true;
-  }
-  if (status === "unpaid") {
-    updateData.isPaid = false;
-  }
+
   const updatedOrder = await Order.findOneAndUpdate(
     { _id: orderId, sellerId },
     updateData,
@@ -132,7 +127,7 @@ const buyerDeleteOrder = async (
   if (!order) {
     throw new Error("訂單不存在");
   }
-  if (order.status !== "unpaid" && order.status !== "cancelled") {
+  if (order.status !== "cancelled") {
     // 假設狀態欄位名稱是 `status`，並且確認狀態為 `confirmed`
     throw new Error("訂單已確認，無法刪除");
   }
