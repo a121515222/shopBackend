@@ -672,3 +672,69 @@ export function buyerPayOrderSwagger(
    */
   next();
 }
+
+export function buyerCancelOrderSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["Order-訂單"]
+   * #swagger.description = "取消訂單"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+   * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "訂單資料",
+      schema: {
+        $orderId: "adfzcsdv565sadf",
+      }
+    }
+    * #swagger.responses[200] = {
+        description: '取消訂單成功',
+        schema: {
+          status: true,
+          message: "取消訂單成功",
+          data: {
+    couponId: null,
+    isCommented: false,
+    _id: "676e44ec65fba599f4825557",
+    buyerId: "67405af5e85ca5d5551ed8a7",
+    sellerId: "67650411ccb48d8ebb4b75dd",
+    cartId: "676d1a7ef711261a300f488f",
+    totalPrice: 100,
+    isPaid: false,
+    status: "buyerCancelled",
+    paidDate: null,
+    address: "屏東縣高樹鄉高樹村",
+    username: "Eason",
+    email: "a121515222@hotmail.com",
+    tel: "0927173739",
+    buyerMessage: "測試",
+    productList: [
+      {
+        productId: "676509e8efb0ef81f1998fe1",
+        num: 1,
+        title: "測試",
+        price: 100,
+        discount: 100,
+        imageUrl: "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/a0e91ebf-c3f1-4c02-b537-fa5c2f9b0474.png?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=NAWPyf7TBTEAJJUTMUmg5c9kwPzHwI6JfgY%2B0T37MXF4eXBFFttwO9Qev%2FEtgVqrW0aOd%2BVyrPQHUgPecD%2B4CwngmHCZUD07nZPx85sNT1H1Joz0pGG8tTWocBUDuAgxBa61wlt6WGup96zlX9fzINrDv9TN42cQY%2BumMiKxbGyPqHVLzt2ZN81tkPnHGMOp95cZc0L6iA90Rge3GJBm31RfyWWlUDD%2FVo71n45LLJx7zCKo0KDH0X5kH9J1pmcHkZCZ5ntW8MHZHoo9qB2cvGSnWwECKhCDI%2FUwgJ3q0ogWiimw1Zokfe3ZhtOnYOlNHQd6ElrkKhmYWmZK8oSvoA%3D%3D",
+        productSellPrice: 100,
+        _id: "676d1a7ef711261a300f4890"
+      }
+    ],
+    createdAt: "2024-12-27T06:10:52.790Z",
+    updatedAt: "2025-01-11T05:45:42.510Z",
+    isUsedCoupon: false,
+    couponCode: "",
+    discountPriceWhitCoupon: 0,
+    paidMethod: ""
+  }
+      }      
+    }     
+   */
+  next();
+}

@@ -350,6 +350,51 @@ const buyerGetOrder = async (
   }
 };
 
+const buyerCancelOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = req.headers.userId as string;
+  const orderId = req.body.orderId;
+  const orderStatus = await Order.findOne({ _id: orderId }).select("status");
+  if (!orderStatus) {
+    appErrorHandler(400, "找不到訂單", next);
+    return;
+  }
+  if (
+    orderStatus.status === "buyerCancelled" ||
+    orderStatus.status === "sellerCancelled"
+  ) {
+    appErrorHandler(400, "訂單已取消", next);
+    return;
+  }
+  if (orderStatus.status === "shipped") {
+    appErrorHandler(400, "訂單已出貨", next);
+    return;
+  }
+  if (orderStatus.status === "completed") {
+    appErrorHandler(400, "訂單已完成", next);
+    return;
+  }
+  if (orderStatus.status === "confirmed") {
+    appErrorHandler(400, "訂單已確認", next);
+    return;
+  }
+
+  const order = await Order.findOneAndUpdate(
+    { _id: orderId, buyerId: userId },
+    { status: "buyerCancelled" },
+    { new: true }
+  );
+  if (!order) {
+    appErrorHandler(400, "找不到訂單", next);
+    return;
+  } else {
+    appSuccessHandler(200, "取消訂單成功", order, res);
+  }
+};
+
 const sellerGetOrderList = async (
   req: Request,
   res: Response,
@@ -481,5 +526,6 @@ export {
   buyerGetOrderList,
   buyerGetOrder,
   sellerGetOrderList,
-  buyerPayOrder
+  buyerPayOrder,
+  buyerCancelOrder
 };

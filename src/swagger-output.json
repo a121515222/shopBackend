@@ -4227,6 +4227,64 @@
         ]
       }
     },
+    "/api/v1/buyerCancelOrder": {
+      "put": {
+        "tags": [
+          "Order-訂單"
+        ],
+        "description": "取消訂單",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "訂單資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "orderId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              },
+              "required": [
+                "orderId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取消訂單成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取消訂單成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/comment": {
       "post": {
         "tags": [
@@ -4324,13 +4382,6 @@
         ],
         "description": "賣家取得評論",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "使用者Id"
-          },
           {
             "name": "page",
             "in": "query",
