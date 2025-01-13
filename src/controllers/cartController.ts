@@ -78,7 +78,7 @@ const findProductAndValidate = async (
     appErrorHandler(400, "商品庫存不足", next);
     return null;
   }
-  const productSellPrice = (product.price * product.discount) / 100;
+  const productSellPrice = product.price - product.discount;
   return { product, productSellPrice };
 };
 

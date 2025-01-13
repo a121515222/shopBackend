@@ -11,16 +11,22 @@ interface ProductSchema {
   tag: string[];
   content: string;
   unit: string;
-  productStatus: number;
+  productStatus:
+    | "notListed"
+    | "listed"
+    | "outOfStock"
+    | "restocking"
+    | "onSale"
+    | "pendingRemoval";
   num: number; //產品數量
 }
 const productStatus = {
-  0: "未上架",
-  1: "已上架",
-  2: "缺貨中",
-  3: "補貨中",
-  4: "促銷中",
-  5: "待下架"
+  notListed: "未上架",
+  listed: "已上架",
+  outOfStock: "缺貨中",
+  restocking: "補貨中",
+  onSale: "促銷中",
+  pendingRemoval: "待下架"
 };
 const productSchema = new Schema<ProductSchema>(
   {
@@ -35,7 +41,7 @@ const productSchema = new Schema<ProductSchema>(
     content: { type: String, default: "" },
     tag: { type: [String], default: [] },
     unit: { type: String, default: "" },
-    productStatus: { type: Number, default: 0 },
+    productStatus: { type: String, default: "notListed" },
     num: { type: Number, default: 0 }
   },
   { versionKey: false, timestamps: true }

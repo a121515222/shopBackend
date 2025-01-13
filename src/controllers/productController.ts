@@ -33,6 +33,10 @@ const postUserProduct = async (
     appErrorHandler(400, missingFieldsMsg, next);
     return;
   }
+  if (discount >= price) {
+    appErrorHandler(400, "折扣價格不可高於原價", next);
+    return;
+  }
   const newProduct = await Product.create({
     userId,
     title,
@@ -129,7 +133,8 @@ const updateUserProduct = async (
     category,
     content,
     tag,
-    num
+    num,
+    productStatus
   } = req.body;
   if (title) {
     updateProductData.title = title;
@@ -141,7 +146,12 @@ const updateUserProduct = async (
     updateProductData.price = price;
   }
   if (discount) {
-    updateProductData.discount = discount;
+    if (discount >= price) {
+      appErrorHandler(400, "折扣價格不可高於原價", next);
+      return;
+    } else {
+      updateProductData.discount = discount;
+    }
   }
   if (imagesUrl.length > 0) {
     updateProductData.imagesUrl = imagesUrl;
@@ -156,10 +166,13 @@ const updateUserProduct = async (
     updateProductData.content = content;
   }
   if (num) {
-    updateProductData.num;
+    updateProductData.num = num;
   }
   if (tag.length > 0) {
     updateProductData.tag = tag;
+  }
+  if (productStatus) {
+    updateProductData.productStatus = productStatus;
   }
   const updateProduct = await Product.findOneAndUpdate(
     {
