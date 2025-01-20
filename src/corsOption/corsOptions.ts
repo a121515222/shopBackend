@@ -3,6 +3,7 @@ const allowedOrigins = [
   "https://localhost:3000",
   "http://localhost:3000",
   "http://localhost:8086",
+  "https://localhost:8086",
   "https://backnuxt.zeabur.app",
   "http://backnuxt.zeabur.app",
   `${process.env.BACK_DOMAIN}`,

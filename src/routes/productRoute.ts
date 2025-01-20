@@ -6,6 +6,7 @@ import {
   postUserProduct,
   getAllUserProducts,
   getProductById,
+  getProducts,
   updateUserProduct,
   deleteUserProduct
 } from "@/controllers/productController";
@@ -13,6 +14,7 @@ import {
   postUserProductSwagger,
   getAllUserProductSwagger,
   getUserProductByIdSwagger,
+  getProductsSwagger,
   putUserProductSwagger,
   deleteUserProductSwagger
 } from "@/swaggerConfig/productSwagger";
@@ -33,8 +35,15 @@ router.get(
 router.get(
   "/productById/:id",
   getUserProductByIdSwagger,
+  checkLogIn as Handler,
   asyncErrorHandler(getProductById) as RequestHandler
 );
+router.get(
+  "/searchProducts",
+  getProductsSwagger,
+  asyncErrorHandler(getProducts) as RequestHandler
+);
+
 router.put(
   "/productById/:id",
   putUserProductSwagger,

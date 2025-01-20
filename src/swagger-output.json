@@ -1227,7 +1227,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -1517,6 +1522,176 @@
             "apiKeyAuth": []
           }
         ]
+      }
+    },
+    "/api/v1/searchProducts": {
+      "get": {
+        "tags": [
+          "Product-商品"
+        ],
+        "description": "搜尋商品資料",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "頁數，用於分頁",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "每頁顯示的項目數，默認為 10",
+            "default": 10
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "商品關鍵字"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得商品資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得商品資料成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "674ed173746672480f1afc54"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "67405af5e85ca5d5551ed8a7"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "tomato"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "juicy and versatile"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 50
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 0.1
+                          },
+                          "imagesUrl": {
+                            "type": "array",
+                            "example": [
+                              "https://example.com/tomato.jpg"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://example.com/tomato.jpg"
+                          },
+                          "category": {
+                            "type": "array",
+                            "example": [
+                              "vegetable",
+                              "fruit"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "Used in salads and sauces"
+                          },
+                          "tag": {
+                            "type": "array",
+                            "example": [
+                              "tomato",
+                              "vegetable",
+                              "fruit"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024-12-03T09:37:55.122Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2024-12-03T09:37:55.122Z"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "totalCount": {
+                          "type": "number",
+                          "example": 22
+                        },
+                        "totalPages": {
+                          "type": "number",
+                          "example": 3
+                        },
+                        "limit": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/uploadImage/{userId}": {
@@ -4269,7 +4444,126 @@
                 },
                 "data": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "couponId": {},
+                    "isCommented": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "676e44ec65fba599f4825557"
+                    },
+                    "buyerId": {
+                      "type": "string",
+                      "example": "67405af5e85ca5d5551ed8a7"
+                    },
+                    "sellerId": {
+                      "type": "string",
+                      "example": "67650411ccb48d8ebb4b75dd"
+                    },
+                    "cartId": {
+                      "type": "string",
+                      "example": "676d1a7ef711261a300f488f"
+                    },
+                    "totalPrice": {
+                      "type": "number",
+                      "example": 100
+                    },
+                    "isPaid": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "buyerCancelled"
+                    },
+                    "paidDate": {},
+                    "address": {
+                      "type": "string",
+                      "example": "屏東縣高樹鄉高樹村"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "Eason"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "a121515222@hotmail.com"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "example": "0927173739"
+                    },
+                    "buyerMessage": {
+                      "type": "string",
+                      "example": "測試"
+                    },
+                    "productList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "676509e8efb0ef81f1998fe1"
+                          },
+                          "num": {
+                            "type": "number",
+                            "example": 1
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "測試"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "discount": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "imageUrl": {
+                            "type": "string",
+                            "example": "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/a0e91ebf-c3f1-4c02-b537-fa5c2f9b0474.png?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=NAWPyf7TBTEAJJUTMUmg5c9kwPzHwI6JfgY%2B0T37MXF4eXBFFttwO9Qev%2FEtgVqrW0aOd%2BVyrPQHUgPecD%2B4CwngmHCZUD07nZPx85sNT1H1Joz0pGG8tTWocBUDuAgxBa61wlt6WGup96zlX9fzINrDv9TN42cQY%2BumMiKxbGyPqHVLzt2ZN81tkPnHGMOp95cZc0L6iA90Rge3GJBm31RfyWWlUDD%2FVo71n45LLJx7zCKo0KDH0X5kH9J1pmcHkZCZ5ntW8MHZHoo9qB2cvGSnWwECKhCDI%2FUwgJ3q0ogWiimw1Zokfe3ZhtOnYOlNHQd6ElrkKhmYWmZK8oSvoA%3D%3D"
+                          },
+                          "productSellPrice": {
+                            "type": "number",
+                            "example": 100
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "676d1a7ef711261a300f4890"
+                          }
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2024-12-27T06:10:52.790Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2025-01-11T05:45:42.510Z"
+                    },
+                    "isUsedCoupon": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "couponCode": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "discountPriceWhitCoupon": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "paidMethod": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  }
                 }
               },
               "xml": {

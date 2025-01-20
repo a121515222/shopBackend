@@ -213,10 +213,46 @@ const deleteUserProduct = async (
   }
 };
 
+const getProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { page, limit, search, minPrice, maxPrice } = req.query;
+  let pageNumber: number = page ? Number(page) : 1;
+  let limitNumber: number = limit ? Number(limit) : 10;
+  const query: Record<string, any> = {};
+  if (search) {
+    const keywords = (search as string).split(" ").filter(Boolean); // 後面的filter可以去除"空字串" 0 false null undefined
+    query.$or = keywords.map((keyword) => ({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } }, //i是忽略大小寫
+        { description: { $regex: keyword, $options: "i" } },
+        { category: { $regex: keyword, $options: "i" } },
+        { tag: { $regex: keyword, $options: "i" } }
+      ]
+    }));
+  }
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) query.price.$gte = Number(minPrice);
+    if (maxPrice) query.price.$lte = Number(maxPrice);
+  }
+  const findProduct = await Product.find(query)
+    .limit(limitNumber)
+    .skip((pageNumber - 1) * limitNumber);
+  const getTotal = await Product.find(query).countDocuments();
+
+  const [productList, totalCount] = await Promise.all([findProduct, getTotal]);
+
+  const pagination = handlePagination(pageNumber, limitNumber, totalCount);
+  appSuccessHandler(200, "查詢成功", { productList, pagination }, res);
+};
 export {
   postUserProduct,
   getAllUserProducts,
   getProductById,
+  getProducts,
   updateUserProduct,
   deleteUserProduct
 };
