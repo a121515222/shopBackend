@@ -18,6 +18,11 @@ import {
   putUserProductSwagger,
   deleteUserProductSwagger
 } from "@/swaggerConfig/productSwagger";
+
+import { productSearchQueryChain } from "@/middlewares/verifyChain";
+
+import { chainErrorHandler } from "@/middlewares/chainErrorHandler";
+
 const router = Router();
 
 router.post(
@@ -41,6 +46,8 @@ router.get(
 router.get(
   "/searchProducts",
   getProductsSwagger,
+  productSearchQueryChain,
+  chainErrorHandler,
   asyncErrorHandler(getProducts) as RequestHandler
 );
 
