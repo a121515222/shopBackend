@@ -233,20 +233,26 @@ const getProducts = async (
       ]
     }));
   }
-  if (minPrice || maxPrice) {
+  if (minPrice !== "null" || maxPrice !== "null") {
     query.price = {};
-    if (minPrice) query.price.$gte = Number(minPrice);
-    if (maxPrice) query.price.$lte = Number(maxPrice);
   }
+  if (minPrice !== "null") {
+    query.price = { $gte: Number(minPrice) };
+  }
+  if (maxPrice !== "null") {
+    query.price = { $lte: Number(maxPrice) };
+  }
+  // 產品狀態未上架就不傳出去
+  query.productStatus = { $ne: "notListed" };
   const findProduct = await Product.find(query)
     .limit(limitNumber)
     .skip((pageNumber - 1) * limitNumber);
   const getTotal = await Product.find(query).countDocuments();
 
-  const [productList, totalCount] = await Promise.all([findProduct, getTotal]);
+  const [products, totalCount] = await Promise.all([findProduct, getTotal]);
 
   const pagination = handlePagination(pageNumber, limitNumber, totalCount);
-  appSuccessHandler(200, "查詢成功", { productList, pagination }, res);
+  appSuccessHandler(200, "查詢成功", { products, pagination }, res);
 };
 export {
   postUserProduct,
