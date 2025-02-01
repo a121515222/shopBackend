@@ -40,7 +40,7 @@ router.get(
 router.get(
   "/productById/:id",
   getUserProductByIdSwagger,
-  checkLogIn as Handler,
+  // checkLogIn as Handler,
   asyncErrorHandler(getProductById) as RequestHandler
 );
 router.get(
