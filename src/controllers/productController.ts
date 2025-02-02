@@ -233,20 +233,65 @@ const getProducts = async (
       ]
     }));
   }
-  if (minPrice !== "null" || maxPrice !== "null") {
+  if (
+    (minPrice !== undefined && minPrice !== null && minPrice !== "null") ||
+    (maxPrice !== undefined && maxPrice !== null && maxPrice !== "null")
+  ) {
     query.price = {};
   }
-  if (minPrice !== "null") {
+  if (minPrice !== undefined && minPrice !== null && minPrice !== "null") {
     query.price = { $gte: Number(minPrice) };
   }
-  if (maxPrice !== "null") {
+  if (maxPrice !== undefined && maxPrice !== null && maxPrice !== "null") {
     query.price = { $lte: Number(maxPrice) };
   }
   // 產品狀態未上架就不傳出去
   query.productStatus = { $ne: "notListed" };
-  const findProduct = await Product.find(query)
-    .limit(limitNumber)
-    .skip((pageNumber - 1) * limitNumber);
+  // const findProduct = await Product.find(query)
+  //   .limit(limitNumber)
+  //   .skip((pageNumber - 1) * limitNumber);
+  const findProduct = await Product.aggregate([
+    {
+      $match: query
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "sellerInfo"
+      }
+    },
+    {
+      $unwind: "$sellerInfo" // 解构 sellerInfo 数组（如果每个产品只有一个卖家）
+    },
+    {
+      $project: {
+        userId: 1,
+        title: 1,
+        price: 1,
+        discount: 1,
+        imagesUrl: 1,
+        imageUrl: 1,
+        category: 1,
+        tag: 1,
+        content: 1,
+        unit: 1,
+        productStatus: 1,
+        num: 1,
+        "sellerInfo.username": 1,
+        "sellerInfo.email": 1,
+        "sellerInfo.tel": 1,
+        "sellerInfo.averageScore": 1
+      }
+    },
+    {
+      $skip: (pageNumber - 1) * limitNumber
+    },
+    {
+      $limit: limitNumber
+    }
+  ]);
   const getTotal = await Product.find(query).countDocuments();
 
   const [products, totalCount] = await Promise.all([findProduct, getTotal]);

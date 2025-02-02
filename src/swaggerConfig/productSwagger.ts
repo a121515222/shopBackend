@@ -385,6 +385,18 @@ export function getProductsSwagger(
        description: "每頁顯示的項目數，默認為 10",
        default: 10
      }
+   * #swagger.parameters["minPrice"] = {
+        in: "query",
+        required: false,
+        type: "integer",
+        description: "最低價格",
+      }
+    * #swagger.parameters["maxPrice"] = {
+        in: "query",
+        required: false,
+        type: "integer",
+        description: "最高價格",
+      }  
     * #swagger.parameters["search"] = {
         in: "query",
         required: false,
