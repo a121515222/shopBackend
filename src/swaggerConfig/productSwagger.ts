@@ -370,7 +370,7 @@ export function getProductsSwagger(
   /*
    * #swagger.tags = ["Product-商品"]
    * #swagger.description = "搜尋商品資料"
-   * * #swagger.parameters["page"] = {
+   * #swagger.parameters["page"] = {
        in: "query",
        required: false,
        type: "integer",

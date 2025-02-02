@@ -6,6 +6,7 @@ import {
   postUserArticle,
   getAllUserArticles,
   getUserArticle,
+  searchArticles,
   updateUserArticle,
   deleteUserArticle
 } from "@/controllers/articleController";
@@ -13,6 +14,7 @@ import {
   postUserArticleSwagger,
   getAllUserArticleSwagger,
   getUserArticleByIdSwagger,
+  searchArticleSwagger,
   updateUserArticleSwagger,
   deleteUserArticleSwagger
 } from "@/swaggerConfig/articleSwagger";
@@ -49,5 +51,11 @@ router.delete(
   deleteUserArticleSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(deleteUserArticle) as RequestHandler
+);
+
+router.post(
+  "/searchArticles",
+  searchArticleSwagger,
+  asyncErrorHandler(searchArticles) as RequestHandler
 );
 export default router;

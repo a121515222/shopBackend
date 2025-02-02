@@ -153,6 +153,35 @@ const updateUserArticle = async (
   }
 };
 
+const searchArticles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { search, page, limit } = req.query;
+  let pageNumber: number = page ? Number(page) : 1;
+  let limitNumber: number = limit ? Number(limit) : 10;
+  const query: Record<string, any> = {};
+  if (search) {
+    const keywords = (search as string).split(" ").filter(Boolean);
+    query.$or = keywords.map((keyword) => ({
+      $or: [
+        { title: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+        { author: { $regex: keyword, $options: "i" } }
+      ]
+    }));
+  }
+  query.isPublic = { $eq: true };
+  const findArticles = await Article.find(query)
+    .limit(limitNumber)
+    .skip((pageNumber - 1) * limitNumber);
+  const getTotal = await Article.find(query).countDocuments();
+  const [articles, totalCount] = await Promise.all([findArticles, getTotal]);
+  const pagination = handlePagination(pageNumber, limitNumber, totalCount);
+  appSuccessHandler(200, "查詢成功", { articles, pagination }, res);
+};
+
 const deleteUserArticle = async (
   req: Request,
   res: Response,
@@ -177,6 +206,7 @@ export {
   postUserArticle,
   getAllUserArticles,
   getUserArticle,
+  searchArticles,
   updateUserArticle,
   deleteUserArticle
 };

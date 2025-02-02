@@ -224,3 +224,60 @@ export function deleteUserArticleSwagger(
    */
   next();
 }
+
+export function searchArticleSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["Article-文章"]
+   * #swagger.description = "搜尋文章"
+   * #swagger.parameters["page"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "頁數，用於分頁",
+       default: 1
+     }
+     
+   * #swagger.parameters["limit"] = {
+       in: "query",
+       required: false,
+       type: "integer",
+       description: "每頁顯示的項目數，默認為 10",
+       default: 10
+     }
+   * #swagger.parameters["keyword"] = {
+      in: "query",
+      required: false,
+      type: "string",
+      description: "搜尋關鍵字",
+    } 
+    * #swagger.responses[200] = {
+        description: '搜尋文章成功',
+        schema: {
+          status: true,
+          message: "搜尋文章成功",
+          data: {
+            articles: [{
+              title: "apple",
+              description: "juicy and delicious",
+              imageUrl: "https://www.google.com",
+              content: "juicy and delicious, sweet and sour, a day keeps the doctor away",
+              tag: ["apple", "fruit"]
+              }],
+            "pagination": {
+            "currentPage": 1,
+            "totalCount": 22,
+            "totalPages": 3,
+            "limit": 10,
+            "hasPrevPage": false,
+            "hasNextPage": true
+              }
+          }
+      }      
+    }     
+   */
+  next();
+}
