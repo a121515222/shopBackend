@@ -1548,6 +1548,20 @@
             "default": 10
           },
           {
+            "name": "minPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "最低價格"
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "最高價格"
+          },
+          {
             "name": "search",
             "in": "query",
             "required": false,
@@ -1579,7 +1593,7 @@
                         "properties": {
                           "_id": {
                             "type": "string",
-                            "example": "674ed173746672480f1afc54"
+                            "example": "674ecd448d091f0024c8a70a"
                           },
                           "userId": {
                             "type": "string",
@@ -1587,24 +1601,24 @@
                           },
                           "title": {
                             "type": "string",
-                            "example": "tomato"
+                            "example": "orange"
                           },
                           "description": {
                             "type": "string",
-                            "example": "juicy and versatile"
+                            "example": "juicy and delicious"
                           },
                           "price": {
                             "type": "number",
-                            "example": 50
+                            "example": 100
                           },
                           "discount": {
                             "type": "number",
-                            "example": 0.1
+                            "example": 0.9
                           },
                           "imagesUrl": {
                             "type": "array",
                             "example": [
-                              "https://example.com/tomato.jpg"
+                              "https://www.google.com"
                             ],
                             "items": {
                               "type": "string"
@@ -1612,12 +1626,11 @@
                           },
                           "imageUrl": {
                             "type": "string",
-                            "example": "https://example.com/tomato.jpg"
+                            "example": "https://www.google.com"
                           },
                           "category": {
                             "type": "array",
                             "example": [
-                              "vegetable",
                               "fruit"
                             ],
                             "items": {
@@ -1626,30 +1639,37 @@
                           },
                           "content": {
                             "type": "string",
-                            "example": "Used in salads and sauces"
+                            "example": "juicy and delicious, sweet and sour"
                           },
                           "tag": {
                             "type": "array",
-                            "example": [
-                              "tomato",
-                              "vegetable",
-                              "fruit"
-                            ],
-                            "items": {
-                              "type": "string"
-                            }
+                            "example": [],
+                            "items": {}
                           },
                           "unit": {
                             "type": "string",
                             "example": ""
                           },
-                          "createdAt": {
-                            "type": "string",
-                            "example": "2024-12-03T09:37:55.122Z"
-                          },
-                          "updatedAt": {
-                            "type": "string",
-                            "example": "2024-12-03T09:37:55.122Z"
+                          "sellerInfo": {
+                            "type": "object",
+                            "properties": {
+                              "email": {
+                                "type": "string",
+                                "example": "a121515222@hotmail.com"
+                              },
+                              "tel": {
+                                "type": "string",
+                                "example": "0927173739"
+                              },
+                              "username": {
+                                "type": "string",
+                                "example": "Eason"
+                              },
+                              "averageScore": {
+                                "type": "number",
+                                "example": 4
+                              }
+                            }
                           }
                         }
                       }
