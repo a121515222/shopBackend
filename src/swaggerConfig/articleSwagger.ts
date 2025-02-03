@@ -248,7 +248,7 @@ export function searchArticleSwagger(
        description: "每頁顯示的項目數，默認為 10",
        default: 10
      }
-   * #swagger.parameters["keyword"] = {
+   * #swagger.parameters["search"] = {
       in: "query",
       required: false,
       type: "string",

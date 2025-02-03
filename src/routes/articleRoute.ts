@@ -53,9 +53,10 @@ router.delete(
   asyncErrorHandler(deleteUserArticle) as RequestHandler
 );
 
-router.post(
+router.get(
   "/searchArticles",
   searchArticleSwagger,
   asyncErrorHandler(searchArticles) as RequestHandler
 );
+
 export default router;

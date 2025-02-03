@@ -2241,7 +2241,7 @@
       }
     },
     "/api/v1/searchArticles": {
-      "post": {
+      "get": {
         "tags": [
           "Article-文章"
         ],
@@ -2264,7 +2264,7 @@
             "default": 10
           },
           {
-            "name": "keyword",
+            "name": "search",
             "in": "query",
             "required": false,
             "type": "string",
