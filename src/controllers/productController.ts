@@ -5,6 +5,7 @@ import appSuccessHandler from "@/utils/appSuccessHandler";
 import checkMissingFields from "@/utils/checkMissingFields";
 import { Product } from "@/models/product";
 import { handlePagination } from "@/utils/paginationHandler";
+import mongoose from "mongoose";
 const postUserProduct = async (
   req: Request,
   res: Response,
@@ -99,12 +100,47 @@ const getProductById = async (
     appErrorHandler(400, "缺少 productId", next);
     return;
   }
-  const product = await Product.findById(productId);
-  if (!product) {
+  const product = await Product.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(productId) }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "sellerInfo"
+      }
+    },
+    {
+      $unwind: "$sellerInfo"
+    },
+    {
+      $project: {
+        userId: 1,
+        title: 1,
+        price: 1,
+        discount: 1,
+        imagesUrl: 1,
+        imageUrl: 1,
+        category: 1,
+        tag: 1,
+        content: 1,
+        unit: 1,
+        productStatus: 1,
+        num: 1,
+        "sellerInfo.username": 1,
+        "sellerInfo.email": 1,
+        "sellerInfo.tel": 1,
+        "sellerInfo.averageScore": 1
+      }
+    }
+  ]);
+  if (product.length === 0) {
     appErrorHandler(404, "查無此商品", next);
     return;
   }
-  appSuccessHandler(200, "查詢成功", product, res);
+  appSuccessHandler(200, "查詢成功", product[0], res);
 };
 
 const updateUserProduct = async (
@@ -247,9 +283,6 @@ const getProducts = async (
   }
   // 產品狀態未上架就不傳出去
   query.productStatus = { $ne: "notListed" };
-  // const findProduct = await Product.find(query)
-  //   .limit(limitNumber)
-  //   .skip((pageNumber - 1) * limitNumber);
   const findProduct = await Product.aggregate([
     {
       $match: query
@@ -263,7 +296,7 @@ const getProducts = async (
       }
     },
     {
-      $unwind: "$sellerInfo" // 解构 sellerInfo 数组（如果每个产品只有一个卖家）
+      $unwind: "$sellerInfo"
     },
     {
       $project: {
