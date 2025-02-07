@@ -121,7 +121,7 @@ const sellerGetComment = async (
     },
     {
       $project: {
-        _id: 0,
+        _id: 1,
         sellerId: 1,
         userId: 1,
         comment: 1,
