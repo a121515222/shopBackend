@@ -4,11 +4,13 @@ import asyncErrorHandler from "@/middlewares/asyncErrorHandler";
 import { checkLogIn, checkAdmin } from "@/middlewares/auth";
 import {
   buyerAddComment,
-  sellerGetComment
+  sellerGetComment,
+  buyerGetSellerComment
 } from "@/controllers/commentController";
 import {
   buyerAddCommentSwagger,
-  sellerGetCommentSwagger
+  sellerGetCommentSwagger,
+  buyerGetSellerCommentSwagger
 } from "@/swaggerConfig/commentSwagger";
 
 const router = Router();
@@ -25,6 +27,12 @@ router.get(
   sellerGetCommentSwagger,
   checkLogIn as Handler,
   asyncErrorHandler(sellerGetComment) as RequestHandler
+);
+
+router.get(
+  "/buyerGetSellerComment",
+  buyerGetSellerCommentSwagger,
+  asyncErrorHandler(buyerGetSellerComment) as RequestHandler
 );
 
 export default router;

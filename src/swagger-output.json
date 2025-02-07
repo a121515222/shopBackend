@@ -4912,6 +4912,110 @@
           }
         ]
       }
+    },
+    "/api/v1/buyerGetSellerComment": {
+      "get": {
+        "tags": [
+          "Comment-評論"
+        ],
+        "description": "買家取得賣家評論",
+        "parameters": [
+          {
+            "name": "sellerId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "賣家 ID"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "頁數，用於分頁",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "每頁顯示的項目數，默認為 10",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得賣家評論成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得賣家評論成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "comments": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sellerId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "comment": {
+                            "type": "string",
+                            "example": "很棒"
+                          },
+                          "score": {
+                            "type": "number",
+                            "example": 5
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "totalPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "number",
+                          "example": 10
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

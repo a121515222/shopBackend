@@ -139,4 +139,71 @@ const sellerGetComment = async (
   appSuccessHandler(200, "取得評論成功", { commentList, pagination }, res);
 };
 
-export { buyerAddComment, sellerGetComment };
+const buyerGetSellerComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { sellerId } = req.query;
+  let page: number | undefined = req.query.page
+    ? parseInt(req.query.page as string)
+    : 1;
+  let limit: number | undefined = req.query.limit
+    ? Number(req.query.limit)
+    : undefined;
+  page = page || 1;
+  limit = limit || 10;
+  if (!sellerId) {
+    appErrorHandler(500, "缺少sellerId", next);
+    return;
+  }
+  const skip = (page - 1) * limit;
+  const getTotalCount = await Comment.find({
+    sellerId
+  }).countDocuments();
+  const getSellerCommentList = await Comment.aggregate([
+    {
+      $match: {
+        sellerId: new mongoose.Types.ObjectId(sellerId as string)
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "commenterInfo"
+      }
+    },
+    {
+      $set: {
+        commenterInfo: { $arrayElemAt: ["$commenterInfo", 0] }
+      }
+    },
+    {
+      $skip: skip
+    },
+    {
+      $limit: limit
+    },
+    {
+      $project: {
+        _id: 1,
+        sellerId: 1,
+        comment: 1,
+        score: 1,
+        createdAt: 1,
+        commenterName: "$commenterInfo.username"
+      }
+    }
+  ]);
+
+  const [comments, totalCount] = await Promise.all([
+    getSellerCommentList,
+    getTotalCount
+  ]);
+  const pagination = handlePagination(page, limit, totalCount);
+  appSuccessHandler(200, "取得賣家評論成功", { comments, pagination }, res);
+};
+
+export { buyerAddComment, sellerGetComment, buyerGetSellerComment };
