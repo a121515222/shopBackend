@@ -279,7 +279,11 @@ const getProducts = async (
     query.price = { $gte: Number(minPrice) };
   }
   if (maxPrice !== undefined && maxPrice !== null && maxPrice !== "null") {
-    query.price = { $lte: Number(maxPrice) };
+    if (query.price.$gte) {
+      query.price.$lte = Number(maxPrice);
+    } else {
+      query.price = { $lte: Number(maxPrice) };
+    }
   }
   // 產品狀態未上架就不傳出去
   query.productStatus = { $ne: "notListed" };
