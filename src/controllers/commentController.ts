@@ -181,6 +181,19 @@ const buyerGetSellerComment = async (
       }
     },
     {
+      $lookup: {
+        from: "orders",
+        localField: "orderId",
+        foreignField: "_id",
+        as: "orderInfo"
+      }
+    },
+    {
+      $set: {
+        orderInfo: { $arrayElemAt: ["$orderInfo", 0] } // 取第一筆訂單資訊
+      }
+    },
+    {
       $skip: skip
     },
     {
@@ -193,7 +206,10 @@ const buyerGetSellerComment = async (
         comment: 1,
         score: 1,
         createdAt: 1,
-        commenterName: "$commenterInfo.username"
+        commenterName: "$commenterInfo.username",
+        "orderInfo.productId": 1,
+        "orderInfo.title": 1,
+        "orderInfo.imageUrl": 1
       }
     }
   ]);

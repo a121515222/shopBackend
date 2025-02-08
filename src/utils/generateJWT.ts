@@ -25,4 +25,12 @@ const generateJWTVerifyMail = (payload: string): string => {
 
   return jwt.sign({ token: payload }, key, { expiresIn });
 };
-export { generateJWT, generateJWTVerifyMail };
+const isJWTExpired = (token: string): boolean => {
+  try {
+    jwt.verify(token, process.env.JWT_SECRET as string);
+    return false;
+  } catch (error) {
+    return true;
+  }
+};
+export { generateJWT, generateJWTVerifyMail, isJWTExpired };
