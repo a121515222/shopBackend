@@ -300,7 +300,10 @@ const buyerGetOrder = async (
         "buyerInfo.username": "$username", // 將訂單內的 `username` 添加到 `buyerInfo` 中
         "buyerInfo.buyerMessage": "$buyerMessage", // 將訂單內的 `buyerMessage` 添加到 `buyerInfo` 中
         "sellerInfo.sellerId": "$sellerId",
-        "couponInfo.couponId": "$couponId"
+        "couponInfo.couponId": "$couponId",
+        commentInfo: {
+          commentId: { $ifNull: ["$commentInfo._id", null] }
+        }
       }
     },
     {
@@ -335,7 +338,7 @@ const buyerGetOrder = async (
           buyerMessage: 1
         },
         commentInfo: {
-          _id: 1,
+          commentId: 1,
           comment: 1,
           score: 1
         }
@@ -507,7 +510,7 @@ const buyerPayOrder = async (
   }
   const order = await Order.findOneAndUpdate(
     { _id: orderId, buyerId: userId },
-    { status: "paid", paidMethod, paidDate: new Date(), isPaid: true },
+    { paidMethod, paidDate: new Date(), isPaid: true },
     { new: true }
   );
   if (!order) {
