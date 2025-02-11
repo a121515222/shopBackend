@@ -194,6 +194,21 @@ const buyerGetSellerComment = async (
       }
     },
     {
+      $addFields: {
+        productList: {
+          $map: {
+            input: "$orderInfo.productList",
+            as: "product",
+            in: {
+              title: "$$product.title",
+              imageUrl: "$$product.imageUrl",
+              productId: "$$product.productId"
+            }
+          }
+        }
+      }
+    },
+    {
       $skip: skip
     },
     {
@@ -207,9 +222,7 @@ const buyerGetSellerComment = async (
         score: 1,
         createdAt: 1,
         commenterName: "$commenterInfo.username",
-        "orderInfo.productId": 1,
-        "orderInfo.title": 1,
-        "orderInfo.imageUrl": 1
+        productList: 1
       }
     }
   ]);

@@ -4968,11 +4968,11 @@
                         "properties": {
                           "sellerId": {
                             "type": "string",
-                            "example": "123"
+                            "example": "123adsfasdfaefdsf"
                           },
-                          "userId": {
+                          "_id": {
                             "type": "string",
-                            "example": "123"
+                            "example": "123asdfasdeasdfaf"
                           },
                           "comment": {
                             "type": "string",
@@ -4981,6 +4981,26 @@
                           "score": {
                             "type": "number",
                             "example": 5
+                          },
+                          "productList": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "imageUrl": {
+                                  "type": "string",
+                                  "example": "https://www.google.com"
+                                },
+                                "productId": {
+                                  "type": "string",
+                                  "example": "123asdfasdfase"
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "example": "Orange"
+                                }
+                              }
+                            }
                           }
                         }
                       }

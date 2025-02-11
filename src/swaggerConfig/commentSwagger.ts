@@ -127,10 +127,17 @@ export function buyerGetSellerCommentSwagger(
          data: {
            comments: [
              {
-               sellerId: "123",
-               userId: "123",
+               sellerId: "123adsfasdfaefdsf",
+               _id:"123asdfasdeasdfaf",
                comment: "很棒",
-               score: 5
+               score: 5,
+               productList:[
+               {
+               imageUrl:"https://www.google.com",
+               productId:"123asdfasdfase",
+               title:"Orange",
+               }
+               ]
              }
            ],
            pagination: {
