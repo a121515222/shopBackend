@@ -19,6 +19,7 @@ import couponRoute from "@/routes/couponRoute";
 import cartRoute from "@/routes/cartRoute";
 import orderRoute from "@/routes/orderRoute";
 import commentRoute from "@/routes/commentRoute";
+import geminiRoute from "@/routes/geminiAIRoute";
 import cors from "cors";
 import { corsOptions } from "@/corsOption/corsOptions";
 import googleService from "@/services/google";
@@ -54,6 +55,7 @@ app.use("/api/v1", couponRoute);
 app.use("/api/v1", cartRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", commentRoute);
+app.use("/api/v1", geminiRoute);
 app.listen(port, () => {
   if (process.env.NODE_ENV === "dev") {
     console.log(`Server is running at http://localhost:${port}`);

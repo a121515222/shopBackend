@@ -5036,6 +5036,79 @@
           }
         }
       }
+    },
+    "/api/v1/generateProductByGeminiAI": {
+      "post": {
+        "tags": [
+          "GeminiAI"
+        ],
+        "description": "AI 產品介紹生成",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "產品介紹生成",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "產品標題"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "產品描述"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "產品類別"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "產品內容"
+                },
+                "tag": {
+                  "type": "array",
+                  "example": [
+                    "apple",
+                    "fruit"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI 產品介紹生成結果",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "AI 產品介紹生成成功"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
     }
   }
 }

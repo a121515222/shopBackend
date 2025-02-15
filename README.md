@@ -21,7 +21,6 @@ Backend Package Dependency Badges
 
 ```bash
 pnpm install
-
 ```
 
 ## 專案啟動
