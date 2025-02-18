@@ -35,3 +35,38 @@ export function geminiAIgenerateProductContentSwagger(
    */
   next();
 }
+
+export function geminiAIGenerateArticleContentSwagger(
+  _req: Request,
+  _res: Response,
+  next: NextFunction
+): void {
+  /**
+    * #swagger.tags = ["GeminiAI"]
+    * #swagger.description = "AI 文章生成"
+    * #swagger.security = [{apiKeyAuth: []}]
+    * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "文章生成",
+      schema: {
+        title: "文章標題",
+        description: "文章描述",
+        content: "文章內容",
+        tag: ["apple", "fruit"],
+      }
+     }
+     * #swagger.responses[200] = {
+      description: 'AI 文章生成結果',
+      schema: {
+        status: true,
+        message: "AI 文章生成成功",
+        data:"<br>"
+      }
+    }   
+
+      
+  **/
+  next();
+}
