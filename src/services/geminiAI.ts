@@ -12,7 +12,13 @@ export const geminiAIgenerateProductContent = async (
   next: NextFunction
 ) => {
   const { title, description, category, content, tag } = req.body;
-  if (!title || !description || !category || !content || !tag) {
+  if (
+    !title &&
+    !description &&
+    category.length === 0 &&
+    !content &&
+    tag.length === 0
+  ) {
     appErrorHandler(400, "缺少必要欄位", next);
     return;
   }
@@ -50,7 +56,7 @@ export const geminiAIGenerateArticleContent = async (
   next: NextFunction
 ) => {
   const { title, description, content, tag } = req.body;
-  if (!title || !description || !content || !tag) {
+  if (!title && !description && !content && tag.length === 0) {
     appErrorHandler(400, "缺少必要欄位", next);
     return;
   }
