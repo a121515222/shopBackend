@@ -170,7 +170,8 @@ const updateUserProduct = async (
     content,
     tag,
     num,
-    productStatus
+    productStatus,
+    unit
   } = req.body;
   if (title) {
     updateProductData.title = title;
@@ -206,6 +207,9 @@ const updateUserProduct = async (
   }
   if (tag.length > 0) {
     updateProductData.tag = tag;
+  }
+  if (unit) {
+    updateProductData.unit = unit;
   }
   if (productStatus) {
     updateProductData.productStatus = productStatus;
