@@ -60,5 +60,8 @@
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
     "tsc-alias": "^1.8.10"
-  }
+  },
+  "engines": {
+    "node": "18.18.0"
+}
 }
