@@ -7,7 +7,11 @@ const allowedOrigins = [
   "https://backnuxt.zeabur.app",
   "http://backnuxt.zeabur.app",
   `${process.env.BACK_DOMAIN}`,
-  `${process.env.FRONT_DOMAIN}`
+  `${
+    process.env.NODE_ENV === "dev"
+      ? "https://localhost:3000"
+      : process.env.FRONT_DOMAIN
+  }`
 ];
 
 export const corsOptions: CorsOptions = {
