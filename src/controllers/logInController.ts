@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { LoginResData, LoginBody } from "@/types/logInTypes";
 import type { UserType } from "@/types/userTypes";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import validator from "validator";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
@@ -49,7 +50,7 @@ const login = async (
     return;
   }
   // 檢查密碼是否正確 compare(輸入密碼, 加密後密碼)
-  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  const isPasswordCorrect = await bcryptjs.compare(password, user.password);
 
   if (!isPasswordCorrect) {
     appErrorHandler(400, "登入失敗，密碼錯誤", next);

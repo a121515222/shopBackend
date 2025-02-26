@@ -7,9 +7,9 @@ import type { LoginResData, LoginBody } from "@/types/logInTypes";
 import type { Express, Request, Response, NextFunction } from "express";
 import passport from "passport";
 import appErrorHandler from "@/utils/appErrorHandler";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
-import appSuccessHandler from "@/utils/appSuccessHandler";
 import { generateJWT } from "@/utils/generateJWT";
 import nodemailer from "nodemailer";
 import { User } from "@/models/user";
@@ -122,7 +122,7 @@ const googleCallback = async (
           res.redirect(`${process.env.FRONT_DOMAIN}/`);
         }
       } else {
-        const hashPassword = await bcrypt.hash(user.email as string, 10);
+        const hashPassword = await bcryptjs.hash(user.email as string, 10);
         const newUser = await User.create({
           username: user.name,
           email: user.email.toLowerCase(),

@@ -2,7 +2,8 @@ import type { NextFunction, Request, Response } from "express";
 import type { UserType } from "@/types/userTypes";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 import {
   validateName,
@@ -85,12 +86,12 @@ const updateUser = async (
       appErrorHandler(404, "查無使用者", next);
       return;
     }
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
     if (!isPasswordCorrect) {
       appErrorHandler(401, "密碼錯誤", next);
       return;
     } else {
-      const hashPassword = await bcrypt.hash(newPassword, 10);
+      const hashPassword = await bcryptjs.hash(newPassword, 10);
       updates.password = hashPassword;
     }
   }

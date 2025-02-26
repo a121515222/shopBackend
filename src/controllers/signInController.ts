@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { SignUpReqBody } from "@/types/signInTypes";
 import { User } from "@/models/user";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import validator from "validator";
 import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
@@ -81,7 +82,7 @@ const signin = async (
   }
 
   // 密碼加密
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcryptjs.hash(password, 10);
 
   // 新增使用者
   const newUser = await User.create({

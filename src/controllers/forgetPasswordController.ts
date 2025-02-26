@@ -3,7 +3,8 @@ import appErrorHandler from "@/utils/appErrorHandler";
 import appSuccessHandler from "@/utils/appSuccessHandler";
 import { validatePassword } from "@/utils/validate";
 import { User } from "@/models/user";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import { isJWTExpired } from "@/utils/generateJWT";
 const forgetPassword = async (
   req: Request,
@@ -43,11 +44,11 @@ const forgetPassword = async (
     appErrorHandler(500, "缺少必要環境變數", next);
     return;
   }
-  if (await bcrypt.compare(token, storeToken.verifyToken)) {
+  if (await bcryptjs.compare(token, storeToken.verifyToken)) {
     appErrorHandler(400, "無效的 token", next);
     return;
   }
-  const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcryptjs.hash(password, 10);
   try {
     const result = await User.findByIdAndUpdate(id, { password: hashPassword });
     if (!result) {
