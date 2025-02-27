@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "cross-env NODE_ENV=pod tsx ./swagger.ts && tsc && tsc-alias",
     "start": "node dist/app.js",
     "dev": "cross-env NODE_ENV=dev tsx watch ./app.ts",
     "swagger": "cross-env NODE_ENV=dev tsx ./swagger.ts",
-    "swaggerdep": "cross-env NODE_ENV=swagger tsx ./swagger.ts",
+    "swaggerpod": "cross-env NODE_ENV=pod tsx ./swagger.ts",
     "project": "ts-node ./app.ts"
   },
   "dependencies": {
