@@ -11,7 +11,7 @@ const doc = {
       ? `localhost:${process.env.PORT || 8086}`
       : `${process.env.BACK_DOMAIN || "backNuxtShop.chun-chia.name"}`,
 
-  schemes: process.env.PORT ? ["http"] : ["https"],
+  schemes: process.env.NODE_ENV === "dev" ? ["http"] : ["https"],
   securityDefinitions: {
     apiKeyAuth: {
       type: "apiKey",
