@@ -131,13 +131,21 @@ const sendVerificationEmail = async (
     from: process.env.GOOGLE_SMTP_USER, // 發件人地址
     to: recipient, // 收件人地址
     subject: "驗證連結", // 郵件主題
-    html: `您的驗證碼是：<a href="${process.env.FRONT_DOMAIN}/verifyToken/${id}/${verifyToken}">點擊此處完成驗證</a>` // 郵件內容，使用 HTML 超連結
+    html: `您的驗證碼是：<a href="https://${
+      process.env.NODE_ENV === "dev"
+        ? "localhost:3000"
+        : process.env.FRONT_DOMAIN
+    }/verifyToken/${id}/${verifyToken}">點擊此處完成驗證</a>` // 郵件內容，使用 HTML 超連結
   };
   const forgetPasswordMailOptions = {
     from: process.env.GOOGLE_SMTP_USER, // 發件人地址
     to: recipient, // 收件人地址
     subject: "忘記密碼", // 郵件主題
-    html: `您的驗證碼是：<a href="${process.env.FRONT_DOMAIN}/forgetPassword/${id}/${verifyToken}">點擊此處重設密碼</a>` // 郵件內容，使用 HTML 超連結
+    html: `您的驗證碼是：<a href="https://${
+      process.env.NODE_ENV === "dev"
+        ? "localhost:3000"
+        : process.env.FRONT_DOMAIN
+    }/forgetPassword/${id}/${verifyToken}">點擊此處重設密碼</a>` // 郵件內容，使用 HTML 超連結
   };
   try {
     let info;

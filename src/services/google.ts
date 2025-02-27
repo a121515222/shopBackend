@@ -108,7 +108,13 @@ const googleCallback = async (
           token
         };
         if (!logInToken) {
-          res.redirect(`${process.env.FRONT_DOMAIN}/login`);
+          res.redirect(
+            `https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }/login`
+          );
           return;
         } else {
           res.cookie("authorization", token, {
@@ -119,7 +125,13 @@ const googleCallback = async (
             httpOnly: false, // JavaScript 可以訪問（如果需要在前端讀取）
             secure: true // 只有在 HTTPS 連線下傳送
           });
-          res.redirect(`${process.env.FRONT_DOMAIN}/`);
+          res.redirect(
+            `https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }/`
+          );
         }
       } else {
         const hashPassword = await bcryptjs.hash(user.email as string, 10);
@@ -133,7 +145,13 @@ const googleCallback = async (
         });
         // 轉跳回登入頁
         if (newUser) {
-          res.redirect(`${process.env.FRONT_DOMAIN}/login`);
+          res.redirect(
+            `https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }/login`
+          );
         } else {
           appErrorHandler(500, "註冊失敗", next);
         }
@@ -228,7 +246,11 @@ const sendMail = async (
             </tr>
           </table>
           <a
-            href="${process.env.FRONT_DOMAIN}/verifyToken/${id}/${verifyToken}"
+            href="https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }/verifyToken/${id}/${verifyToken}"
             class="button"
             >完成驗證</a
           >
@@ -310,7 +332,11 @@ const sendMail = async (
             </tr>
           </table>
           <a
-            href="${process.env.FRONT_DOMAIN}/forgetPassword/${id}/${verifyToken}"
+            href="https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }/forgetPassword/${id}/${verifyToken}"
             class="button"
             >重設密碼</a
           >
