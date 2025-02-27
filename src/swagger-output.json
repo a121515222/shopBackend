@@ -25,6 +25,16 @@
     }
   },
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/logIn": {
       "post": {
         "tags": [
@@ -5132,6 +5142,10 @@
                 "title": {
                   "type": "string",
                   "example": "文章標題"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "文章描述"
                 },
                 "content": {
                   "type": "string",

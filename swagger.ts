@@ -6,9 +6,10 @@ const doc = {
     title: "shop",
     description: "the backend"
   },
-  host: process.env.PORT
-    ? `localhost:${process.env.PORT}`
-    : `${process.env.BACK_DOMAIN}`,
+  host:
+    process.env.NODE_ENV === "dev"
+      ? `localhost:${process.env.PORT || 8086}`
+      : `${process.env.BACK_DOMAIN || "backNuxtShop.chun-chia.name"}`,
 
   schemes: process.env.PORT ? ["http"] : ["https"],
   securityDefinitions: {
