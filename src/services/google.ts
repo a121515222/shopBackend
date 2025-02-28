@@ -82,7 +82,6 @@ const googleCallback = async (
       const userExist = await User.findOne({
         email: user.email
       });
-
       // 若使用者存在，則回傳使用者資料
       if (userExist) {
         userResData = userExist;
@@ -119,11 +118,13 @@ const googleCallback = async (
         } else {
           res.cookie("authorization", token, {
             httpOnly: false, // 保護 cookie 免受 JavaScript 訪問
-            secure: true // 只有在 HTTPS 連線下傳送
+            secure: true, // 只有在 HTTPS 連線下傳送
+            sameSite: "lax"
           });
           res.cookie("userId", logInToken._id.toString(), {
             httpOnly: false, // JavaScript 可以訪問（如果需要在前端讀取）
-            secure: true // 只有在 HTTPS 連線下傳送
+            secure: true, // 只有在 HTTPS 連線下傳送
+            sameSite: "lax"
           });
           res.redirect(
             `https://${
