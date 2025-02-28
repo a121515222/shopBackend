@@ -117,14 +117,14 @@ const googleCallback = async (
           return;
         } else {
           res.cookie("authorization", token, {
-            httpOnly: false, // 保護 cookie 免受 JavaScript 訪問
+            httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
-            sameSite: "none"
+            sameSite: "lax"
           });
           res.cookie("userId", logInToken._id.toString(), {
-            httpOnly: false, // JavaScript 可以訪問（如果需要在前端讀取）
+            httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
-            sameSite: "none"
+            sameSite: "lax"
           });
           res.redirect(
             `https://${
