@@ -116,18 +116,17 @@ const googleCallback = async (
           );
           return;
         } else {
-          // res.cookie("authorization", token, {
-          //   httpOnly: false, // 保護 cookie 免受 JavaScript 訪問
-          //   secure: true // 只有在 HTTPS 連線下傳送
-          // });
-          // res.cookie("userId", logInToken._id.toString(), {
-          //   httpOnly: false, // JavaScript 可以訪問（如果需要在前端讀取）
-          //   secure: true // 只有在 HTTPS 連線下傳送
-          // });
-          res.setHeader("Set-Cookie", [
-            `authorization=${token}; HttpOnly=false; Secure; Path=/; SameSite=None`,
-            `userId=${logInToken._id.toString()}; HttpOnly=false; Secure; Path=/; SameSite=None`
-          ]);
+          res.cookie("authorization", token, {
+            httpOnly: false, // 保護 cookie 免受 JavaScript 訪問
+            secure: true, // 只有在 HTTPS 連線下傳送
+            sameSite: "none"
+          });
+          res.cookie("userId", logInToken._id.toString(), {
+            httpOnly: false, // JavaScript 可以訪問（如果需要在前端讀取）
+            secure: true, // 只有在 HTTPS 連線下傳送
+            sameSite: "none"
+          });
+
           res.redirect(
             `https://${
               process.env.NODE_ENV === "dev"
