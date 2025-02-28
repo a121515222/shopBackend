@@ -119,12 +119,22 @@ const googleCallback = async (
           res.cookie("authorization", token, {
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
-            sameSite: "lax"
+            sameSite: "none",
+            domain: `https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }`
           });
           res.cookie("userId", logInToken._id.toString(), {
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
-            sameSite: "lax"
+            sameSite: "none",
+            domain: `https://${
+              process.env.NODE_ENV === "dev"
+                ? "localhost:3000"
+                : process.env.FRONT_DOMAIN
+            }`
           });
           res.redirect(
             `https://${
