@@ -120,7 +120,7 @@ const googleCallback = async (
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
-            domain: `https://${
+            domain: `${
               process.env.NODE_ENV === "dev"
                 ? "localhost:3000"
                 : process.env.FRONT_DOMAIN
@@ -130,7 +130,7 @@ const googleCallback = async (
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
-            domain: `https://${
+            domain: `${
               process.env.NODE_ENV === "dev"
                 ? "localhost:3000"
                 : process.env.FRONT_DOMAIN
