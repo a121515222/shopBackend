@@ -320,6 +320,7 @@ const getProducts = async (
         unit: 1,
         productStatus: 1,
         num: 1,
+        description: 1,
         "sellerInfo.username": 1,
         "sellerInfo.email": 1,
         "sellerInfo.tel": 1,
