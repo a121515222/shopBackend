@@ -116,6 +116,8 @@ const googleCallback = async (
           );
           return;
         } else {
+          console.log("Setting authorization cookie:", token);
+          console.log("Setting userId cookie:", logInToken._id.toString());
           res.cookie("authorization", token, {
             httpOnly: false, // 保護 cookie 免受 JavaScript 訪問
             secure: true, // 只有在 HTTPS 連線下傳送
@@ -126,7 +128,9 @@ const googleCallback = async (
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none"
           });
-
+          console.log("Setting authorization cookie2:", token);
+          console.log("Setting userId cookie2:", logInToken._id.toString());
+          console.log("Redirecting to:", process.env.FRONT_DOMAIN);
           res.redirect(
             `https://${
               process.env.NODE_ENV === "dev"
