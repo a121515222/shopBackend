@@ -121,9 +121,7 @@ const googleCallback = async (
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
             domain: `${
-              process.env.NODE_ENV === "dev"
-                ? "localhost:3000"
-                : process.env.FRONT_DOMAIN
+              process.env.NODE_ENV === "dev" ? "localhost" : ".chun-chia.name"
             }`
           });
           res.cookie("userId", logInToken._id.toString(), {
@@ -131,9 +129,7 @@ const googleCallback = async (
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
             domain: `${
-              process.env.NODE_ENV === "dev"
-                ? "localhost:3000"
-                : process.env.FRONT_DOMAIN
+              process.env.NODE_ENV === "dev" ? "localhost" : ".chun-chia.name"
             }`
           });
           res.redirect(
