@@ -82,6 +82,15 @@ const login = async (
     appErrorHandler(500, "登入失敗", next);
     return;
   } else {
+    res.clearCookie("authorization", {
+      path: "/",
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      domain: `${
+        process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
+      }`
+    });
     appSuccessHandler(200, "登入成功", jwtPayload, res);
   }
 };
@@ -99,6 +108,24 @@ const logOut = async (
     appErrorHandler(404, "查無使用者", next);
     return;
   }
+  res.clearCookie("authorization", {
+    path: "/",
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+    domain: `${
+      process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
+    }`
+  });
+  res.clearCookie("userId", {
+    path: "/",
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+    domain: `${
+      process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
+    }`
+  });
   appSuccessHandler(200, "登出成功", null, res);
 };
 const loginCheckResponse = async (

@@ -116,20 +116,30 @@ const googleCallback = async (
           );
           return;
         } else {
+          res.clearCookie("authorization", {
+            path: "/",
+            httpOnly: false,
+            secure: true,
+            sameSite: "none",
+            domain: `${
+              process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
+            }`
+          });
           res.cookie("authorization", token, {
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
             domain: `${
-              process.env.NODE_ENV === "dev" ? "localhost" : ".chun-chia.name"
+              process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
             }`
           });
+
           res.cookie("userId", logInToken._id.toString(), {
             httpOnly: false,
             secure: true, // 只有在 HTTPS 連線下傳送
             sameSite: "none",
             domain: `${
-              process.env.NODE_ENV === "dev" ? "localhost" : ".chun-chia.name"
+              process.env.NODE_ENV === "dev" ? "localhost" : process.env.DOMAIN
             }`
           });
           res.redirect(
