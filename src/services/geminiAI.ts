@@ -49,10 +49,10 @@ export const geminiAIgenerateProductContent = async (
         }
       ]
     };
-    const parseData = JSON.stringify(sendData);
+    // const parseData = JSON.stringify(sendData);
     const response = await axios.post(
       `${geminiUrl}/${geminiModel}?key=${geminiKey}`,
-      parseData,
+      sendData,
       {
         headers: { "Content-Type": "application/json" }
       }
