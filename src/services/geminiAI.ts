@@ -51,6 +51,7 @@ export const geminiAIgenerateProductContent = async (
       headers: { "Content-Type": "application/json" }
     }
   );
+  console.log("url", `${geminiUrl}/${geminiModel}?key=${geminiKey}`);
   const sendBackToFront = response.data.candidates[0].content.parts[0].text;
   const formattedText = sendBackToFront.replace(/\n/g, "<br>");
   if (response.data) {
