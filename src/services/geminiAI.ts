@@ -58,10 +58,6 @@ export const geminiAIgenerateProductContent = async (
       result.response.candidates &&
       result.response.candidates.length > 0
     ) {
-      console.log(
-        "result",
-        result.response.candidates[0].content.parts[0].text
-      );
       appSuccessHandler(
         200,
         "AI 產品介紹生成成功",
@@ -72,6 +68,7 @@ export const geminiAIgenerateProductContent = async (
       appErrorHandler(500, "AI 產品介紹生成失敗", next);
     }
   } catch (error) {
+    console.log("Error occurred during AI generation:", error);
     appErrorHandler(500, "AI 產品介紹生成失敗", next);
   }
 };
