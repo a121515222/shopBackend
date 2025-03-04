@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@google/generative-ai':
+        specifier: ^0.23.0
+        version: 0.23.0
       '@types/bcrypt':
         specifier: ^5.0.2
         version: 5.0.2
@@ -363,6 +366,10 @@ packages:
   '@google-cloud/storage@7.14.0':
     resolution: {integrity: sha512-H41bPL2cMfSi4EEnFzKvg7XSb7T67ocSXrmF7MPjfgFB0L6CKGzfIYJheAZi1iqXjz6XaCT1OBf6HCG5vDBTOQ==}
     engines: {node: '>=14'}
+
+  '@google/generative-ai@0.23.0':
+    resolution: {integrity: sha512-8vGoguvLG22U3t9XpXvbxjxy/yfBhE27pqptz5QVKXwBSh9sUXXmZWS8ZdGMqifK7kiuZQCG2cjGJNUdBsgX+g==}
+    engines: {node: '>=18.0.0'}
 
   '@grpc/grpc-js@1.12.2':
     resolution: {integrity: sha512-bgxdZmgTrJZX50OjyVwz3+mNEnCTNkh3cIqGPWVNeW9jX6bn1ZkU80uPd+67/ZpIJIjRQ9qaHCjhavyoWYxumg==}
@@ -2262,6 +2269,8 @@ snapshots:
       - encoding
       - supports-color
     optional: true
+
+  '@google/generative-ai@0.23.0': {}
 
   '@grpc/grpc-js@1.12.2':
     dependencies:
