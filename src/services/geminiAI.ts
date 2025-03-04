@@ -38,11 +38,20 @@ export const geminiAIgenerateProductContent = async (
   const cleanContent = stripHtmlTags(content);
   const cleanTag = Array.isArray(tag) ? tag.map(stripHtmlTags).join(" ") : "";
   const sendData = {
+    // contents: [
+    //   {
+    //     parts: [
+    //       {
+    //         text: `請幫我寫產品介紹大約100到200字，以下是關鍵字${cleanTitle} ${cleanDescription} ${cleanCategory} ${cleanContent} ${cleanTag}`
+    //       }
+    //     ]
+    //   }
+    // ]
     contents: [
       {
         parts: [
           {
-            text: `請幫我寫產品介紹大約100到200字，以下是關鍵字${cleanTitle} ${cleanDescription} ${cleanCategory} ${cleanContent} ${cleanTag}`
+            text: `測試`
           }
         ]
       }
