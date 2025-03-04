@@ -5,7 +5,10 @@ import appSuccessHandler from "@/utils/appSuccessHandler";
 const geminiUrl = process.env.GEMINI_URL;
 const geminiModel = process.env.GEMINI_MODEL;
 const geminiKey = process.env.GEMINI_KEY;
-
+function stripHtmlTags(html: string) {
+  // 使用正則表達式移除所有 HTML 標籤
+  return html.replace(/<[^>]*>/g, "");
+}
 export const geminiAIgenerateProductContent = async (
   req: Request,
   res: Response,
@@ -22,14 +25,19 @@ export const geminiAIgenerateProductContent = async (
     appErrorHandler(400, "缺少必要欄位", next);
     return;
   }
+  const cleanTitle = stripHtmlTags(title);
+  const cleanDescription = stripHtmlTags(description);
+  const cleanCategory = Array.isArray(category)
+    ? category.map(stripHtmlTags).join(" ")
+    : "";
+  const cleanContent = stripHtmlTags(content);
+  const cleanTag = Array.isArray(tag) ? tag.map(stripHtmlTags).join(" ") : "";
   const sendData = {
     contents: [
       {
         parts: [
           {
-            text: `請幫我寫產品介紹大約100到200字，以下是關鍵字${title ?? ""} ${
-              description ?? ""
-            } ${category ?? ""} ${content ?? ""} ${tag ?? ""}`
+            text: `請幫我寫產品介紹大約100到200字，以下是關鍵字${cleanTitle} ${cleanDescription} ${cleanCategory} ${cleanContent} ${cleanTag}`
           }
         ]
       }
