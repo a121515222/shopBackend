@@ -7,7 +7,12 @@ const geminiModel = process.env.GEMINI_MODEL;
 const geminiKey = process.env.GEMINI_KEY;
 function stripHtmlTags(html: string) {
   // 使用正則表達式移除所有 HTML 標籤
-  return html.replace(/<[^>]*>/g, "");
+  html = html.replace(/<[^>]*>/g, "");
+
+  // 移除 &nbsp;
+  html = html.replace(/&nbsp;/g, "");
+
+  return html;
 }
 export const geminiAIgenerateProductContent = async (
   req: Request,
@@ -51,7 +56,6 @@ export const geminiAIgenerateProductContent = async (
       headers: { "Content-Type": "application/json" }
     }
   );
-  console.log("url", `${geminiUrl}/${geminiModel}?key=${geminiKey}`);
   const sendBackToFront = response.data.candidates[0].content.parts[0].text;
   const formattedText = sendBackToFront.replace(/\n/g, "<br>");
   if (response.data) {
