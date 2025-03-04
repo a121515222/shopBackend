@@ -68,63 +68,9 @@ export const geminiAIgenerateProductContent = async (
       appErrorHandler(500, "AI 產品介紹生成失敗", next);
     }
   } catch (error) {
-    console.log("Error occurred during AI generation:", error);
     appErrorHandler(500, "AI 產品介紹生成失敗", next);
   }
 };
-// export const geminiAIgenerateProductContent = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { title, description, category, content, tag } = req.body;
-//     if (
-//       !title &&
-//       !description &&
-//       category.length === 0 &&
-//       !content &&
-//       tag.length === 0
-//     ) {
-//       appErrorHandler(400, "缺少必要欄位", next);
-//       return;
-//     }
-//     const cleanTitle = stripHtmlTags(title);
-//     const cleanDescription = stripHtmlTags(description);
-//     const cleanCategory = Array.isArray(category)
-//       ? category.map(stripHtmlTags).join(" ")
-//       : "";
-//     const cleanContent = stripHtmlTags(content);
-//     const cleanTag = Array.isArray(tag) ? tag.map(stripHtmlTags).join(" ") : "";
-//     const sendData = {
-//       contents: [
-//         {
-//           parts: [
-//             {
-//               text: `請幫我寫產品介紹大約100到200字，以下是關鍵字${cleanTitle} ${cleanDescription} ${cleanCategory} ${cleanContent} ${cleanTag}`
-//             }
-//           ]
-//         }
-//       ]
-//     };
-//     const parseData = JSON.stringify(sendData);
-//     const response = await axios.post(
-//       `${geminiUrl}/${geminiModel}?key=${geminiKey}`,
-//       parseData,
-//       {
-//         headers: { "Content-Type": "application/json" }
-//       }
-//     );
-//     const sendBackToFront = response.data.candidates[0].content.parts[0].text;
-//     const formattedText = sendBackToFront.replace(/\n/g, "<br>");
-//     if (response.data) {
-//       appSuccessHandler(200, "AI 產品介紹生成成功", formattedText, res);
-//     }
-//   } catch (error) {
-//     console.log("Error occurred during AI generation:", error);
-//     appErrorHandler(500, "AI 產品介紹生成失敗", next);
-//   }
-// };
 
 export const geminiAIGenerateArticleContent = async (
   req: Request,
