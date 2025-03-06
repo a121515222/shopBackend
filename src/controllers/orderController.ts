@@ -101,7 +101,30 @@ const sellerEditOrder = async (
   const sellerId = req.headers.userId as string;
   const { orderId, status } = req.body;
   const updateData: sellerEditOrder = { status };
+  const orderStatus = await Order.findOne({ _id: orderId }).select("status");
+  if (!orderStatus) {
+    appErrorHandler(400, "找不到訂單", next);
+    return;
+  }
+  if (orderStatus.status === "completed") {
+    appErrorHandler(400, "訂單已完成", next);
+    return;
+  }
 
+  if (orderStatus.status === "buyerCancelled") {
+    appErrorHandler(400, "買家已取消", next);
+    return;
+  }
+  if (orderStatus.status === "buyerGotProduct") {
+    if (
+      status === "inProcessed" ||
+      status === "shipped" ||
+      status === "confirmed"
+    ) {
+      appErrorHandler(400, "買家已收貨,", next);
+      return;
+    }
+  }
   const updatedOrder = await Order.findOneAndUpdate(
     { _id: orderId, sellerId },
     updateData,
@@ -210,6 +233,7 @@ const buyerGetOrderList = async (
         productList: 1, // 保留訂單內的 `productList`
         createdAt: 1, // 保留訂單的 `createdAt`
         paidDate: 1, // 保留訂單的 `paidDate`
+        receiptDate: 1, // 保留訂單的 `receiptDate`
         paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
@@ -314,6 +338,7 @@ const buyerGetOrder = async (
         productList: 1,
         createdAt: 1,
         paidDate: 1,
+        receiptDate: 1,
         paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1,
         isPaid: 1,
@@ -365,10 +390,7 @@ const buyerCancelOrder = async (
     appErrorHandler(400, "找不到訂單", next);
     return;
   }
-  if (
-    orderStatus.status === "buyerCancelled" ||
-    orderStatus.status === "sellerCancelled"
-  ) {
+  if (orderStatus.status === "sellerCancelled") {
     appErrorHandler(400, "訂單已取消", next);
     return;
   }
@@ -382,6 +404,10 @@ const buyerCancelOrder = async (
   }
   if (orderStatus.status === "confirmed") {
     appErrorHandler(400, "訂單已確認", next);
+    return;
+  }
+  if (orderStatus.status === "buyerGotProduct") {
+    appErrorHandler(400, "買家已收貨", next);
     return;
   }
 
@@ -463,6 +489,7 @@ const sellerGetOrderList = async (
         productList: 1, // 保留訂單內的 `productList`
         createdAt: 1, // 保留訂單的 `createdAt`
         paidDate: 1, // 保留訂單的 `paidDate`
+        receiptDate: 1, // 保留訂單的 `receipt
         paidMethod: 1, // 保留訂單的 `paidMethod`
         status: 1, // 保留訂單的 `status`
         isPaid: 1, // 保留訂單的 `isPaid`
@@ -521,6 +548,50 @@ const buyerPayOrder = async (
   }
 };
 
+const buyerGotProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = req.headers.userId as string;
+  const orderId = req.body.orderId;
+  const orderStatus = await Order.findOne({
+    _id: orderId,
+    buyerId: userId
+  }).select("status");
+  if (!orderStatus) {
+    appErrorHandler(400, "找不到訂單", next);
+    return;
+  }
+  if (
+    orderStatus.status === "buyerCancelled" ||
+    orderStatus.status === "sellerCancelled"
+  ) {
+    appErrorHandler(400, "訂單已取消", next);
+    return;
+  }
+  if (orderStatus.status === "completed") {
+    appErrorHandler(400, "訂單已完成", next);
+    return;
+  }
+  if (orderStatus.status === "confirmed") {
+    appErrorHandler(400, "訂單已確認", next);
+    return;
+  }
+  const order = await Order.findOneAndUpdate(
+    { _id: orderId, buyerId: userId },
+
+    { status: "buyerGotProduct", receiptDate: new Date() },
+    { new: true }
+  );
+  if (!order) {
+    appErrorHandler(500, "收貨失敗", next);
+    return;
+  } else {
+    appSuccessHandler(200, "收貨成功", order, res);
+  }
+};
+
 export {
   buyerAddOrder,
   buyerEditOrder,
@@ -530,5 +601,6 @@ export {
   buyerGetOrder,
   sellerGetOrderList,
   buyerPayOrder,
-  buyerCancelOrder
+  buyerCancelOrder,
+  buyerGotProduct
 };

@@ -37,7 +37,6 @@ const postUserAddCart = async (
   }
 
   const { product, productSellPrice } = productInfo;
-
   let cart = await Cart.findOne({ userId, sellerId });
   if (cart) {
     // 更新購物車
@@ -112,7 +111,8 @@ const updateCart = async (
             price: product.price,
             discount: product.discount,
             imageUrl: product.imageUrl,
-            productSellPrice
+            productSellPrice,
+            unit: product.unit
           }
         },
         $inc: { totalPrice: productSellPrice * num }
@@ -150,7 +150,8 @@ const createNewCart = async (
         price: product.price,
         discount: product.discount,
         imageUrl: product.imageUrl,
-        productSellPrice
+        productSellPrice,
+        unit: product.unit
       }
     ]
   });

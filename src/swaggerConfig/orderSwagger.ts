@@ -48,7 +48,8 @@ export function buyerAddOrderSwagger(
         "discount": 90,
         "imageUrl": "https://www.google.com",
         "productSellPrice": 90,
-        "_id": "676a59ae752d68bc1a3b5d46"
+        "_id": "676a59ae752d68bc1a3b5d46",
+        "unit": "kg"
       }
     ],
     "_id": "676a59c8752d68bc1a3b5d51",
@@ -107,7 +108,8 @@ export function buyerEditOrderSwagger(
         "discount": 90,
         "imageUrl": "https://www.google.com",
         "productSellPrice": 90,
-        "_id": "676a59ae752d68bc1a3b5d46"
+        "_id": "676a59ae752d68bc1a3b5d46",
+        "unit": "kg"
       }
     ],
     "createdAt": "2024-12-24T06:50:48.597Z",
@@ -235,12 +237,14 @@ export function buyerGetOrderListSwagger(
             "discount": 90,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 90,
-            "_id": "676a59ae752d68bc1a3b5d46"
+            "_id": "676a59ae752d68bc1a3b5d46",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-24T06:50:48.597Z",
         "isPaid": false,
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "",
         "sellerInfo": {
           "email": "a121515222@hotmail.com",
@@ -269,6 +273,7 @@ export function buyerGetOrderListSwagger(
         "createdAt": "2024-12-24T09:19:57.777Z",
         "isPaid": false,
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "",
         "sellerInfo": {
           "email": "a84174426@gmail.com",
@@ -284,6 +289,7 @@ export function buyerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "測試",
         "productList": [
           {
@@ -312,6 +318,7 @@ export function buyerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "",
         "productList": [
           {
@@ -342,6 +349,7 @@ export function buyerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "",
         "productList": [
           {
@@ -352,7 +360,8 @@ export function buyerGetOrderListSwagger(
             "discount": 80,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 80,
-            "_id": "6773928a77669ac1ed0a0929"
+            "_id": "6773928a77669ac1ed0a0929",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-31T07:13:02.499Z",
@@ -372,6 +381,7 @@ export function buyerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "buyerMessage": "",
         "productList": [
           {
@@ -382,7 +392,8 @@ export function buyerGetOrderListSwagger(
             "discount": 80,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 80,
-            "_id": "67739f97d8b0d2771fcd5fd3"
+            "_id": "67739f97d8b0d2771fcd5fd3",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-31T07:40:25.733Z",
@@ -456,7 +467,8 @@ export function buyerGetOrderSwagger(
         "discount": 90,
         "imageUrl": "https://www.google.com",
         "productSellPrice": 90,
-        "_id": "676a59ae752d68bc1a3b5d46"
+        "_id": "676a59ae752d68bc1a3b5d46",
+        "unit": "kg"
       }
     ],
         "createdAt": "2024-12-24T06:50:48.597Z",
@@ -516,12 +528,14 @@ export function sellerGetOrderListSwagger(
             "discount": 90,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 90,
-            "_id": "676a59ae752d68bc1a3b5d46"
+            "_id": "676a59ae752d68bc1a3b5d46",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-24T06:50:48.597Z",
         "isPaid": false,
         "paidDate": null,
+        "receiptDate": null,
         "buyerInfo": {
           "tel": "0912345000",
           "address": "新北市中和區",
@@ -536,6 +550,7 @@ export function sellerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "productList": [
           {
             "productId": "674ecd448d091f0024c8a70a",
@@ -545,7 +560,8 @@ export function sellerGetOrderListSwagger(
             "discount": 90,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 90,
-            "_id": "67738342e6739de5d5fdd6c4"
+            "_id": "67738342e6739de5d5fdd6c4",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-31T06:14:56.912Z",
@@ -567,6 +583,7 @@ export function sellerGetOrderListSwagger(
         "isPaid": false,
         "status": "unpaid",
         "paidDate": null,
+        "receiptDate": null,
         "productList": [
           {
             "productId": "674ecdce8d091f0024c8a710",
@@ -576,7 +593,8 @@ export function sellerGetOrderListSwagger(
             "discount": 80,
             "imageUrl": "https://www.google.com",
             "productSellPrice": 80,
-            "_id": "6773928a77669ac1ed0a0929"
+            "_id": "6773928a77669ac1ed0a0929",
+            "unit": "kg"
           }
         ],
         "createdAt": "2024-12-31T07:13:02.499Z",
@@ -657,13 +675,15 @@ export function buyerPayOrderSwagger(
               "discount": 90,
               "imageUrl": "https://www.google.com",
               "productSellPrice": 90,
-              "_id": "676a59ae752d68bc1a3b5d46"
+              "_id": "676a59ae752d68bc1a3b5d46",
+              "unit": "kg"
             }
           ],
           "createdAt": "2024-12-24T06:50:48.597Z",
           "updatedAt": "2025-01-06T08:47:12.181Z",
           "isPaid": true,
           "paidDate": "2025-01-06T08:47:12.181Z",
+          "receiptDate": null,
           "buyerMessage": "",
           "paidMethod": "creditCard"
                 }
@@ -709,6 +729,7 @@ export function buyerCancelOrderSwagger(
     isPaid: false,
     status: "buyerCancelled",
     paidDate: null,
+    receiptDate: null,
     address: "屏東縣高樹鄉高樹村",
     username: "Eason",
     email: "a121515222@hotmail.com",
@@ -723,7 +744,8 @@ export function buyerCancelOrderSwagger(
         discount: 100,
         imageUrl: "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/a0e91ebf-c3f1-4c02-b537-fa5c2f9b0474.png?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=NAWPyf7TBTEAJJUTMUmg5c9kwPzHwI6JfgY%2B0T37MXF4eXBFFttwO9Qev%2FEtgVqrW0aOd%2BVyrPQHUgPecD%2B4CwngmHCZUD07nZPx85sNT1H1Joz0pGG8tTWocBUDuAgxBa61wlt6WGup96zlX9fzINrDv9TN42cQY%2BumMiKxbGyPqHVLzt2ZN81tkPnHGMOp95cZc0L6iA90Rge3GJBm31RfyWWlUDD%2FVo71n45LLJx7zCKo0KDH0X5kH9J1pmcHkZCZ5ntW8MHZHoo9qB2cvGSnWwECKhCDI%2FUwgJ3q0ogWiimw1Zokfe3ZhtOnYOlNHQd6ElrkKhmYWmZK8oSvoA%3D%3D",
         productSellPrice: 100,
-        _id: "676d1a7ef711261a300f4890"
+        _id: "676d1a7ef711261a300f4890",
+        "unit": "kg"
       }
     ],
     createdAt: "2024-12-27T06:10:52.790Z",
@@ -736,5 +758,68 @@ export function buyerCancelOrderSwagger(
       }      
     }     
    */
+  next();
+}
+
+export function buyerGotProductSwagger(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
+  /**
+   * #swagger.tags = ["Order-訂單"]
+   * #swagger.description = "買家收到商品"
+   * #swagger.security = [{
+      "apiKeyAuth":[]
+      }]
+   * #swagger.parameters['body'] = {
+      in: "body",
+      required: true,
+      type: "Object",
+      description: "訂單資料",
+      schema: {
+        $orderId: "adfzcsdv565sadf",
+      }
+    }
+    * #swagger.responses[200] ={
+  "status": true,
+  "message": "收貨成功",
+  "data": {
+    "_id": "67c95300560d425610831a98",
+    "buyerId": "67650411ccb48d8724b75dd",
+    "sellerId": "67405af5e85ca5d5548ed8a7",
+    "cartId": "67c94e2f46eada30ad55523b",
+    "couponId": null,
+    "totalPrice": 90,
+    "isPaid": true,
+    "isCommented": false,
+    "status": "buyerGotProduct",
+    "paidDate": "2025-03-06T07:47:19.863Z",
+    "receiptDate": "2025-03-06T09:33:06.840Z",
+    "paidMethod": "creditCard",
+    "address": "高雄市高樹鄉高樹村豐源路8888號",
+    "username": "JackLee",
+    "email": "a84174424756@gmail.com",
+    "tel": "0911111111",
+    "buyerMessage": "我要綠色",
+    "productList": [
+      {
+        "productId": "674ecd448d785f0024c8a70a",
+        "num": 1,
+        "title": "橘子",
+        "price": 100,
+        "discount": 10,
+        "imageUrl": "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/4c62c782-af23-4141-a678-41bcf5e7c0ed.jpg?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=eHDoMfMv7WvWfwUfJ7IAChqTLqIYkxUYPNEu9iYKjRpcTj1OpgG%2Bw1FsZiGeR%2BQ47ZRNVE5l%2FfXl30OUXZTog3YttLM846vKT%2FPB7zVYh8so7MbwrhWZoYiEFoFZ4ff0mlBlTqvxwysrGacI%2FiFzpIFPqSIN5OC24uuGqTODyGoE6LVO2n9WRj9%2FV2cPcajYxXZecvTeSgpxTQbE9dceB69uvC4liiLvCn9Ll26WKb017%2BpOjv0dZoMKRaSmrxW51ECzJhA07kHvLcoUFsUjs1ZHiMhm%2FoyXqAsLyi3kARIeaka1I7QlpXPL9Q4SMZXcQmbgaVrKbRlvp0E8pObu5g%3D%3D",
+        "unit": "台斤",
+        "productSellPrice": 90,
+        "_id": "67c94e6c560d427820118a8e"
+      }
+    ],
+    "createdAt": "2025-03-06T07:47:12.961Z",
+    "updatedAt": "2025-03-06T09:33:06.840Z"
+  }
+}     
+    }
+      */
   next();
 }

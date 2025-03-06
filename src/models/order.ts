@@ -11,6 +11,7 @@ interface OrderSchema {
   isCommented: boolean;
   paidMethod: string;
   paidDate: Date | string | number | null;
+  receiptDate: Date | string | number | null;
   totalPrice: number;
   status: string;
   address: string;
@@ -24,10 +25,11 @@ const orderStatus = [
   "shipped",
   "confirmed",
   "completed",
+  "buyerGotProduct",
   "buyerCancelled",
   "sellerCancelled"
 ];
-const paidMethodConfig = ["creditCard", "transfer", "cashOnDelivery"];
+const paidMethodConfig = ["", "creditCard", "transfer", "cashOnDelivery"];
 const orderSchema = new Schema<OrderSchema>(
   {
     buyerId: { type: Schema.Types.ObjectId, required: true },
@@ -37,9 +39,15 @@ const orderSchema = new Schema<OrderSchema>(
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
     isCommented: { type: Boolean, default: false },
-    status: { type: String, required: true },
+    status: {
+      type: String,
+      required: true,
+      enum: orderStatus,
+      default: "inProcessed"
+    },
     paidDate: { type: Date, default: null },
-    paidMethod: { type: String, default: "" },
+    receiptDate: { type: Date, default: null },
+    paidMethod: { type: String, enum: paidMethodConfig, default: "" },
     address: { type: String, required: true },
     username: { type: String, required: true },
     email: { type: String, required: true },

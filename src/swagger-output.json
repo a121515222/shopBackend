@@ -3541,6 +3541,10 @@
                           "_id": {
                             "type": "string",
                             "example": "676a59ae752d68bc1a3b5d46"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": "kg"
                           }
                         }
                       }
@@ -3698,6 +3702,10 @@
                           "_id": {
                             "type": "string",
                             "example": "676a59ae752d68bc1a3b5d46"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": "kg"
                           }
                         }
                       }
@@ -3914,6 +3922,7 @@
                             "example": "unpaid"
                           },
                           "paidDate": {},
+                          "receiptDate": {},
                           "buyerMessage": {
                             "type": "string",
                             "example": ""
@@ -3954,6 +3963,10 @@
                                 "_id": {
                                   "type": "string",
                                   "example": "67739f97d8b0d2771fcd5fd3"
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "example": "kg"
                                 }
                               }
                             }
@@ -4156,6 +4169,10 @@
                           "_id": {
                             "type": "string",
                             "example": "676a59ae752d68bc1a3b5d46"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": "kg"
                           }
                         }
                       }
@@ -4251,6 +4268,7 @@
                             "example": "unpaid"
                           },
                           "paidDate": {},
+                          "receiptDate": {},
                           "productList": {
                             "type": "array",
                             "items": {
@@ -4287,6 +4305,10 @@
                                 "_id": {
                                   "type": "string",
                                   "example": "6773928a77669ac1ed0a0929"
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "example": "kg"
                                 }
                               }
                             }
@@ -4510,6 +4532,10 @@
                           "_id": {
                             "type": "string",
                             "example": "676a59ae752d68bc1a3b5d46"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": "kg"
                           }
                         }
                       }
@@ -4530,6 +4556,7 @@
                       "type": "string",
                       "example": "2025-01-06T08:47:12.181Z"
                     },
+                    "receiptDate": {},
                     "buyerMessage": {
                       "type": "string",
                       "example": ""
@@ -4631,6 +4658,7 @@
                       "example": "buyerCancelled"
                     },
                     "paidDate": {},
+                    "receiptDate": {},
                     "address": {
                       "type": "string",
                       "example": "屏東縣高樹鄉高樹村"
@@ -4687,6 +4715,10 @@
                           "_id": {
                             "type": "string",
                             "example": "676d1a7ef711261a300f4890"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "example": "kg"
                           }
                         }
                       }
@@ -4722,6 +4754,80 @@
                 "name": "main"
               }
             }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/buyerGotProduct": {
+      "put": {
+        "tags": [
+          "Order-訂單"
+        ],
+        "description": "買家收到商品",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "訂單資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "orderId": {
+                  "type": "string",
+                  "example": "adfzcsdv565sadf"
+                }
+              },
+              "required": [
+                "orderId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "status": true,
+            "message": "收貨成功",
+            "data": {
+              "_id": "67c95300560d425610831a98",
+              "buyerId": "67650411ccb48d8724b75dd",
+              "sellerId": "67405af5e85ca5d5548ed8a7",
+              "cartId": "67c94e2f46eada30ad55523b",
+              "couponId": null,
+              "totalPrice": 90,
+              "isPaid": true,
+              "isCommented": false,
+              "status": "buyerGotProduct",
+              "paidDate": "2025-03-06T07:47:19.863Z",
+              "receiptDate": "2025-03-06T09:33:06.840Z",
+              "paidMethod": "creditCard",
+              "address": "高雄市高樹鄉高樹村豐源路8888號",
+              "username": "JackLee",
+              "email": "a84174424756@gmail.com",
+              "tel": "0911111111",
+              "buyerMessage": "我要綠色",
+              "productList": [
+                {
+                  "productId": "674ecd448d785f0024c8a70a",
+                  "num": 1,
+                  "title": "橘子",
+                  "price": 100,
+                  "discount": 10,
+                  "imageUrl": "https://storage.googleapis.com/imagestorge-b6395.appspot.com/profiles/4c62c782-af23-4141-a678-41bcf5e7c0ed.jpg?GoogleAccessId=firebase-adminsdk-jlltd%40imagestorge-b6395.iam.gserviceaccount.com&Expires=16756646400&Signature=eHDoMfMv7WvWfwUfJ7IAChqTLqIYkxUYPNEu9iYKjRpcTj1OpgG%2Bw1FsZiGeR%2BQ47ZRNVE5l%2FfXl30OUXZTog3YttLM846vKT%2FPB7zVYh8so7MbwrhWZoYiEFoFZ4ff0mlBlTqvxwysrGacI%2FiFzpIFPqSIN5OC24uuGqTODyGoE6LVO2n9WRj9%2FV2cPcajYxXZecvTeSgpxTQbE9dceB69uvC4liiLvCn9Ll26WKb017%2BpOjv0dZoMKRaSmrxW51ECzJhA07kHvLcoUFsUjs1ZHiMhm%2FoyXqAsLyi3kARIeaka1I7QlpXPL9Q4SMZXcQmbgaVrKbRlvp0E8pObu5g%3D%3D",
+                  "unit": "台斤",
+                  "productSellPrice": 90,
+                  "_id": "67c94e6c560d427820118a8e"
+                }
+              ],
+              "createdAt": "2025-03-06T07:47:12.961Z",
+              "updatedAt": "2025-03-06T09:33:06.840Z"
+            },
+            "description": "OK"
           }
         },
         "security": [
