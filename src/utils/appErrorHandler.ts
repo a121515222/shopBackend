@@ -8,7 +8,7 @@ interface CustomError extends Error {
 const appError = (
   httpStatus: number,
   errMessage: string,
-  next: NextFunction
+  next: NextFunction | ((err?: Error) => void)
 ): void => {
   const error = new Error(errMessage) as CustomError;
   error.statusCode = httpStatus;

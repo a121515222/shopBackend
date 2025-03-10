@@ -23,7 +23,10 @@ import geminiRoute from "@/routes/geminiAIRoute";
 import cors from "cors";
 import { corsOptions } from "@/corsOption/corsOptions";
 import googleService from "@/services/google";
+import http from "http";
+import { initializeSocket } from "@/services/webSocket";
 const app = express();
+const httpServer = http.createServer(app);
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const port = process.env.PORT || 8086;
 // 建立google auth
@@ -38,7 +41,9 @@ process.on("uncaughtException", (err: Error) => {
 /* 連接 MongoDB */
 
 connectMongoDB();
+/*  SocketIO  */
 
+initializeSocket(httpServer);
 // app.use(logger("dev"));
 // 解析body的JSON格式
 app.use(express.json());
@@ -59,7 +64,7 @@ app.use("/api/v1", geminiRoute);
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
-app.listen(port, () => {
+httpServer.listen(port, () => {
   if (process.env.NODE_ENV === "dev") {
     console.log(`Server is running at http://localhost:${port}`);
   } else {

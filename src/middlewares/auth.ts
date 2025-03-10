@@ -9,7 +9,10 @@ interface UserRequest extends Request {
   token: string;
   id: string;
 }
-export const verifyToken = (token: string, next: NextFunction) => {
+export const verifyToken = (
+  token: string,
+  next: NextFunction | ((err?: Error) => void)
+) => {
   const key = process.env.JWT_SECRET;
   if (!key) {
     appErrorHandler(500, "缺少必要環境變數", next);
