@@ -18,8 +18,10 @@ const initializeSocket = (server: HttpServer) => {
   });
   // 驗證 Token
   io.use(async (socket, next: (err?: Error) => void) => {
-    // 嘗試從 auth.token 取得 JWT Token
-    const token = socket.handshake.headers.authorization;
+    // 從 auth.token 取得 JWT Token
+    const token =
+      socket.handshake.headers.Authorization ||
+      socket.handshake.auth.Authorization;
     if (!token) {
       return next(new Error("未提供 Token"));
     }
@@ -68,13 +70,18 @@ const initializeSocket = (server: HttpServer) => {
       }
     );
     socket.on("message", (msg: any) => {
-      console.log("message: ", JSON.stringify(msg));
-      socket.broadcast.emit("message", msg);
+      socket.broadcast.emit("receiveMessage", msg);
     });
     socket.on("chatSomeone", (msg: any) => {
       const toSocketUserId = onlineUsers.get(msg.toUserId);
+      const socketUserId = onlineUsers.get(msg.userId);
       if (toSocketUserId) {
-        socket.to(toSocketUserId).emit("chatSomeone", msg);
+        // 把資料回傳給發送者
+        if (socketUserId) {
+          socket.emit("receiveChat", msg);
+        }
+        // 把資料回傳給接收者
+        socket.to(toSocketUserId).emit("receiveChat", msg);
       } else {
         socket.emit("chatSomeone", {
           error: "對方不在線上"
