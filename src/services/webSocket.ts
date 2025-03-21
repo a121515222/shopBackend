@@ -4,6 +4,19 @@ import { Server, type Socket } from "socket.io";
 import appErrorHandler from "@/utils/appErrorHandler";
 import { User } from "@/models/user";
 import { verifyToken } from "@/middlewares/auth";
+import { ChatMessage } from "@/models/chatMessage";
+import { Conversation } from "@/models/conversation";
+interface ChatMessageType {
+  message: string;
+  userId: string;
+  name: string;
+  toUserId: string;
+  chatId: string;
+  date?: Date;
+}
+
+// message: '6666', userId: '67762bfa519f0b083c3c17ee', name: 'C.C Liang', toUserId: '67405af5e85ca5d5551ed8a7', chatId: '67762bfa519f0b083c3c17ee-67405af5e85ca5d5551ed8a7'
+
 // 建立socketIOId與userId的對應
 const onlineUsers = new Map<string, string>();
 
@@ -69,10 +82,10 @@ const initializeSocket = (server: HttpServer) => {
         io.emit("receiveMessage", { fromUserId, toUserId, message });
       }
     );
-    socket.on("message", (msg: any) => {
+    socket.on("message", (msg: ChatMessageType) => {
       socket.broadcast.emit("receiveMessage", msg);
     });
-    socket.on("chatSomeone", (msg: any) => {
+    socket.on("chatSomeone", (msg: ChatMessageType) => {
       const toSocketUserId = onlineUsers.get(msg.toUserId);
       const socketUserId = onlineUsers.get(msg.userId);
       if (toSocketUserId) {
@@ -83,7 +96,12 @@ const initializeSocket = (server: HttpServer) => {
         // 把資料回傳給接收者
         socket.to(toSocketUserId).emit("receiveChat", msg);
       } else {
-        socket.emit("chatSomeone", {
+        if (socketUserId) {
+          socket.emit("receiveChat", msg);
+        }
+        const { userId, toUserId, message, chatId } = msg;
+        socket.emit("receiveChat", {
+          chatId,
           error: "對方不在線上"
         });
       }
