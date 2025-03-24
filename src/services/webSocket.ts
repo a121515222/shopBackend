@@ -70,7 +70,7 @@ const initializeSocket = (server: HttpServer) => {
 
   io.on("connection", (socket: Socket) => {
     socket.on("disconnect", () => {
-      onlineUsers.delete(socket.id);
+      onlineUsers.delete(socket.data.userId);
       socket.data.userId = null;
     });
     socket.on(
