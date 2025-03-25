@@ -1,42 +1,43 @@
 import { Schema, model, type Types } from "mongoose";
 
 interface ChatMessageSchema {
+  chatId: string;
+  messageList: MessageList[];
+}
+interface MessageList {
   senderId: string;
   receiverId: string;
+  receiverName: string;
   message: string;
   timestamp: Date;
   isRead: boolean;
 }
 const ChatMessageSchema = new Schema<ChatMessageSchema>(
   {
-    senderId: {
-      type: String, // 發送者 ID
-      required: true,
-      index: true // 為查詢優化添加索引
-    },
-    receiverId: {
-      type: String, // 接收者 ID
-      required: true,
-      index: true // 為查詢優化添加索引
-    },
-    message: {
-      type: String, // 訊息內容
+    chatId: {
+      type: String, // 聊天室 ID
       required: true
     },
-    timestamp: {
-      type: Date, // 發送時間
-      default: Date.now // 預設為當前時間
-    },
-    isRead: {
-      type: Boolean, // 是否已讀（可選）
-      default: false
+    messageList: {
+      type: [
+        new Schema<MessageList>({
+          senderId: { type: String, required: true }, // 發送者 ID
+          receiverId: { type: String, required: true }, // 接收者 ID
+          receiverName: { type: String, required: true }, // 接收者名稱
+          message: { type: String, required: true }, // 訊息內容
+          timestamp: { type: Date, required: true, default: Date.now }, // 發送時間
+          isRead: { type: Boolean, required: true, default: false } // 是否已讀
+        })
+      ], // 訊息列表
+      required: true
     }
   },
   {
-    timestamps: true // 自動添加 createdAt 和 updatedAt 欄位
+    timestamps: true,
+    versionKey: false
   }
 );
-// 為 senderId 和 receiverId 添加複合索引
-ChatMessageSchema.index({ senderId: 1, receiverId: 1 });
+
+ChatMessageSchema.index({ chatId: 1 });
 const ChatMessage = model<ChatMessageSchema>("ChatMessage", ChatMessageSchema);
 export { ChatMessage, type ChatMessageSchema };

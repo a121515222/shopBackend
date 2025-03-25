@@ -85,25 +85,111 @@ const initializeSocket = (server: HttpServer) => {
     socket.on("message", (msg: ChatMessageType) => {
       socket.broadcast.emit("receiveMessage", msg);
     });
-    socket.on("chatSomeone", (msg: ChatMessageType) => {
-      const toSocketUserId = onlineUsers.get(msg.toUserId);
-      const socketUserId = onlineUsers.get(msg.userId);
-      if (toSocketUserId) {
-        // 把資料回傳給發送者
-        if (socketUserId) {
-          socket.emit("receiveChat", msg);
-        }
-        // 把資料回傳給接收者
-        socket.to(toSocketUserId).emit("receiveChat", msg);
-      } else {
-        if (socketUserId) {
-          socket.emit("receiveChat", msg);
-        }
-        const { userId, toUserId, message, chatId } = msg;
-        socket.emit("receiveChat", {
-          chatId,
-          error: "對方不在線上"
+    socket.on("chatSomeone", async (msg: ChatMessageType) => {
+      const { userId, toUserId, message, chatId } = msg;
+      const senderSocketId = onlineUsers.get(userId);
+      const receiverSocketId = onlineUsers.get(toUserId);
+      // 發送方接受自己的訊息
+      if (senderSocketId) {
+        socket.emit("receiveChat", msg);
+      }
+
+      // 檢查chatId是不是對的
+      if (
+        chatId === `${userId}-${toUserId}` ||
+        chatId === `${toUserId}-${userId}`
+      ) {
+        const conversations = await Conversation.find({
+          $or: [
+            { userId: userId, participantId: toUserId }, // userId -> toUserId
+            { userId: toUserId, participantId: userId } // toUserId -> userId
+          ]
         });
+        if (conversations.length <= 1) {
+          const senderToReceiverExists = conversations.some(
+            (conv) => conv.userId === userId && conv.participantId === toUserId
+          );
+          const receiverToSenderExists = conversations.some(
+            (conv) => conv.userId === toUserId && conv.participantId === userId
+          );
+
+          const sender = await User.findById(userId).select("username");
+          const participant = await User.findById(toUserId).select("username");
+          const senderName = sender?.name || "Unknown";
+          const participantName = participant?.name || "Unknown";
+
+          // 如果雙向記錄不存在，創建缺少的那一方
+          if (!senderToReceiverExists) {
+            await Conversation.create({
+              userId,
+              participantId: toUserId,
+              participantName,
+              chatId,
+              lastMessageTime: new Date(),
+              unreadCount: receiverSocketId ? 0 : 1
+            });
+          }
+          if (!receiverToSenderExists) {
+            await Conversation.create({
+              userId: toUserId,
+              participantId: userId,
+              participantName: senderName,
+              chatId,
+              lastMessageTime: new Date(),
+              unreadCount: receiverSocketId ? 0 : 1
+            });
+          }
+        } else if (conversations.length === 2) {
+          const isChatMessagesExist = await ChatMessage.findOne({ chatId });
+          if (!isChatMessagesExist) {
+            await ChatMessage.create({
+              chatId,
+              messageList: []
+            });
+          }
+        }
+      } else {
+        socket.emit("receiveChat", { chatId, error: "無效的對話" });
+        return;
+      }
+
+      // 發送方給接收方的訊息
+      if (receiverSocketId) {
+        socket.to(receiverSocketId).emit("receiveChat", msg);
+        // 儲存聊天訊息
+        await ChatMessage.findOneAndUpdate(
+          { chatId },
+          {
+            $push: {
+              messageList: {
+                senderId: userId,
+                receiverId: toUserId,
+                receiverName: msg.name,
+                message,
+                timestamp: new Date(),
+                isRead: true
+              }
+            }
+          }
+        );
+      } else {
+        socket.emit("receiveChat", { chatId, error: "對方不在線上" });
+        // 儲存聊天訊息
+        await ChatMessage.findOneAndUpdate(
+          { chatId },
+          {
+            $push: {
+              messageList: {
+                senderId: userId,
+                receiverId: toUserId,
+                receiverName: msg.name,
+                message,
+                timestamp: new Date(),
+                isRead: false
+              }
+            }
+          }
+        );
       }
     });
   });

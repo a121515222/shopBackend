@@ -3,9 +3,10 @@ import { Schema, model, type Types } from "mongoose";
 interface ConversationSchema {
   userId: string;
   participantId: string;
+  chatId: string;
   participantName: { type: String; required: true };
-  lastMessage: Types.ObjectId;
-  lastMessageTime: Date;
+  lastMessage?: Types.ObjectId;
+  lastMessageTime?: Date;
   unreadCount: number;
 }
 
@@ -25,6 +26,10 @@ const ConversationSchema = new Schema<ConversationSchema>(
       type: String, // 對話對象名稱
       required: true
     },
+    chatId: {
+      type: String, // 對話 ID
+      required: true
+    },
     lastMessage: {
       type: Schema.Types.ObjectId, // 最後一條訊息的參考
       ref: "ChatMessage" // 指向 ChatMessage 集合
@@ -39,7 +44,8 @@ const ConversationSchema = new Schema<ConversationSchema>(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
   }
 );
 // 為 userId 和 participantId 添加複合索引
