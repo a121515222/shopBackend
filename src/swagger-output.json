@@ -5302,6 +5302,224 @@
           }
         ]
       }
+    },
+    "/api/v1/conversations": {
+      "get": {
+        "tags": [
+          "Conversation-私聊列表"
+        ],
+        "description": "私聊列表",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "頁數，用於分頁",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "每頁顯示的項目數，默認為 10",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得私聊列表成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得私聊列表成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "conversations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "sellerId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "sellerName": {
+                            "type": "string",
+                            "example": "seller"
+                          },
+                          "sellerAvatar": {
+                            "type": "string",
+                            "example": "url"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "hello"
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "example": "2021-01-01"
+                          },
+                          "isRead": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "totalPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "totalItems": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "currentPage": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "hasPrevPage": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/chatMessages": {
+      "get": {
+        "tags": [
+          "Chat-私聊內容"
+        ],
+        "description": "私聊內容",
+        "parameters": [
+          {
+            "name": "messageTimestamp",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "最後一筆訊息的時間戳記，用於取得比此時間更早的訊息",
+            "default": ""
+          },
+          {
+            "name": "chatId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "聊天室ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "取得聊天訊息成功"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "latestMessages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "senderId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "receiverId": {
+                            "type": "string",
+                            "example": "123"
+                          },
+                          "receiverName": {
+                            "type": "string",
+                            "example": "user"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "hello"
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "example": "2021-09-01T06:00:00.000Z"
+                          },
+                          "isRead": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      }
+                    },
+                    "messageTimestamp": {
+                      "type": "string",
+                      "example": "2021-09-01T06:00:00.000Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
     }
   }
 }

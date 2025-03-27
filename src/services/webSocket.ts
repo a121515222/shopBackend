@@ -156,6 +156,14 @@ const initializeSocket = (server: HttpServer) => {
       // 發送方給接收方的訊息
       if (receiverSocketId) {
         socket.to(receiverSocketId).emit("receiveChat", msg);
+        // 將未讀訊息數量加1
+        console.log("toUserId", toUserId);
+       const result = await Conversation.findOneAndUpdate(
+          { chatId },
+          { $inc: { unreadCount: 1 } },
+          { new: true }
+        );
+        console.log("result", result);
         // 儲存聊天訊息
         await ChatMessage.findOneAndUpdate(
           { chatId },
@@ -174,6 +182,13 @@ const initializeSocket = (server: HttpServer) => {
         );
       } else {
         socket.emit("receiveChat", { chatId, error: "對方不在線上" });
+        // 將未讀訊息數量加1
+       const result = await Conversation.findOneAndUpdate(
+         { chatId },
+         { $inc: { unreadCount: 1 } },
+         { new: true }
+       );
+       console.log("result", result);
         // 儲存聊天訊息
         await ChatMessage.findOneAndUpdate(
           { chatId },
